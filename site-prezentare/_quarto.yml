@@ -1,0 +1,26 @@
+project:
+  type: website
+
+website:
+  title: "Sesiunea de comunicari stiintifice studentesti"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: manuscript.qmd
+        text: Manuscript
+      - href: presentation.qmd
+        text: Presentation
+      - href: about.qmd
+        text: About
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+

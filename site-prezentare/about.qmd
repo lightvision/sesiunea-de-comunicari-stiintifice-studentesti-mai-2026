@@ -1,0 +1,7 @@
+---
+title: "About"
+---
+
+## Participant access
+
+This page will host the QR code and any join details for participants.

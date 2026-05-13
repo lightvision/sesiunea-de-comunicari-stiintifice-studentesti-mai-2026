@@ -1,0 +1,15 @@
+---
+title: "Presentation"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+---
+
+# Presentation
+
+## Opening slide
+
+## Content slide
+
+## Closing slide
