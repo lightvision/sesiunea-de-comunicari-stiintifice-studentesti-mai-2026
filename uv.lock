@@ -1308,6 +1308,18 @@ wheels = [
 ]
 
 [[package]]
+name = "prettytable"
+version = "3.17.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "wcwidth" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/79/45/b0847d88d6cfeb4413566738c8bbf1e1995fad3d42515327ff32cc1eb578/prettytable-3.17.0.tar.gz", hash = "sha256:59f2590776527f3c9e8cf9fe7b66dd215837cca96a9c39567414cbc632e8ddb0", size = 67892, upload-time = "2025-11-14T17:33:20.212Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ee/8c/83087ebc47ab0396ce092363001fa37c17153119ee282700c0713a195853/prettytable-3.17.0-py3-none-any.whl", hash = "sha256:aad69b294ddbe3e1f95ef8886a060ed1666a0b83018bbf56295f6f226c43d287", size = 34433, upload-time = "2025-11-14T17:33:19.093Z" },
+]
+
+[[package]]
 name = "prometheus-client"
 version = "0.25.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4180,6 +4192,7 @@ dependencies = [
     { name = "jupyterlab-quarto" },
     { name = "matplotlib" },
     { name = "pandas" },
+    { name = "prettytable" },
     { name = "py5" },
     { name = "tqdm" },
 ]
@@ -4198,6 +4211,7 @@ requires-dist = [
     { name = "jupyterlab-quarto", specifier = ">=0.3.5" },
     { name = "matplotlib", specifier = ">=3.10.9" },
     { name = "pandas", specifier = ">=3.0.3" },
+    { name = "prettytable", specifier = ">=3.17.0" },
     { name = "py5", specifier = ">=0.10.10a7" },
     { name = "tqdm", specifier = ">=4.67.3" },
 ]
