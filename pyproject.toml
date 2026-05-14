@@ -18,6 +18,7 @@ dependencies = [
     "pandas>=3.0.3",
     "prettytable>=3.17.0",
     "py5>=0.10.10a7",
+    "seaborn>=0.13.2",
     "tqdm>=4.67.3",
 ]
 
