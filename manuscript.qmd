@@ -33,7 +33,11 @@ Evoluția populației de la o generație la alta este guvernată de trei operato
 - **Încrucișarea (Crossover):** Operatorul de recombinare care combină informația genetică a doi părinți pentru a crea descendenți (copii). Prin încrucișare, trăsăturile benefice ale părinților pot fi combinate în noi soluții superioare.
 - **Mutația:** Introduce variații aleatorii în codul genetic al indivizilor. Acest operator este crucial pentru menținerea diversității genetice în cadrul populației și pentru evitarea convergenței premature către un optim local.
 
-![Schema logică a unui algoritm genetic](images/genetic_algorithm_flow-Schema_Logic_a_Algoritmului_Genetic.png){#fig-ga-flow}
+::: {#fig-ga-flow}
+![](images/genetic_algorithm_flow-Schema_Logic_a_Algoritmului_Genetic.png){fig-alt="Schema logică a unui algoritm genetic."}
+
+Schema logică a unui algoritm genetic: procesul pornește de la inițializarea populației, continuă cu evaluarea funcției de fitness, selecția indivizilor, aplicarea operatorilor de încrucișare și mutație, apoi verificarea criteriului de oprire; dacă acesta nu este îndeplinit, ciclul evolutiv se reia până la obținerea unei soluții satisfăcătoare.
+:::
 
 ## Metodologie
 
@@ -77,3 +81,27 @@ Prezenta lucrare a demonstrat că algoritmii genetici rămân o metodă de optim
 Principalele concluzii ale studiului sunt: 1. **Flexibilitatea:** AG pot fi aplicați cu succes atât în optimizarea matematică pură, cât și în probleme complexe de inginerie a datelor. 2. **Importanța Parametrizării:** Succesul algoritmului depinde critic de alegerea corectă a operatorilor (ex: OX1 pentru permutări) și a ratelor de mutație/încrucișare. 3. **Impactul Practic:** În Machine Learning, utilizarea AG pentru *hyperparameter tuning* poate transforma un model mediocru într-unul performant, capabil să ofere rezultate cu valoare diagnostică ridicată.
 
 Cercetările viitoare pot explora utilizarea algoritmilor hibrizi (memetici) sau a metodelor de co-evoluție pentru probleme cu dimensiuni mult mai mari ale spațiului de căutare.
+
+## Figuri
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-final-population >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-parameter-evolution >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-fitness-evolution >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-quadratic-functions >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-confusion-matrix >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-roc >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-confusion-matrix >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-roc >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-roc-comparison >}}
+
+{{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
+
+{{< embed examples/ga_permutation.ipynb#fig-permutation-mutation-analysis >}}
