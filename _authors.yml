@@ -1,0 +1,28 @@
+author:
+  - name: Marius-Florinel Ionel
+    email: marius.ionel@s.utm.ro
+    orcid: 0009-0009-4934-9688
+    corresponding: true
+    affiliation:
+      - ref: utm_facultatea_informatica
+
+  - name: Cristina Mirela Done
+    email: cristina.done@s.utm.ro
+    orcid: 0009-0008-3108-889X
+    corresponding: true
+    affiliation:
+      - ref: utm_facultatea_informatica
+
+  - name: Brandon Aron
+    email: brandon.aron@s.utm.ro
+    orcid: 0009-0000-3568-595X
+    corresponding: true
+    affiliation:
+      - ref: utm_facultatea_informatica
+
+affiliations:
+  - id: utm_facultatea_informatica
+    name: Universitatea Titu Maiorescu
+    city: București
+    department: Facultatea de Informatică
+

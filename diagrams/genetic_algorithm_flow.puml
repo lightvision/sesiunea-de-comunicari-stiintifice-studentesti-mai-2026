@@ -1,0 +1,30 @@
+@startuml
+title Schema Logică a Algoritmului Genetic
+
+start
+
+:Inițializare Populație;
+
+repeat
+  :Evaluare Fitness pentru fiecare individ;
+
+  if (Criteriu de Oprire (early stopping sau fitness) îndeplinit?) then (Da)
+    break
+  else (Nu)
+    :Identificare și salvare elită;
+
+    : Selecție părinți;
+
+    :Aplicare operatori genetici (încrucișare) pentru a crea descendenți;
+
+    :Aplicare mutație;
+
+    :Formare populație nouă (inclusiv elita);
+  endif
+
+repeat while (Număr maxim de generații atins?) is (Nu)
+
+:Returnează cea mai bună soluție găsită;
+
+end
+@enduml

@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Sesiunea de comunicari stiintifice studentesti"
+  title: "Sesiunea de comunicari stiintifice studentesti, mai 2026, UTM"
   navbar:
     left:
       - href: index.qmd
@@ -11,15 +11,13 @@ website:
         text: Manuscript
       - href: presentation.qmd
         text: Presentation
-      - href: about.qmd
-        text: About
 
 format:
   html:
     theme:
       - cosmo
       - brand
-    css: styles.css
+#    css: styles.css
     toc: true
 
 
