@@ -53,7 +53,7 @@ Algoritmi genetici<br>utilizari si aplicatii
 :::
 
 ::: {.cover-subtitle}
-De la permutari si parametri continui la simulari vizuale de adaptare
+De la permutari si parametri continui la clasificare ML si adaptare vizuala
 :::
 :::
 
@@ -126,6 +126,32 @@ Selectia, recombinarea si mutatia produc generatii noi.
 
 ::: {.notes}
 Pastreaza explicatia practica: un algoritm genetic nu garanteaza mereu solutia perfecta, dar este util cand spatiul de cautare este mare, combinatorial sau greu de parcurs exhaustiv.
+:::
+
+## Fitness: functia de scor
+
+::: {.section-lead}
+Fitness-ul transforma o solutie intr-un numar comparabil. Algoritmul nu "intelege" problema in sine; el urmareste doar scorul pe care il definim.
+:::
+
+::: {.three-points}
+::: {.point}
+**Masoara obiectivul**
+
+Scorul trebuie sa exprime ce inseamna o solutie buna: ordine corecta, eroare mica, acuratete mare sau adaptare la mediu.
+:::
+
+::: {.point}
+**Ghideaza cautarea**
+
+Indivizii cu scor mai bun au sanse mai mari sa contribuie la generatia urmatoare.
+:::
+
+::: {.point}
+**Poate induce erori**
+
+Daca scorul este incomplet, algoritmul optimizeaza ceea ce masuram, nu neaparat ceea ce ne dorim.
+:::
 :::
 
 ## Ideea de baza
@@ -214,7 +240,7 @@ Exemplu: schimbarea bitilor unei valori.
 ::: {.point}
 **Selectie**
 
-Alegem indivizii care au sanse mai mari sa contribuie la generatia urmatoare.
+Alegem indivizii care au sanse mai mari sa contribuie la generatia urmatoare. Cu cat diferenta dintre scoruri conteaza mai mult, cu atat presiunea selectiva este mai mare.
 :::
 
 ::: {.point}
@@ -226,9 +252,44 @@ Combinam doua solutii parinte pentru a obtine o solutie copil.
 ::: {.point}
 **Mutatie**
 
-Introducem variatii mici pentru a evita blocarea intr-o solutie slaba.
+Introducem variatii controlate. Mutatia nu este zgomot fara scop, ci mecanismul care mentine explorarea spatiului de cautare.
 :::
 :::
+
+## Presiune, elitism, diversitate
+
+::: {.three-points}
+::: {.point}
+**Presiune selectiva**
+
+O presiune mare accelereaza imbunatatirea, dar poate elimina prea repede variante utile.
+:::
+
+::: {.point}
+**Elitism**
+
+Pastram automat unul sau mai multi dintre cei mai buni indivizi, ca solutiile deja gasite sa nu dispara prin crossover sau mutatie.
+:::
+
+::: {.point}
+**Convergenta prematura**
+
+Daca populatia devine prea asemanatoare, algoritmul poate ramane blocat intr-o solutie locala, inainte sa exploreze alternative mai bune.
+:::
+:::
+
+## Cum citim exemplele
+
+::: {.section-lead}
+In fiecare aplicatie cautam aceleasi patru elemente: gena, cromozomul, fitness-ul si operatorii genetici. Dupa aceea verificam ce lectie practica ramane.
+:::
+
+| Element | Intrebare |
+|---|---|
+| Gena | Care este cea mai mica decizie pe care o poate schimba algoritmul? |
+| Cromozom | Cum arata o solutie completa? |
+| Fitness | Cum transformam calitatea solutiei intr-un scor? |
+| Operatori | Cum selectam, combinam si modificam solutiile? |
 
 ## Exemplul 1: sortarea numerelor
 
@@ -241,15 +302,15 @@ Pornim de la o lista de numere si cautam o permutare cat mai apropiata de ordine
 :::
 
 ::: {.col-block}
-**Reprezentare**
+**Gena si cromozom**
 
-Un individ este o permutare a numerelor disponibile.
+O gena este valoarea aflata pe o pozitie; cromozomul este permutarea completa.
 :::
 
 ::: {.col-block}
 **Fitness**
 
-Scorul favorizeaza ordinea corecta a valorilor in cromozom.
+Scorul favorizeaza valorile asezate cat mai aproape de pozitiile corecte.
 :::
 
 ::: {.col-block}
@@ -267,14 +328,20 @@ Ordered crossover pastreaza validitatea permutarii; mutatia schimba doua pozitii
 Animatia ruleaza direct in slide si reproduce fluxul din `examples/ga_permutation.py`: populatie initiala, fitness pozitional, selectie prin turneu, ordered crossover si mutatie prin swap. Mentioneaza explicit ca sortarea are algoritmi clasici mult mai buni. Exemplul este didactic: arata cum transformam o problema intr-o reprezentare genetica. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare.
 :::
 
+## Retinut din exemplul 1
+
+::: {.section-lead}
+Problemele cu permutari cer operatori care pastreaza solutii valide. Un crossover obisnuit poate duplica valori sau poate pierde valori, de aceea folosim operatori specializati pentru ordine.
+:::
+
 ## Exemplul 2: parametri continui
 
 ::: {.continuous-demo-layout}
 ::: {.continuous-demo-copy}
 ::: {.col-block}
-**Gene**
+**Gena si cromozom**
 
-Valorile parametrilor `a`, `b`, `c` ai functiei patratice.
+O gena este valoarea unui parametru; cromozomul este vectorul `[a, b, c]` al functiei patratice.
 :::
 
 ::: {.col-block}
@@ -304,31 +371,100 @@ In notebook, `mutation_rate = 1`, deci fiecare gena primeste o modificare mica i
 Animatia ruleaza direct in slide si reproduce `examples/continuous_parameters_mapping.ipynb`: seed 42, 20 de generatii, 100 de indivizi, selectie prin turneu, crossover aritmetic, elitism 1 si `mutation_rate = 1`. Mentioneaza ca rata de mutatie este intentionat agresiva in notebook, pentru explorare vizibila. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare.
 :::
 
-## Exemplul 3: camuflarea moliilor
+## Retinut din exemplul 2
 
 ::: {.section-lead}
-Demo-ul live ruleaza animatia `py5` completa: o populatie care se adapteaza la un mediu in schimbare.
-Fiecare molie are o culoare, iar mediul are o culoare tinta.
+Pentru parametri continui, crossover-ul poate combina numeric parintii, iar mutatia poate adauga pasi mici. Elitismul stabilizeaza cautarea, pentru ca cel mai bun vector gasit ramane in populatie.
+:::
+
+## Exemplul 3: optimizarea hiperparametrilor ML
+
+::: {.section-lead}
+Exemplul din `examples/ga_and_ml_classifier.ipynb` optimizeaza un `DecisionTreeClassifier` pentru clasificarea diabetului in setul Pima Indians Diabetes.
+:::
+
+::: {.two-col}
+::: {.col-block}
+**Gene**
+
+`max_depth`, `min_samples_leaf` si `criterion` sunt hiperparametrii pe care algoritmul ii poate modifica.
+:::
+
+::: {.col-block}
+**Cromozom**
+
+Un cromozom este o configuratie completa, de forma `[max_depth, min_samples_leaf, criterion]`.
+:::
+
+::: {.col-block}
+**Fitness**
+
+Notebook-ul foloseste acuratetea pe setul de testare; biblioteca minimizeaza, deci functia returneaza `-accuracy`.
+:::
+
+::: {.col-block}
+**Operatori**
+
+Populatie de 50 de indivizi, 50 de generatii, crossover 0.8, mutatie 0.1, elitism 0.01 si `parents_portion` 0.3.
+:::
+:::
+
+::: {.notes}
+Explica de ce acesta este un exemplu mai apropiat de aplicatii reale: nu optimizam direct predictiile, ci hiperparametrii care controleaza modelul. Rezultatul raportat in notebook: baseline `max_depth=3`, acuratete 0.6883; configuratie optimizata `max_depth=4`, `min_samples_leaf=5`, `criterion='gini'`, acuratete 0.7987. Recall-ul pentru clasa pozitiva creste de la 0.26 la 0.72, iar fals negativele scad de la 40 la 15.
+:::
+
+## Rezultatul exemplului 3
+
+::: {.three-points}
+::: {.point}
+**Baseline**
+
+Acuratetea initiala este 0.6883 pentru arborele de decizie simplu.
+:::
+
+::: {.point}
+**Optimizare GA**
+
+GA gaseste `max_depth=4`, `min_samples_leaf=5`, `criterion='gini'`.
+:::
+
+::: {.point}
+**Efect practic**
+
+Acuratetea ajunge la 0.7987, iar recall-ul pentru diabet creste de la 0.26 la 0.72.
+:::
+:::
+
+## Retinut din exemplul 3
+
+::: {.section-lead}
+In ML, algoritmul genetic poate cauta configuratii bune fara sa avem o formula derivabila pentru performanta. Fitness-ul trebuie ales cu grija: acuratetea este simpla, dar pentru date medicale recall-ul clasei pozitive poate fi la fel de important.
+:::
+
+## Exemplul 4: camuflarea moliilor
+
+::: {.section-lead}
+Demo-ul live ruleaza animatia `py5` completa: o populatie care se adapteaza la un mediu in schimbare. Fiecare molie are o culoare, iar mediul are o culoare tinta.
 :::
 
 ::: {.moth-demo-layout}
 ::: {.moth-demo-copy}
 ::: {.point}
-**Presiune selectiva**
+**Gena si cromozom**
 
-Indivizii mai apropiati de culoarea tinta sunt avantajati.
+In modelul simplificat, cromozomul are o singura gena principala: culoarea moliei.
 :::
 
 ::: {.point}
-**Adaptare**
+**Fitness si selectie**
 
-Media populatiei urmareste schimbarea mediului.
+Indivizii mai apropiati de culoarea tinta sunt avantajati, deci mediul produce presiune selectiva.
 :::
 
 ::: {.point}
-**Vizualizare**
+**Operatori si adaptare**
 
-Animatia, graficul si histograma fac evolutia usor de observat.
+Selectia, inlocuirea si mutatia muta media populatiei spre culoarea mediului.
 :::
 :::
 
@@ -337,19 +473,13 @@ Animatia, graficul si histograma fac evolutia usor de observat.
 :::
 
 ::: {.notes}
-Animatia ruleaza direct in slide si reproduce fluxul din `examples/moth_camouflage.py`: selectie, inlocuire, mutatie si schimbarea culorii tinta. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare daca vrei sa controlezi demo-ul in timpul prezentarii.
+Animatia ruleaza direct in slide si reproduce fluxul din `examples/moth_camouflage.py`: selectie, inlocuire, mutatie si schimbarea culorii tinta. Subliniaza ca este exemplul final deoarece leaga conceptele teoretice de o imagine usor de urmarit: populatia se schimba vizibil cand mediul se schimba. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare daca vrei sa controlezi demo-ul in timpul prezentarii.
 :::
 
-## Exemplul 4: XGBoost si Iris
+## Retinut din exemplul 4
 
-::: {.placeholder}
-Acest exemplu ramane intentionat placeholder.
-
-Cerinta mentionata in discutie este un exemplu real cu XGBoost, probabil pe setul de date Iris inclus in biblioteca, dar detaliile de implementare si scopul optimizarii trebuie clarificate inainte de a-l fixa in prezentare.
-:::
-
-::: {.notes}
-Nu prezenta acest exemplu ca finalizat. Spune ca este rezervat pentru integrarea ulterioara, dupa ce se decide daca GA optimizeaza hiperparametri, selectia de trasaturi sau alta componenta a pipeline-ului.
+::: {.section-lead}
+Camuflarea arata intuitiv relatia dintre presiune selectiva si diversitate. Daca mediul ramane stabil, populatia converge; daca mediul se schimba, mutatia si variatia ramasa ajuta populatia sa se adapteze din nou.
 :::
 
 ## Ce arata exemplele impreuna?
@@ -358,8 +488,8 @@ Nu prezenta acest exemplu ca finalizat. Spune ca este rezervat pentru integrarea
 |---|---|---|
 | Sortare | permutare | GA poate lucra cu probleme combinatoriale |
 | Parametri continui | vector numeric | GA poate cauta valori intr-un spatiu numeric |
-| Camuflare | valori discrete 0-255 | GA poate modela adaptarea sub presiune |
-| XGBoost/Iris | de clarificat | loc rezervat pentru aplicatie ML |
+| Clasificator diabet | hiperparametri discreti si numerici | GA poate optimiza configuratii ML evaluate empiric |
+| Camuflare | valori vizuale 0-255 | GA poate modela adaptarea sub presiune selectiva |
 
 ## Avantaje si limite
 
@@ -393,7 +523,7 @@ Algoritmii genetici sunt utili cand putem defini clar trei lucruri: cum arata o 
 ::: {.point}
 **Model general**
 
-Aceeasi schema se aplica pe permutari, parametri si simulari.
+Aceeasi schema se aplica pe permutari, parametri, hiperparametri ML si simulari vizuale.
 :::
 
 ::: {.point}
@@ -405,7 +535,7 @@ Exemplele fac conceptele mai usor de inteles decat matematica abstracta.
 ::: {.point}
 **Extensibilitate**
 
-Urmatorul pas este aplicarea pe un model ML real, dupa clarificarea exemplului XGBoost/Iris.
+Calitatea rezultatului depinde de reprezentare, de fitness si de echilibrul dintre selectie, mutatie, elitism si diversitate.
 :::
 :::
 
