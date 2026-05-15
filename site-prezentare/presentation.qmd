@@ -1,15 +1,413 @@
 ---
-title: "Presentation"
+pagetitle: "Algoritmi genetici - utilizari si aplicatii"
+include-in-header:
+  text: |
+    <script src="assets/cover-footer-state.js"></script>
+    <script src="assets/permutation-sort.js" defer></script>
+    <script src="assets/moth-camouflage.js" defer></script>
 format:
   revealjs:
     theme: simple
+    css: styles.css
     slide-number: true
+    controls: true
+    progress: false
+    transition: fade
+    background-transition: fade
+    width: 1600
+    height: 900
+    margin: 0
+    center: false
+    footer: "Algoritmi genetici - utilizari si aplicatii"
 ---
 
-# Presentation
+# Algoritmi genetici - utilizari si aplicatii {.utm-cover .title-slide data-state="utm-cover-active"}
 
-## Opening slide
+::: {.cover-shell}
+::: {.cover-masthead}
+::: {.cover-institution}
+![](assets/logo-UTM.webp){.cover-logo fig-alt="Sigla Universitatea Titu Maiorescu"}
 
-## Content slide
+::: {.cover-school}
+**Universitatea Titu Maiorescu**
+:::
+:::
 
-## Closing slide
+::: {.cover-conference}
+Sesiunea de Comunicari Stiintifice Studentesti
+:::
+:::
+
+::: {.cover-main}
+::: {.cover-title-block}
+::: {.cover-kicker}
+Optimizare inspirata de evolutie
+:::
+
+::: {.cover-title}
+Algoritmi genetici<br>utilizari si aplicatii
+:::
+
+::: {.cover-rule}
+:::
+
+::: {.cover-subtitle}
+De la permutari si parametri continui la simulari vizuale de adaptare
+:::
+:::
+
+::: {.cover-research-stack}
+::: {.cover-research-card .primary}
+**Permutari**
+
+<span>sortare si reprezentari combinatoriale</span>
+:::
+
+::: {.cover-research-card .secondary}
+**Parametri**
+
+<span>optimizare continua pentru functii numerice</span>
+:::
+
+::: {.cover-research-card .tertiary}
+**Adaptare**
+
+<span>populatii care evolueaza sub presiune selectiva</span>
+:::
+
+::: {.cover-date}
+16.05.2026
+:::
+:::
+:::
+
+::: {.cover-footer}
+::: {.cover-authors}
+Marius-Florinel Ionel &middot; Cristina Mirela Done &middot; Brandon Aron
+:::
+
+::: {.cover-tagline}
+Reprezentare + fitness + selectie
+:::
+:::
+:::
+
+::: {.notes}
+Deschide cu ideea generala a lucrarii: algoritmii genetici nu rezolva probleme prin incercari brute, ci prin reprezentarea candidatilor, evaluarea lor cu o functie de fitness si imbunatatirea populatiei de la o generatie la alta.
+:::
+
+## De ce algoritmi genetici?
+
+::: {.section-lead}
+Algoritmii genetici sunt o metoda de cautare si optimizare inspirata de selectie naturala.
+In loc sa incercam toate variantele posibile, lucram cu o populatie de solutii candidate si o imbunatatim generatie dupa generatie.
+:::
+
+::: {.three-points}
+::: {.point}
+**Reprezentare**
+
+O solutie este codificata ca un cromozom format din gene.
+:::
+
+::: {.point}
+**Fitness**
+
+Fiecare candidat primeste un scor care masoara cat de bun este.
+:::
+
+::: {.point}
+**Evolutie**
+
+Selectia, recombinarea si mutatia produc generatii noi.
+:::
+:::
+
+::: {.notes}
+Pastreaza explicatia practica: un algoritm genetic nu garanteaza mereu solutia perfecta, dar este util cand spatiul de cautare este mare, combinatorial sau greu de parcurs exhaustiv.
+:::
+
+## Ideea de baza
+
+::: {.flow}
+::: {.flow-step}
+**1. Initializare**
+
+Generam o populatie de solutii candidate.
+:::
+
+::: {.flow-step}
+**2. Evaluare**
+
+Calculam fitness-ul fiecarei solutii.
+:::
+
+::: {.flow-step}
+**3. Selectie**
+
+Pastram sau favorizam indivizii mai buni.
+:::
+
+::: {.flow-step}
+**4. Reproducere**
+
+Aplicam crossover si mutatie.
+:::
+
+::: {.flow-step}
+**5. Repetare**
+
+Continuam pana la o limita sau pana atingem un scor suficient.
+:::
+:::
+
+## Vocabular minim
+
+| Termen | In prezentare | Exemplu |
+|---|---|---|
+| Gena | O componenta a solutiei | o valoare, o pozitie, un parametru |
+| Cromozom | Solutia completa | o permutare sau un vector numeric |
+| Populatie | Mai multe solutii candidate | 100 de cromozomi |
+| Fitness | Functia de evaluare | cat de ordonata este o lista |
+| Generatie | Un pas de evolutie | selectie + crossover + mutatie |
+
+## Tipuri de reprezentari
+
+::: {.two-col}
+::: {.col-block}
+**Permutari**
+
+Folosite cand ordinea elementelor conteaza.
+
+Exemplu: sortarea numerelor.
+:::
+
+::: {.col-block}
+**Valori continue**
+
+Folosite cand optimizam parametri numerici.
+
+Exemplu: coeficientii unei functii.
+:::
+
+::: {.col-block}
+**Valori discrete**
+
+Folosite pentru alegeri finite sau clase.
+
+Exemplu: reguli, setari, configuratii.
+:::
+
+::: {.col-block}
+**Codificari binare**
+
+Folosite pentru operatii simple de mutatie.
+
+Exemplu: schimbarea bitilor unei valori.
+:::
+:::
+
+## Operatorii genetici
+
+::: {.three-points}
+::: {.point}
+**Selectie**
+
+Alegem indivizii care au sanse mai mari sa contribuie la generatia urmatoare.
+:::
+
+::: {.point}
+**Crossover**
+
+Combinam doua solutii parinte pentru a obtine o solutie copil.
+:::
+
+::: {.point}
+**Mutatie**
+
+Introducem variatii mici pentru a evita blocarea intr-o solutie slaba.
+:::
+:::
+
+## Exemplul 1: sortarea numerelor
+
+::: {.permutation-demo-layout}
+::: {.permutation-demo-copy}
+::: {.col-block}
+**Problema**
+
+Pornim de la o lista de numere si cautam o permutare cat mai apropiata de ordinea dorita.
+:::
+
+::: {.col-block}
+**Reprezentare**
+
+Un individ este o permutare a numerelor disponibile.
+:::
+
+::: {.col-block}
+**Fitness**
+
+Scorul favorizeaza ordinea corecta a valorilor in cromozom.
+:::
+
+::: {.col-block}
+**Operatori**
+
+Ordered crossover pastreaza validitatea permutarii; mutatia schimba doua pozitii.
+:::
+:::
+
+::: {.permutation-demo data-seed="2026" data-autoplay="true" data-values="10,9,8,7,6,5,4,3,2,1,0" data-pop-size="14"}
+:::
+:::
+
+::: {.notes}
+Animatia ruleaza direct in slide si reproduce fluxul din `examples/ga_permutation.py`: populatie initiala, fitness pozitional, selectie prin turneu, ordered crossover si mutatie prin swap. Mentioneaza explicit ca sortarea are algoritmi clasici mult mai buni. Exemplul este didactic: arata cum transformam o problema intr-o reprezentare genetica. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare.
+:::
+
+## Exemplul 2: parametri continui
+
+::: {.section-lead}
+Al doilea exemplu arata cum putem cauta valori numerice pentru parametrii unei functii.
+In loc sa cautam o ordine, cromozomul contine coeficienti.
+:::
+
+::: {.two-col}
+::: {.col-block}
+**Gene**
+
+Valorile parametrilor, de exemplu `a`, `b`, `c`.
+:::
+
+::: {.col-block}
+**Fitness**
+
+Masura cat de bine se apropie functia de comportamentul dorit.
+:::
+
+::: {.col-block}
+**Mutatie**
+
+Modificari mici ale valorilor numerice.
+:::
+
+::: {.col-block}
+**Rezultat**
+
+Generatiile imbunatatesc treptat candidatii.
+:::
+:::
+
+## Exemplul 3: camuflarea moliilor
+
+::: {.section-lead}
+Demo-ul live ruleaza animatia `py5` completa: o populatie care se adapteaza la un mediu in schimbare.
+Fiecare molie are o culoare, iar mediul are o culoare tinta.
+:::
+
+::: {.moth-demo-layout}
+::: {.moth-demo-copy}
+::: {.point}
+**Presiune selectiva**
+
+Indivizii mai apropiati de culoarea tinta sunt avantajati.
+:::
+
+::: {.point}
+**Adaptare**
+
+Media populatiei urmareste schimbarea mediului.
+:::
+
+::: {.point}
+**Vizualizare**
+
+Animatia, graficul si histograma fac evolutia usor de observat.
+:::
+:::
+
+::: {.moth-demo data-seed="2026" data-autoplay="true"}
+:::
+:::
+
+::: {.notes}
+Animatia ruleaza direct in slide si reproduce fluxul din `examples/moth_camouflage.py`: selectie, inlocuire, mutatie si schimbarea culorii tinta. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare daca vrei sa controlezi demo-ul in timpul prezentarii.
+:::
+
+## Exemplul 4: XGBoost si Iris
+
+::: {.placeholder}
+Acest exemplu ramane intentionat placeholder.
+
+Cerinta mentionata in discutie este un exemplu real cu XGBoost, probabil pe setul de date Iris inclus in biblioteca, dar detaliile de implementare si scopul optimizarii trebuie clarificate inainte de a-l fixa in prezentare.
+:::
+
+::: {.notes}
+Nu prezenta acest exemplu ca finalizat. Spune ca este rezervat pentru integrarea ulterioara, dupa ce se decide daca GA optimizeaza hiperparametri, selectia de trasaturi sau alta componenta a pipeline-ului.
+:::
+
+## Ce arata exemplele impreuna?
+
+| Exemplu | Reprezentare | Lectia principala |
+|---|---|---|
+| Sortare | permutare | GA poate lucra cu probleme combinatoriale |
+| Parametri continui | vector numeric | GA poate cauta valori intr-un spatiu numeric |
+| Camuflare | valori discrete 0-255 | GA poate modela adaptarea sub presiune |
+| XGBoost/Iris | de clarificat | loc rezervat pentru aplicatie ML |
+
+## Avantaje si limite
+
+::: {.two-col}
+::: {.col-block}
+**Avantaje**
+
+- usor de adaptat la probleme diferite
+- util pentru spatii mari de cautare
+- nu cere derivarea unei formule perfecte
+- poate combina explorarea cu exploatarea
+:::
+
+::: {.col-block}
+**Limite**
+
+- nu garanteaza mereu optimul global
+- poate necesita multe evaluari
+- depinde mult de functia de fitness
+- parametrii algoritmului trebuie alesi atent
+:::
+:::
+
+## Concluzii
+
+::: {.section-lead}
+Algoritmii genetici sunt utili cand putem defini clar trei lucruri: cum arata o solutie, cum o evaluam si cum producem variante noi.
+:::
+
+::: {.three-points}
+::: {.point}
+**Model general**
+
+Aceeasi schema se aplica pe permutari, parametri si simulari.
+:::
+
+::: {.point}
+**Accent practic**
+
+Exemplele fac conceptele mai usor de inteles decat matematica abstracta.
+:::
+
+::: {.point}
+**Extensibilitate**
+
+Urmatorul pas este aplicarea pe un model ML real, dupa clarificarea exemplului XGBoost/Iris.
+:::
+:::
+
+## Intrebari
+
+::: {.closing}
+Va multumim!
+
+Marius-Florinel Ionel &middot; Cristina Mirela Done &middot; Brandon Aron
+:::

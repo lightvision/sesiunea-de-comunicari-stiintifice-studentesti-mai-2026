@@ -1,0 +1,149 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import test from "node:test";
+import vm from "node:vm";
+
+const root = path.resolve(import.meta.dirname, "..");
+const scriptPath = path.join(root, "site-prezentare", "assets", "permutation-sort.js");
+
+function loadModule() {
+  const source = fs.readFileSync(scriptPath, "utf8");
+  const context = {
+    console,
+    document: {
+      addEventListener() {},
+      querySelectorAll() {
+        return [];
+      },
+    },
+    requestAnimationFrame() {},
+    window: {
+      addEventListener() {},
+      requestAnimationFrame() {},
+    },
+  };
+  context.globalThis = context.window;
+  vm.createContext(context);
+  vm.runInContext(source, context, { filename: scriptPath });
+  return context.window.PermutationSortDemo;
+}
+
+test("permutation sort demo creates deterministic valid populations", () => {
+  const demo = loadModule();
+  const values = [5, 4, 3, 2, 1, 0];
+
+  const state = demo.createInitialState({ seed: 2026, values, popSize: 8 });
+  const sameSeed = demo.createInitialState({ seed: 2026, values, popSize: 8 });
+  const differentSeed = demo.createInitialState({ seed: 2027, values, popSize: 8 });
+
+  assert.equal(state.population.length, 8);
+  assert.equal(state.generation, 0);
+  assert.deepEqual(state.population, sameSeed.population);
+  assert.notDeepEqual(state.population, differentSeed.population);
+  for (const individual of state.population) {
+    assert.deepEqual([...individual].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
+  }
+});
+
+test("fitness favors ascending permutations with the same positional scoring idea as Python", () => {
+  const demo = loadModule();
+
+  assert.equal(demo.calculateFitness([0, 1, 2, 3]), 228);
+  assert.ok(demo.calculateFitness([0, 1, 2, 3]) > demo.calculateFitness([3, 2, 1, 0]));
+});
+
+test("ordered crossover returns a valid child permutation", () => {
+  const demo = loadModule();
+  const rng = demo.makeRng(42);
+
+  const child = demo.orderedCrossover([0, 1, 2, 3, 4, 5], [5, 4, 3, 2, 1, 0], rng);
+
+  assert.equal(child.length, 6);
+  assert.deepEqual([...child].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
+});
+
+test("autoplay advances the permutation demo through generations", () => {
+  const demo = loadModule();
+  let runtime = demo.makeRuntimeState({
+    autoplay: true,
+    seed: 2026,
+    values: [5, 4, 3, 2, 1, 0],
+    popSize: 8,
+  });
+
+  for (let index = 0; index < 50; index += 1) {
+    runtime = demo.tickRuntimeState(runtime);
+  }
+
+  assert.equal(runtime.simulation.generation > 0, true);
+  assert.equal(runtime.simulation.population.length, 8);
+  assert.deepEqual([...runtime.simulation.bestIndividual].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
+});
+
+test("fast autoplay stops when the sorted target is reached", () => {
+  const demo = loadModule();
+  let runtime = demo.makeRuntimeState({
+    autoplay: true,
+    fastMode: true,
+    seed: 2026,
+    values: [5, 4, 3, 2, 1, 0],
+    popSize: 10,
+  });
+
+  for (let index = 0; index < 260 && !runtime.completed; index += 1) {
+    runtime = demo.tickRuntimeState(runtime);
+  }
+
+  assert.equal(runtime.completed, true);
+  assert.equal(runtime.autoplay, false);
+  assert.deepEqual(Array.from(runtime.simulation.bestIndividual), [0, 1, 2, 3, 4, 5]);
+});
+
+test("render layout leaves clear vertical space between title, permutation, and bars", () => {
+  const demo = loadModule();
+  const layout = demo.makeRenderLayout();
+
+  assert.equal(layout.titleY + 34 < layout.statusY, true);
+  assert.equal(layout.permutationY + 34 < layout.bars.panelY, true);
+  assert.equal(layout.bars.panelY + layout.bars.panelHeight < layout.history.y, true);
+});
+
+test("render layout separates axis tick labels from the axis caption", () => {
+  const demo = loadModule();
+  const layout = demo.makeRenderLayout();
+  const tickLabelY = layout.bars.y + layout.bars.height + 24;
+
+  assert.equal(layout.axisLabelY - tickLabelY >= 22, true);
+  assert.equal(layout.axisLabelY + 18 < layout.history.y, true);
+});
+
+test("reveal permutation demo is inactive until its slide is present", () => {
+  const demo = loadModule();
+  const revealRoot = { classList: { contains: (name) => name === "reveal" } };
+  const hiddenSection = {
+    classList: { contains: () => false },
+    closest(selector) {
+      return selector === ".reveal" ? revealRoot : null;
+    },
+  };
+  const presentSection = {
+    classList: { contains: (name) => name === "present" },
+    closest(selector) {
+      return selector === ".reveal" ? revealRoot : null;
+    },
+  };
+  const hiddenContainer = {
+    closest(selector) {
+      return selector === "section" ? hiddenSection : null;
+    },
+  };
+  const presentContainer = {
+    closest(selector) {
+      return selector === "section" ? presentSection : null;
+    },
+  };
+
+  assert.equal(demo.isDemoActive(hiddenContainer), false);
+  assert.equal(demo.isDemoActive(presentContainer), true);
+});

@@ -1,1 +1,624 @@
-/* css styles */
+:root {
+  --deck-bg: oklch(98% 0.006 82);
+  --deck-bg-deep: oklch(94% 0.014 82);
+  --deck-surface: oklch(99% 0.004 82);
+  --deck-fg: oklch(24% 0.036 265);
+  --deck-muted: oklch(43% 0.026 255);
+  --line: oklch(84% 0.016 82);
+  --accent: oklch(49% 0.13 34);
+  --accent-2: oklch(43% 0.11 250);
+  --accent-3: oklch(39% 0.09 140);
+  --shadow: 0 18px 38px oklch(50% 0.035 255 / 0.14);
+}
+
+.reveal {
+  background: linear-gradient(180deg, var(--deck-bg) 0%, var(--deck-bg-deep) 100%);
+  color: var(--deck-fg);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 30px;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  box-sizing: border-box;
+  padding: 0.72em 1.1em;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  color: var(--deck-fg);
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 0 0 0.45em;
+  text-transform: none;
+}
+
+.reveal h1 {
+  border-bottom: 2px solid color-mix(in oklch, var(--accent) 58%, transparent);
+  font-size: 1.48em;
+  margin-inline: auto;
+  margin-bottom: 0.58em;
+  max-width: 62rem;
+  padding-bottom: 0.23em;
+}
+
+.reveal p,
+.reveal li {
+  color: var(--deck-muted);
+  font-size: 0.68em;
+  line-height: 1.34;
+}
+
+.reveal strong {
+  color: var(--deck-fg);
+  font-weight: 760;
+}
+
+.reveal .footer {
+  color: color-mix(in oklch, var(--deck-muted) 70%, transparent);
+  font-size: 0.42em;
+}
+
+.utm-cover > h1 {
+  display: none;
+}
+
+.reveal .slides section.utm-cover {
+  height: 100%;
+  inset: 0 !important;
+  padding: 0;
+  width: 100% !important;
+}
+
+.utm-cover .cover-shell {
+  color: var(--deck-fg);
+  display: grid;
+  grid-template-rows: auto 1fr 5rem;
+  height: 100%;
+  min-height: 100%;
+}
+
+.utm-cover .cover-masthead {
+  align-items: center;
+  background: transparent;
+  border-bottom: 0;
+  color: var(--deck-fg);
+  display: flex;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  justify-content: center;
+  padding: 1.9rem 2.4rem 0;
+}
+
+.utm-cover .cover-institution {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.utm-cover .cover-institution p,
+.utm-cover .cover-research-card p {
+  margin: 0;
+}
+
+.utm-cover .cover-logo {
+  background: oklch(99% 0.004 82);
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--line) 86%, transparent),
+    0 14px 32px oklch(50% 0.035 255 / 0.16);
+  display: block;
+  height: 3.6rem;
+  object-fit: contain;
+  padding: 0.32rem;
+  width: 3.6rem;
+}
+
+.utm-cover .cover-school {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.utm-cover .cover-school strong {
+  color: oklch(25% 0.044 305);
+  display: block;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.92em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+}
+
+.utm-cover .cover-school span {
+  color: color-mix(in oklch, var(--deck-muted) 84%, transparent);
+  display: block;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.46em;
+  font-weight: 500;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.utm-cover .cover-conference {
+  display: none;
+}
+
+.utm-cover .cover-main {
+  align-items: center;
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: minmax(0, 1.12fr) minmax(17rem, 0.88fr);
+  padding: 1.4rem 2.4rem 1.8rem;
+}
+
+.utm-cover .cover-title-block {
+  max-width: 49rem;
+}
+
+.utm-cover .cover-kicker,
+.utm-cover .cover-tagline {
+  color: var(--accent-3);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.52em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.utm-cover .cover-title {
+  color: var(--deck-fg);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 2.08em;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.06;
+  margin-top: 0.55rem;
+}
+
+.utm-cover .cover-rule {
+  align-items: center;
+  display: flex;
+  gap: 0.45rem;
+  margin: 1.05rem 0 0.85rem;
+}
+
+.utm-cover .cover-rule::before,
+.utm-cover .cover-rule::after {
+  content: "";
+  display: block;
+  height: 0.24rem;
+}
+
+.utm-cover .cover-rule::before {
+  background: var(--accent);
+  width: 4rem;
+}
+
+.utm-cover .cover-rule::after {
+  background: var(--accent-2);
+  width: 2rem;
+}
+
+.utm-cover .cover-subtitle {
+  color: var(--deck-muted);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.88em;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.3;
+  max-width: 34ch;
+}
+
+.utm-cover .cover-research-stack {
+  align-self: center;
+  background: transparent;
+  border: 0;
+  display: grid;
+  gap: 0;
+  padding: 0.4rem 0.6rem 0.4rem 1.7rem;
+  position: relative;
+}
+
+.utm-cover .cover-research-stack::before {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklch, var(--accent-2) 46%, transparent) 14%,
+    color-mix(in oklch, var(--accent-2) 46%, transparent) 86%,
+    transparent 100%
+  );
+  content: "";
+  inset: 0.2rem auto 0.2rem 0;
+  position: absolute;
+  width: 1px;
+}
+
+.utm-cover .cover-research-card {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.utm-cover .cover-research-card strong,
+.utm-cover .cover-research-card span {
+  display: none;
+}
+
+.utm-cover .cover-research-card.primary::before {
+  color: color-mix(in oklch, var(--accent-3) 88%, var(--deck-muted));
+  content: "Sesiune de comunicari  \00B7  ed. studentesti";
+  display: block;
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.44em;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  line-height: 1.1;
+  margin-bottom: 0.95rem;
+  text-transform: uppercase;
+}
+
+.utm-cover .cover-research-card.primary::after {
+  color: oklch(25% 0.044 305);
+  content: "Sesiunea de Comunicari\A Stiintifice Studentesti";
+  display: block;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.32em;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.16;
+  white-space: pre-line;
+}
+
+.utm-cover .cover-research-card.secondary {
+  align-items: baseline;
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: auto 1fr;
+  margin-top: 1.55rem;
+  padding-top: 1.35rem;
+  position: relative;
+}
+
+.utm-cover .cover-research-card.secondary::before {
+  background: color-mix(in oklch, var(--accent-2) 46%, transparent);
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 2.4rem;
+}
+
+.utm-cover .cover-research-card.secondary::after {
+  color: color-mix(in oklch, var(--accent) 88%, var(--deck-fg));
+  content: "16 mai 2026";
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.15em;
+  font-feature-settings: "lnum" 1, "onum" 0;
+  font-weight: 500;
+  grid-column: 1 / -1;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+}
+
+.utm-cover .cover-research-card.tertiary {
+  display: none;
+}
+
+.utm-cover .cover-date {
+  color: transparent;
+  font-size: 0;
+  margin-top: 0.75rem;
+  padding: 0;
+  text-align: left;
+}
+
+.utm-cover .cover-date::before {
+  color: color-mix(in oklch, var(--deck-muted) 78%, transparent);
+  content: "Universitatea Titu Maiorescu  \00B7  Bucuresti";
+  display: block;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.22;
+}
+
+.utm-cover .cover-footer {
+  align-items: center;
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 0 2.4rem;
+}
+
+.utm-cover .cover-authors {
+  color: var(--deck-muted);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.7em;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.utm-cover-active .footer,
+.reveal.utm-cover-active .footer,
+body.utm-cover-active .reveal .footer,
+body.cover-slide-active .footer,
+body:has(.utm-cover.present) .reveal .footer {
+  display: none !important;
+}
+
+.deck-header {
+  align-items: center;
+  background: oklch(98% 0.006 82);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 color-mix(in oklch, var(--line) 76%, transparent);
+  color: oklch(22% 0.075 305);
+  display: grid;
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  gap: 1.6rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  height: 4.8rem;
+  left: 0;
+  padding: 0 2rem;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 50;
+}
+
+body.cover-slide-active .deck-header {
+  display: none;
+}
+
+.deck-header__institution {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.deck-header__logo {
+  display: block;
+  height: 3.2rem;
+  object-fit: contain;
+  width: 3.2rem;
+}
+
+.deck-header__lockup {
+  display: grid;
+  gap: 0.18rem;
+  line-height: 1.05;
+  min-width: 0;
+}
+
+.deck-header__lockup strong {
+  color: oklch(22% 0.085 305);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+.deck-header__lockup span {
+  color: oklch(40% 0.066 305);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.deck-header__event {
+  color: oklch(28% 0.082 305);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.reveal .slides section:not(.utm-cover) {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  left: 0 !important;
+  min-height: 100%;
+  padding: 7rem 2.2rem 4.2rem;
+  top: 0 !important;
+  width: 100% !important;
+}
+
+.reveal .slides section:not(.utm-cover) > * {
+  width: min(62rem, 100%);
+}
+
+@media (max-width: 900px) {
+  .utm-cover .cover-main,
+  .utm-cover .cover-footer,
+  .deck-header {
+    grid-template-columns: 1fr;
+  }
+
+  .utm-cover .cover-footer,
+  .deck-header__event {
+    text-align: left;
+  }
+}
+
+.section-lead {
+  color: var(--deck-muted);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.1em;
+  font-style: italic;
+  line-height: 1.34;
+  margin: 0 auto 1.2rem;
+  max-width: 62rem;
+}
+
+.three-points,
+.two-col,
+.flow {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem auto 0;
+  max-width: 62rem;
+}
+
+.three-points {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.flow {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.point,
+.col-block,
+.flow-step,
+.placeholder {
+  background: var(--deck-surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 0.85rem;
+}
+
+.point p,
+.col-block p,
+.flow-step p,
+.placeholder p {
+  margin-bottom: 0;
+}
+
+.flow-step strong,
+.point strong,
+.col-block strong {
+  display: block;
+  margin-bottom: 0.32rem;
+}
+
+.placeholder {
+  border-color: color-mix(in oklch, var(--accent) 48%, var(--line));
+  margin: 1rem auto 0;
+  max-width: 62rem;
+}
+
+.reveal .slides section:not(.utm-cover) > .permutation-demo-layout {
+  width: min(76rem, 100%);
+}
+
+.permutation-demo-layout {
+  align-items: start;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(18rem, 0.56fr) minmax(32rem, 1fr);
+  margin: 0.65rem auto 0;
+  max-width: 76rem;
+}
+
+.permutation-demo-copy {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.permutation-demo {
+  align-self: start;
+  background: oklch(96% 0.015 88);
+  border: 1px solid color-mix(in oklch, var(--line) 84%, var(--accent-2));
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.permutation-demo canvas {
+  aspect-ratio: 19 / 14;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.reveal .slides section:not(.utm-cover) > .moth-demo-layout {
+  width: min(76rem, 100%);
+}
+
+.moth-demo-layout {
+  align-items: start;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(16rem, 0.58fr) minmax(32rem, 1fr);
+  margin: 0.65rem auto 0;
+  max-width: 76rem;
+}
+
+.moth-demo-copy {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.moth-demo {
+  align-self: start;
+  background: oklch(96% 0.016 95);
+  border: 1px solid color-mix(in oklch, var(--line) 82%, var(--accent-3));
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.moth-demo canvas {
+  aspect-ratio: 4 / 3;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.closing {
+  align-self: center;
+  color: var(--deck-fg);
+  font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
+  font-size: 1.3em;
+  line-height: 1.35;
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.reveal table {
+  font-size: 0.54em;
+  margin: 0 auto;
+  max-width: 62rem;
+}
+
+.reveal table th {
+  color: var(--deck-fg);
+}
+
+@media (max-width: 900px) {
+  .three-points,
+  .two-col,
+  .flow,
+  .permutation-demo-layout,
+  .moth-demo-layout {
+    grid-template-columns: 1fr;
+  }
+}

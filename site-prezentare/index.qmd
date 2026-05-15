@@ -2,8 +2,14 @@
 title: "Sesiunea de comunicari stiintifice studentesti"
 ---
 
-## Manuscript and presentation
+## Algoritmi genetici - utilizari si aplicatii
 
-Use this site to access the manuscript, the presentation, and the About page with the QR code for participants.
+Acest site contine materialele pentru lucrarea prezentata la Sesiunea de Comunicari Stiintifice Studentesti din 16 mai 2026, Universitatea Titu Maiorescu.
 
-See the [Manuscript](manuscript.qmd) or open the <a href="presentation.qmd" target="_blank" rel="noopener noreferrer">Presentation</a>.
+Materialul explica algoritmii genetici prin exemple practice: sortarea numerelor, optimizarea parametrilor continui si o simulare vizuala de adaptare. Exemplul XGBoost/Iris este pastrat intentionat ca placeholder pana la clarificarea cerintelor.
+
+## Materiale
+
+- [Manuscript](manuscript.qmd)
+- <a href="presentation.qmd" target="_blank" rel="noopener noreferrer">Presentation</a>
+- [About](about.qmd)

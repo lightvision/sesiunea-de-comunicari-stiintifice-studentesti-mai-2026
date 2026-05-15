@@ -1,58 +1,205 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
+    "objectID": "presentation.html#de-ce-algoritmi-genetici",
+    "href": "presentation.html#de-ce-algoritmi-genetici",
     "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "De ce algoritmi genetici?",
+    "text": "De ce algoritmi genetici?\n\nAlgoritmii genetici sunt o metoda de cautare si optimizare inspirata de selectie naturala. In loc sa incercam toate variantele posibile, lucram cu o populatie de solutii candidate si o imbunatatim generatie dupa generatie.\n\n\n\nReprezentare\nO solutie este codificata ca un cromozom format din gene.\n\n\nFitness\nFiecare candidat primeste un scor care masoara cat de bun este.\n\n\nEvolutie\nSelectia, recombinarea si mutatia produc generatii noi.\n\n\n\nPastreaza explicatia practica: un algoritm genetic nu garanteaza mereu solutia perfecta, dar este util cand spatiul de cautare este mare, combinatorial sau greu de parcurs exhaustiv."
+  },
+  {
+    "objectID": "presentation.html#ideea-de-baza",
+    "href": "presentation.html#ideea-de-baza",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Ideea de baza",
+    "text": "Ideea de baza\n\n\n1. Initializare\nGeneram o populatie de solutii candidate.\n\n\n2. Evaluare\nCalculam fitness-ul fiecarei solutii.\n\n\n3. Selectie\nPastram sau favorizam indivizii mai buni.\n\n\n4. Reproducere\nAplicam crossover si mutatie.\n\n\n5. Repetare\nContinuam pana la o limita sau pana atingem un scor suficient."
+  },
+  {
+    "objectID": "presentation.html#vocabular-minim",
+    "href": "presentation.html#vocabular-minim",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Vocabular minim",
+    "text": "Vocabular minim\n\n\n\nTermen\nIn prezentare\nExemplu\n\n\n\n\nGena\nO componenta a solutiei\no valoare, o pozitie, un parametru\n\n\nCromozom\nSolutia completa\no permutare sau un vector numeric\n\n\nPopulatie\nMai multe solutii candidate\n100 de cromozomi\n\n\nFitness\nFunctia de evaluare\ncat de ordonata este o lista\n\n\nGeneratie\nUn pas de evolutie\nselectie + crossover + mutatie"
+  },
+  {
+    "objectID": "presentation.html#tipuri-de-reprezentari",
+    "href": "presentation.html#tipuri-de-reprezentari",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Tipuri de reprezentari",
+    "text": "Tipuri de reprezentari\n\n\nPermutari\nFolosite cand ordinea elementelor conteaza.\nExemplu: sortarea numerelor.\n\n\nValori continue\nFolosite cand optimizam parametri numerici.\nExemplu: coeficientii unei functii.\n\n\nValori discrete\nFolosite pentru alegeri finite sau clase.\nExemplu: reguli, setari, configuratii.\n\n\nCodificari binare\nFolosite pentru operatii simple de mutatie.\nExemplu: schimbarea bitilor unei valori."
+  },
+  {
+    "objectID": "presentation.html#operatorii-genetici",
+    "href": "presentation.html#operatorii-genetici",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Operatorii genetici",
+    "text": "Operatorii genetici\n\n\nSelectie\nAlegem indivizii care au sanse mai mari sa contribuie la generatia urmatoare.\n\n\nCrossover\nCombinam doua solutii parinte pentru a obtine o solutie copil.\n\n\nMutatie\nIntroducem variatii mici pentru a evita blocarea intr-o solutie slaba."
+  },
+  {
+    "objectID": "presentation.html#exemplul-1-sortarea-numerelor",
+    "href": "presentation.html#exemplul-1-sortarea-numerelor",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Exemplul 1: sortarea numerelor",
+    "text": "Exemplul 1: sortarea numerelor\n\n\n\nProblema\nPornim de la o lista de numere si cautam o permutare cat mai apropiata de ordinea dorita.\n\n\nReprezentare\nUn individ este o permutare a numerelor disponibile.\n\n\nFitness\nScorul favorizeaza ordinea corecta a valorilor in cromozom.\n\n\nOperatori\nOrdered crossover pastreaza validitatea permutarii; mutatia schimba doua pozitii.\n\n\n\n\n\n\n\nAnimatia ruleaza direct in slide si reproduce fluxul din examples/ga_permutation.py: populatie initiala, fitness pozitional, selectie prin turneu, ordered crossover si mutatie prin swap. Mentioneaza explicit ca sortarea are algoritmi clasici mult mai buni. Exemplul este didactic: arata cum transformam o problema intr-o reprezentare genetica. Foloseste a pentru autoplay, x pentru modul rapid si r pentru resetare."
+  },
+  {
+    "objectID": "presentation.html#exemplul-2-parametri-continui",
+    "href": "presentation.html#exemplul-2-parametri-continui",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Exemplul 2: parametri continui",
+    "text": "Exemplul 2: parametri continui\n\nAl doilea exemplu arata cum putem cauta valori numerice pentru parametrii unei functii. In loc sa cautam o ordine, cromozomul contine coeficienti.\n\n\n\nGene\nValorile parametrilor, de exemplu a, b, c.\n\n\nFitness\nMasura cat de bine se apropie functia de comportamentul dorit.\n\n\nMutatie\nModificari mici ale valorilor numerice.\n\n\nRezultat\nGeneratiile imbunatatesc treptat candidatii."
+  },
+  {
+    "objectID": "presentation.html#exemplul-3-camuflarea-moliilor",
+    "href": "presentation.html#exemplul-3-camuflarea-moliilor",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Exemplul 3: camuflarea moliilor",
+    "text": "Exemplul 3: camuflarea moliilor\n\nDemo-ul live ruleaza animatia py5 completa: o populatie care se adapteaza la un mediu in schimbare. Fiecare molie are o culoare, iar mediul are o culoare tinta.\n\n\n\n\nPresiune selectiva\nIndivizii mai apropiati de culoarea tinta sunt avantajati.\n\n\nAdaptare\nMedia populatiei urmareste schimbarea mediului.\n\n\nVizualizare\nAnimatia, graficul si histograma fac evolutia usor de observat.\n\n\n\n\n\n\n\nAnimatia ruleaza direct in slide si reproduce fluxul din examples/moth_camouflage.py: selectie, inlocuire, mutatie si schimbarea culorii tinta. Foloseste a pentru autoplay, x pentru modul rapid si r pentru resetare daca vrei sa controlezi demo-ul in timpul prezentarii."
+  },
+  {
+    "objectID": "presentation.html#exemplul-4-xgboost-si-iris",
+    "href": "presentation.html#exemplul-4-xgboost-si-iris",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Exemplul 4: XGBoost si Iris",
+    "text": "Exemplul 4: XGBoost si Iris\n\nAcest exemplu ramane intentionat placeholder.\nCerinta mentionata in discutie este un exemplu real cu XGBoost, probabil pe setul de date Iris inclus in biblioteca, dar detaliile de implementare si scopul optimizarii trebuie clarificate inainte de a-l fixa in prezentare.\n\n\nNu prezenta acest exemplu ca finalizat. Spune ca este rezervat pentru integrarea ulterioara, dupa ce se decide daca GA optimizeaza hiperparametri, selectia de trasaturi sau alta componenta a pipeline-ului."
+  },
+  {
+    "objectID": "presentation.html#ce-arata-exemplele-impreuna",
+    "href": "presentation.html#ce-arata-exemplele-impreuna",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Ce arata exemplele impreuna?",
+    "text": "Ce arata exemplele impreuna?\n\n\n\n\n\n\n\n\nExemplu\nReprezentare\nLectia principala\n\n\n\n\nSortare\npermutare\nGA poate lucra cu probleme combinatoriale\n\n\nParametri continui\nvector numeric\nGA poate cauta valori intr-un spatiu numeric\n\n\nCamuflare\nvalori discrete 0-255\nGA poate modela adaptarea sub presiune\n\n\nXGBoost/Iris\nde clarificat\nloc rezervat pentru aplicatie ML"
+  },
+  {
+    "objectID": "presentation.html#avantaje-si-limite",
+    "href": "presentation.html#avantaje-si-limite",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Avantaje si limite",
+    "text": "Avantaje si limite\n\n\nAvantaje\n\nusor de adaptat la probleme diferite\nutil pentru spatii mari de cautare\nnu cere derivarea unei formule perfecte\npoate combina explorarea cu exploatarea\n\n\n\nLimite\n\nnu garanteaza mereu optimul global\npoate necesita multe evaluari\ndepinde mult de functia de fitness\nparametrii algoritmului trebuie alesi atent"
+  },
+  {
+    "objectID": "presentation.html#concluzii",
+    "href": "presentation.html#concluzii",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Concluzii",
+    "text": "Concluzii\n\nAlgoritmii genetici sunt utili cand putem defini clar trei lucruri: cum arata o solutie, cum o evaluam si cum producem variante noi.\n\n\n\nModel general\nAceeasi schema se aplica pe permutari, parametri si simulari.\n\n\nAccent practic\nExemplele fac conceptele mai usor de inteles decat matematica abstracta.\n\n\nExtensibilitate\nUrmatorul pas este aplicarea pe un model ML real, dupa clarificarea exemplului XGBoost/Iris."
+  },
+  {
+    "objectID": "presentation.html#intrebari",
+    "href": "presentation.html#intrebari",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Intrebari",
+    "text": "Intrebari\n\nVa multumim!\nMarius-Florinel Ionel · Cristina Mirela Done · Brandon Aron"
+  },
+  {
+    "objectID": "manuscript.html",
+    "href": "manuscript.html",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
     "section": "",
-    "text": "Use this site to access the manuscript, the presentation, and the About page with the QR code for participants.\nSee the Manuscript or open the Presentation."
+    "text": "Autori: Marius-Florinel Ionel, Cristina Mirela Done, Brandon Aron\nEveniment: Sesiunea de Comunicari Stiintifice Studentesti, Universitatea Titu Maiorescu, 16 mai 2026\n\n\nLucrarea prezinta algoritmii genetici ca metoda practica de cautare si optimizare inspirata de evolutia naturala. In locul unei abordari axate pe matematica abstracta, materialul explica elementele de baza prin exemple: sortarea numerelor ca problema de permutari, optimizarea parametrilor continui ai unei functii si o simulare vizuala de adaptare a unei populatii la un mediu in schimbare. Un exemplu aplicat pe XGBoost si setul de date Iris este pastrat intentionat ca placeholder, urmand sa fie definit dupa clarificarea cerintelor.\n\n\n\nAlgoritmii genetici fac parte din familia algoritmilor evolutivi. Ei pornesc de la o populatie de solutii candidate si folosesc mecanisme inspirate de selectie naturala pentru a produce solutii mai bune de la o generatie la alta.\nIdeea centrala este simpla: daca putem reprezenta o solutie, daca putem calcula cat de buna este si daca putem produce variante noi, atunci putem folosi un proces iterativ de selectie, recombinare si mutatie pentru a cauta rezultate mai bune.\nAceasta lucrare urmareste intelegerea practica a algoritmilor genetici. Accentul cade pe exemple clare, usor de rulat si de explicat, nu pe demonstratii matematice complexe.\n\n\n\nO solutie candidata este reprezentata printr-un cromozom. Cromozomul este format din gene, iar tipul genelor depinde de problema: pozitii intr-o permutare, valori numerice, valori discrete sau biti.\nPopulatia este multimea de cromozomi evaluati intr-o generatie. Functia de fitness atribuie fiecarui individ un scor. Scorul controleaza selectia, adica sansele unui individ de a contribui la generatia urmatoare.\nOperatorii folositi in exemple sunt:\n\nselectia, prin care indivizii mai buni sunt favorizati;\ncrossover-ul, prin care doi parinti produc un copil;\nmutatia, prin care apar modificari mici si controlate;\nelitismul, prin care cei mai buni indivizi pot fi pastrati direct.\n\n\n\n\nStructura generala a algoritmului este aceeasi in toate exemplele:\n\nse genereaza o populatie initiala;\nfiecare individ este evaluat cu o functie de fitness;\nse aleg parinti din populatie;\nse aplica operatori de crossover si mutatie;\nse formeaza o generatie noua;\nprocesul se repeta pana cand se atinge o limita de generatii sau un scor suficient.\n\nPentru problemele bazate pe permutari, operatorii trebuie sa pastreze validitatea cromozomului. De exemplu, daca un individ contine aceleasi numere intr-o anumita ordine, crossover-ul nu trebuie sa introduca duplicate sau sa piarda valori.\nPentru problemele cu parametri continui, cromozomul este un vector numeric. Mutatia modifica valorile, iar fitness-ul masoara cat de aproape este solutia de comportamentul dorit.\nPentru simularea de adaptare, fiecare individ are o culoare, iar mediul are o culoare tinta. Selectia favorizeaza indivizii mai apropiati de tinta, iar mutatia produce variatie.\n\n\n\n\n\nPrimul exemplu foloseste o problema de sortare pentru a explica reprezentarea prin permutari. Desi sortarea are algoritmi clasici mult mai eficienti, exemplul este util didactic: arata cum o lista poate fi tratata ca un cromozom, cum putem calcula fitness-ul si cum putem pastra validitatea unei permutari dupa crossover si mutatie.\n\n\n\nAl doilea exemplu optimizeaza parametrii unei functii. In aceasta situatie, genele nu mai sunt pozitii intr-o permutare, ci valori numerice. Algoritmul cauta combinatii de parametri care imbunatatesc scorul dat de functia de fitness.\n\n\n\nAl treilea exemplu este o simulare vizuala. Populatia evolueaza intr-un mediu care isi schimba treptat culoarea tinta. Indivizii mai apropiati de culoarea mediului au sanse mai mari sa fie pastrati, iar generatiile urmatoare tind sa se apropie de tinta.\nSimularea evidentiaza legatura dintre presiunea selectiva, variatie si adaptare. Chiar daca populatia poate deveni temporar nepotrivita pentru mediu, mutatia si selectia o pot readuce spre o stare mai bine adaptata.\n\n\n\nAcest exemplu este pastrat intentionat ca placeholder. Discutia mentioneaza un exemplu real cu XGBoost si setul de date Iris, dar cerintele trebuie clarificate inainte de integrare: algoritmul genetic poate optimiza hiperparametri, selectia de trasaturi sau alta parte a pipeline-ului de invatare automata.\n\n\n\n\nExemplele arata ca aceeasi schema de algoritm genetic poate fi adaptata la tipuri diferite de probleme:\n\no problema combinatoriala, prin permutari;\no problema numerica, prin parametri continui;\no simulare de adaptare, prin selectie si mutatie intr-un mediu dinamic.\n\nRezultatul important nu este doar gasirea unei solutii bune, ci intelegerea modului in care reprezentarea, fitness-ul si operatorii influenteaza comportamentul algoritmului.\n\n\n\nAlgoritmii genetici sunt o metoda flexibila pentru probleme in care cautarea exhaustiva este dificila sau nepractica. Ei sunt usor de explicat prin analogia cu evolutia naturala si pot fi adaptati la domenii diferite, de la permutari si optimizare numerica pana la simulari si invatare automata.\nPentru aplicatii reale, calitatea rezultatului depinde de alegerea reprezentarii, de functia de fitness si de parametrii algoritmului. De aceea, exemplele prezentate trebuie privite ca modele de lucru care pot fi extinse, nu ca solutii universale."
+  },
+  {
+    "objectID": "manuscript.html#abstract",
+    "href": "manuscript.html#abstract",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Lucrarea prezinta algoritmii genetici ca metoda practica de cautare si optimizare inspirata de evolutia naturala. In locul unei abordari axate pe matematica abstracta, materialul explica elementele de baza prin exemple: sortarea numerelor ca problema de permutari, optimizarea parametrilor continui ai unei functii si o simulare vizuala de adaptare a unei populatii la un mediu in schimbare. Un exemplu aplicat pe XGBoost si setul de date Iris este pastrat intentionat ca placeholder, urmand sa fie definit dupa clarificarea cerintelor."
+  },
+  {
+    "objectID": "manuscript.html#introducere",
+    "href": "manuscript.html#introducere",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Algoritmii genetici fac parte din familia algoritmilor evolutivi. Ei pornesc de la o populatie de solutii candidate si folosesc mecanisme inspirate de selectie naturala pentru a produce solutii mai bune de la o generatie la alta.\nIdeea centrala este simpla: daca putem reprezenta o solutie, daca putem calcula cat de buna este si daca putem produce variante noi, atunci putem folosi un proces iterativ de selectie, recombinare si mutatie pentru a cauta rezultate mai bune.\nAceasta lucrare urmareste intelegerea practica a algoritmilor genetici. Accentul cade pe exemple clare, usor de rulat si de explicat, nu pe demonstratii matematice complexe."
+  },
+  {
+    "objectID": "manuscript.html#concepte-de-baza",
+    "href": "manuscript.html#concepte-de-baza",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "O solutie candidata este reprezentata printr-un cromozom. Cromozomul este format din gene, iar tipul genelor depinde de problema: pozitii intr-o permutare, valori numerice, valori discrete sau biti.\nPopulatia este multimea de cromozomi evaluati intr-o generatie. Functia de fitness atribuie fiecarui individ un scor. Scorul controleaza selectia, adica sansele unui individ de a contribui la generatia urmatoare.\nOperatorii folositi in exemple sunt:\n\nselectia, prin care indivizii mai buni sunt favorizati;\ncrossover-ul, prin care doi parinti produc un copil;\nmutatia, prin care apar modificari mici si controlate;\nelitismul, prin care cei mai buni indivizi pot fi pastrati direct."
+  },
+  {
+    "objectID": "manuscript.html#metodologie",
+    "href": "manuscript.html#metodologie",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Structura generala a algoritmului este aceeasi in toate exemplele:\n\nse genereaza o populatie initiala;\nfiecare individ este evaluat cu o functie de fitness;\nse aleg parinti din populatie;\nse aplica operatori de crossover si mutatie;\nse formeaza o generatie noua;\nprocesul se repeta pana cand se atinge o limita de generatii sau un scor suficient.\n\nPentru problemele bazate pe permutari, operatorii trebuie sa pastreze validitatea cromozomului. De exemplu, daca un individ contine aceleasi numere intr-o anumita ordine, crossover-ul nu trebuie sa introduca duplicate sau sa piarda valori.\nPentru problemele cu parametri continui, cromozomul este un vector numeric. Mutatia modifica valorile, iar fitness-ul masoara cat de aproape este solutia de comportamentul dorit.\nPentru simularea de adaptare, fiecare individ are o culoare, iar mediul are o culoare tinta. Selectia favorizeaza indivizii mai apropiati de tinta, iar mutatia produce variatie."
+  },
+  {
+    "objectID": "manuscript.html#exemple",
+    "href": "manuscript.html#exemple",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Primul exemplu foloseste o problema de sortare pentru a explica reprezentarea prin permutari. Desi sortarea are algoritmi clasici mult mai eficienti, exemplul este util didactic: arata cum o lista poate fi tratata ca un cromozom, cum putem calcula fitness-ul si cum putem pastra validitatea unei permutari dupa crossover si mutatie.\n\n\n\nAl doilea exemplu optimizeaza parametrii unei functii. In aceasta situatie, genele nu mai sunt pozitii intr-o permutare, ci valori numerice. Algoritmul cauta combinatii de parametri care imbunatatesc scorul dat de functia de fitness.\n\n\n\nAl treilea exemplu este o simulare vizuala. Populatia evolueaza intr-un mediu care isi schimba treptat culoarea tinta. Indivizii mai apropiati de culoarea mediului au sanse mai mari sa fie pastrati, iar generatiile urmatoare tind sa se apropie de tinta.\nSimularea evidentiaza legatura dintre presiunea selectiva, variatie si adaptare. Chiar daca populatia poate deveni temporar nepotrivita pentru mediu, mutatia si selectia o pot readuce spre o stare mai bine adaptata.\n\n\n\nAcest exemplu este pastrat intentionat ca placeholder. Discutia mentioneaza un exemplu real cu XGBoost si setul de date Iris, dar cerintele trebuie clarificate inainte de integrare: algoritmul genetic poate optimiza hiperparametri, selectia de trasaturi sau alta parte a pipeline-ului de invatare automata."
+  },
+  {
+    "objectID": "manuscript.html#rezultate-asteptate",
+    "href": "manuscript.html#rezultate-asteptate",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Exemplele arata ca aceeasi schema de algoritm genetic poate fi adaptata la tipuri diferite de probleme:\n\no problema combinatoriala, prin permutari;\no problema numerica, prin parametri continui;\no simulare de adaptare, prin selectie si mutatie intr-un mediu dinamic.\n\nRezultatul important nu este doar gasirea unei solutii bune, ci intelegerea modului in care reprezentarea, fitness-ul si operatorii influenteaza comportamentul algoritmului."
+  },
+  {
+    "objectID": "manuscript.html#concluzii",
+    "href": "manuscript.html#concluzii",
+    "title": "Algoritmi genetici - utilizari si aplicatii",
+    "section": "",
+    "text": "Algoritmii genetici sunt o metoda flexibila pentru probleme in care cautarea exhaustiva este dificila sau nepractica. Ei sunt usor de explicat prin analogia cu evolutia naturala si pot fi adaptati la domenii diferite, de la permutari si optimizare numerica pana la simulari si invatare automata.\nPentru aplicatii reale, calitatea rezultatului depinde de alegerea reprezentarii, de functia de fitness si de parametrii algoritmului. De aceea, exemplele prezentate trebuie privite ca modele de lucru care pot fi extinse, nu ca solutii universale."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This page will host the QR code and any join details for participants."
-  },
-  {
-    "objectID": "presentation.html#opening-slide",
-    "href": "presentation.html#opening-slide",
-    "title": "Presentation",
-    "section": "Opening slide",
-    "text": "Opening slide"
-  },
-  {
-    "objectID": "presentation.html#content-slide",
-    "href": "presentation.html#content-slide",
-    "title": "Presentation",
-    "section": "Content slide",
-    "text": "Content slide"
-  },
-  {
-    "objectID": "presentation.html#closing-slide",
-    "href": "presentation.html#closing-slide",
-    "title": "Presentation",
-    "section": "Closing slide",
-    "text": "Closing slide"
-  },
-  {
-    "objectID": "index.html#manuscript-and-presentation",
-    "href": "index.html#manuscript-and-presentation",
-    "title": "Sesiunea de comunicari stiintifice studentesti",
-    "section": "",
-    "text": "Use this site to access the manuscript, the presentation, and the About page with the QR code for participants.\nSee the Manuscript or open the Presentation."
-  },
-  {
-    "objectID": "manuscript.html",
-    "href": "manuscript.html",
-    "title": "Manuscript",
-    "section": "",
-    "text": "This page will contain the manuscript for the scientific communication session."
+    "text": "Aceasta pagina este rezervata pentru accesul participantilor."
   },
   {
     "objectID": "about.html#participant-access",
     "href": "about.html#participant-access",
     "title": "About",
     "section": "",
-    "text": "This page will host the QR code and any join details for participants."
+    "text": "Aceasta pagina este rezervata pentru accesul participantilor."
+  },
+  {
+    "objectID": "about.html#detalii-lucrare",
+    "href": "about.html#detalii-lucrare",
+    "title": "About",
+    "section": "Detalii lucrare",
+    "text": "Detalii lucrare\nTitlu: Algoritmi genetici - utilizari si aplicatii\nAutori: Marius-Florinel Ionel, Cristina Mirela Done, Brandon Aron\nEveniment: Sesiunea de Comunicari Stiintifice Studentesti\nData: 16 mai 2026\nInstitutie: Universitatea Titu Maiorescu, Bucuresti"
+  },
+  {
+    "objectID": "about.html#qr-code",
+    "href": "about.html#qr-code",
+    "title": "About",
+    "section": "QR code",
+    "text": "QR code\nPlaceholder pentru codul QR si instructiunile finale de acces."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "",
+    "text": "Acest site contine materialele pentru lucrarea prezentata la Sesiunea de Comunicari Stiintifice Studentesti din 16 mai 2026, Universitatea Titu Maiorescu.\nMaterialul explica algoritmii genetici prin exemple practice: sortarea numerelor, optimizarea parametrilor continui si o simulare vizuala de adaptare. Exemplul XGBoost/Iris este pastrat intentionat ca placeholder pana la clarificarea cerintelor."
+  },
+  {
+    "objectID": "index.html#algoritmi-genetici---utilizari-si-aplicatii",
+    "href": "index.html#algoritmi-genetici---utilizari-si-aplicatii",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "",
+    "text": "Acest site contine materialele pentru lucrarea prezentata la Sesiunea de Comunicari Stiintifice Studentesti din 16 mai 2026, Universitatea Titu Maiorescu.\nMaterialul explica algoritmii genetici prin exemple practice: sortarea numerelor, optimizarea parametrilor continui si o simulare vizuala de adaptare. Exemplul XGBoost/Iris este pastrat intentionat ca placeholder pana la clarificarea cerintelor."
+  },
+  {
+    "objectID": "index.html#materiale",
+    "href": "index.html#materiale",
+    "title": "Sesiunea de comunicari stiintifice studentesti",
+    "section": "Materiale",
+    "text": "Materiale\n\nManuscript\nPresentation\nAbout"
+  },
+  {
+    "objectID": "notebooks/sortare_numerica.html",
+    "href": "notebooks/sortare_numerica.html",
+    "title": "Sortare numere prin algoritm genetic",
+    "section": "",
+    "text": "print('OK')\n\nAcesta este un exemplu fortat, deoarece din punct de vedere al eficientei sau complexitatii, nu reuseste sa fie nici macar egal cu sortarea liniara."
   }
 ]

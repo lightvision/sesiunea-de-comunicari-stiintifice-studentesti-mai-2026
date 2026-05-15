@@ -4,4 +4,16 @@ title: "About"
 
 ## Participant access
 
-This page will host the QR code and any join details for participants.
+Aceasta pagina este rezervata pentru accesul participantilor.
+
+## Detalii lucrare
+
+**Titlu:** Algoritmi genetici - utilizari si aplicatii  
+**Autori:** Marius-Florinel Ionel, Cristina Mirela Done, Brandon Aron  
+**Eveniment:** Sesiunea de Comunicari Stiintifice Studentesti  
+**Data:** 16 mai 2026  
+**Institutie:** Universitatea Titu Maiorescu, Bucuresti
+
+## QR code
+
+Placeholder pentru codul QR si instructiunile finale de acces.
