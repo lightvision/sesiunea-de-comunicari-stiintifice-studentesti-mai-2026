@@ -555,7 +555,7 @@
     const canvas = document.createElement("canvas");
     canvas.width = WINDOW_WIDTH;
     canvas.height = WINDOW_HEIGHT;
-    canvas.setAttribute("aria-label", "Animatie interactiva pentru optimizarea parametrilor continui cu algoritm genetic");
+    canvas.setAttribute("aria-label", "Animație interactivă pentru optimizarea parametrilor continui cu algoritm genetic");
     container.append(canvas);
     return canvas;
   }

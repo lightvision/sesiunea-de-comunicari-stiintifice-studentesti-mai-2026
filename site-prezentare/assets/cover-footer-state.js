@@ -8,10 +8,10 @@
         <img class="deck-header__logo" src="assets/logo-UTM.webp" alt="Sigla Universitatea Titu Maiorescu" />
         <div class="deck-header__lockup">
           <strong>Universitatea Titu Maiorescu</strong>
-          <span>Bucuresti, Romania</span>
+          <span>București, România</span>
         </div>
       </div>
-      <div class="deck-header__event">Sesiunea de Comunicari Stiintifice Studentesti</div>
+      <div class="deck-header__event">Sesiunea de Comunicări Științifice Studențești</div>
     `;
     document.body.appendChild(header);
   };

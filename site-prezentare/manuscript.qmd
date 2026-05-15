@@ -1,101 +1,101 @@
 ---
-title: "Algoritmi genetici - utilizari si aplicatii"
+title: "Algoritmi genetici - utilizări și aplicații"
 ---
 
-# Algoritmi genetici - utilizari si aplicatii
+# Algoritmi genetici - utilizări și aplicații
 
-**Autori:** Marius-Florinel Ionel, Cristina Mirela Done, Brandon Aron  
-**Eveniment:** Sesiunea de Comunicari Stiintifice Studentesti, Universitatea Titu Maiorescu, 16 mai 2026
+**Autori:** Marius-Florinel Ionel, Cristina Mirela Done, Brandon Aron
+**Eveniment:** Sesiunea de Comunicări Științifice Studențești, Universitatea Titu Maiorescu, 16 mai 2026
 
 ## Abstract
 
-Lucrarea prezinta algoritmii genetici ca metoda practica de cautare si optimizare inspirata de evolutia naturala. Obiectivul este explicarea etapelor principale ale unui algoritm genetic prin patru exemple complementare: sortarea numerelor ca problema de permutari, optimizarea parametrilor continui ai unei functii, optimizarea hiperparametrilor pentru un clasificator ML aplicat pe date despre diabet si simularea camuflarii moliilor intr-un mediu in schimbare. Exemplele arata rolul reprezentarii cromozomului, al functiei de fitness si al operatorilor evolutivi in probleme cu structuri diferite.
+Lucrarea prezintă algoritmii genetici ca metodă practică de căutare și optimizare inspirată de evoluția naturală. Obiectivul este explicarea etapelor principale ale unui algoritm genetic prin patru exemple complementare: sortarea numerelor ca problemă de permutări, optimizarea parametrilor continui ai unei funcții, optimizarea hiperparametrilor pentru un clasificator ML aplicat pe date despre diabet și simularea camuflării moliilor într-un mediu în schimbare. Exemplele arată rolul reprezentării cromozomului, al funcției de fitness și al operatorilor evolutivi în probleme cu structuri diferite.
 
 ## Introducere
 
-Algoritmii genetici fac parte din familia algoritmilor evolutivi. Ei pornesc de la o populatie de solutii candidate si folosesc mecanisme inspirate de selectie naturala pentru a produce solutii mai bune de la o generatie la alta.
+Algoritmii genetici fac parte din familia algoritmilor evolutivi. Ei pornesc de la o populație de soluții candidate și folosesc mecanisme inspirate de selecție naturală pentru a produce soluții mai bune de la o generație la alta.
 
-Ideea centrala este simpla: daca putem reprezenta o solutie, daca putem calcula cat de buna este si daca putem produce variante noi, atunci putem folosi un proces iterativ de selectie, recombinare si mutatie pentru a cauta rezultate mai bune.
+Ideea centrală este simplă: dacă putem reprezenta o soluție, dacă putem calcula cât de buna este și dacă putem produce variante noi, atunci putem folosi un proces iterativ de selecție, recombinare și mutație pentru a căuta rezultate mai bune.
 
-Aceasta lucrare urmareste intelegerea practica a algoritmilor genetici. Accentul cade pe exemple clare, usor de rulat si de explicat, nu pe demonstratii matematice complexe.
+Această lucrare urmărește înțelegerea practică a algoritmilor genetici. Accentul cade pe exemple clare, ușor de rulat și de explicat, nu pe demonstrații matematice complexe.
 
 ## Obiectiv
 
-Obiectivul lucrarii este sa arate cum aceeasi schema evolutiva poate fi adaptata la probleme cu reprezentari diferite. In fiecare caz sunt urmarite trei intrebari: cum este codificata solutia, cum este evaluata calitatea ei si ce operatori pot produce variante utile pentru generatia urmatoare.
+Obiectivul lucrării este să arate cum aceeași schemă evolutivă poate fi adaptată la probleme cu reprezentări diferite. În fiecare caz sunt urmărite trei întrebări: cum este codificată soluția, cum este evaluată calitatea ei și ce operatori pot produce variante utile pentru generația următoare.
 
-## Concepte de baza
+## Concepte de bază
 
-O solutie candidata este reprezentata printr-un cromozom. Cromozomul este format din gene, iar tipul genelor depinde de problema: pozitii intr-o permutare, valori numerice, valori discrete sau hiperparametri.
+O soluție candidată este reprezentată printr-un cromozom. Cromozomul este format din gene, iar tipul genelor depinde de problema: poziții într-o permutare, valori numerice, valori discrete sau hiperparametri.
 
-Populatia este multimea de cromozomi evaluati intr-o generatie. Functia de fitness atribuie fiecarui individ un scor. Scorul controleaza selectia, adica sansele unui individ de a contribui la generatia urmatoare.
+Populația este mulțimea de cromozomi evaluați într-o generație. Funcția de fitness atribuie fiecărui individ un scor. Scorul controlează selecția, adică șansele unui individ de a contribui la generația următoare.
 
-Operatorii folositi in exemple sunt:
+Operatorii folosiți în exemple sunt:
 
-- **selectia**, prin care indivizii mai buni sunt favorizati;
-- **crossover-ul**, prin care doi parinti produc un copil;
-- **mutatia**, prin care apar modificari mici si controlate;
-- **elitismul**, prin care cei mai buni indivizi pot fi pastrati direct.
+- **selecția**, prin care indivizii mai buni sunt favorizați;
+- **crossover-ul**, prin care doi părinți produc un copil;
+- **mutația**, prin care apar modificări mici și controlate;
+- **elitismul**, prin care cei mai buni indivizi pot fi păstrați direct.
 
 ## Metodologie
 
-Structura generala a algoritmului este aceeasi in toate exemplele:
+Structura generală a algoritmului este aceeași în toate exemplele:
 
-1. se genereaza o populatie initiala;
-2. fiecare individ este evaluat cu o functie de fitness;
-3. se aleg parinti din populatie;
-4. se aplica operatori de crossover si mutatie, acolo unde sunt potriviti;
-5. se formeaza o generatie noua;
-6. procesul se repeta pana cand se atinge o limita de generatii sau un scor suficient.
+1. se generează o populație inițială;
+2. fiecare individ este evaluat cu o funcție de fitness;
+3. se aleg părinți din populație;
+4. se aplică operatori de crossover și mutație, acolo unde sunt potriviți;
+5. se formează o generație nouă;
+6. procesul se repetă până când se atinge o limită de generații sau un scor suficient.
 
-Pentru problemele bazate pe permutari, operatorii trebuie sa pastreze validitatea cromozomului. De exemplu, daca un individ contine aceleasi numere intr-o anumita ordine, crossover-ul nu trebuie sa introduca duplicate sau sa piarda valori.
+Pentru problemele bazate pe permutări, operatorii trebuie să păstreze validitatea cromozomului. De exemplu, dacă un individ conține aceleași numere într-o anumită ordine, crossover-ul nu trebuie să introducă duplicate sau să piardă valori.
 
-Pentru problemele cu parametri continui, cromozomul este un vector numeric. Mutatia modifica valorile, iar fitness-ul masoara cat de aproape este solutia de comportamentul dorit.
+Pentru problemele cu parametri continui, cromozomul este un vector numeric. Mutația modifică valorile, iar fitness-ul măsoară cât de aproape este soluția de comportamentul dorit.
 
-Pentru optimizarea hiperparametrilor ML, cromozomul reprezinta o configuratie a modelului. Fitness-ul este calculat din performanta clasificatorului pe date de validare, iar cautarea genetica exploreaza combinatii care pot depasi un model baseline.
+Pentru optimizarea hiperparametrilor ML, cromozomul reprezintă o configurație a modelului. Fitness-ul este calculat din performanța clasificatorului pe date de validare, iar căutarea genetică explorează combinații care pot depași un model baseline.
 
-Pentru simularea de adaptare, fiecare individ are o culoare, iar mediul are o culoare tinta. Selectia favorizeaza indivizii mai apropiati de tinta, iar mutatia produce variatie.
+Pentru simularea de adaptare, fiecare individ are o culoare, iar mediul are o culoare țintă. Selecția favorizează indivizii mai apropiați de țintă, iar mutația produce variație.
 
 ## Exemple
 
 ### Sortarea numerelor
 
-Primul exemplu foloseste o problema de sortare pentru a explica reprezentarea prin permutari. Desi sortarea are algoritmi clasici mult mai eficienti, exemplul este util didactic: arata cum o lista poate fi tratata ca un cromozom, cum putem calcula fitness-ul si cum putem pastra validitatea unei permutari dupa crossover si mutatie.
+Primul exemplu folosește o problemă de sortare pentru a explica reprezentarea prin permutări. Deși sortarea are algoritmi clasici mult mai eficienți, exemplul este util didactic: arată cum o listă poate fi tratată ca un cromozom, cum putem calcula fitness-ul și cum putem păstra validitatea unei permutări după crossover și mutație.
 
 ### Optimizarea parametrilor continui
 
-Al doilea exemplu optimizeaza parametrii unei functii. In aceasta situatie, genele nu mai sunt pozitii intr-o permutare, ci valori numerice. Algoritmul cauta combinatii de parametri care imbunatatesc scorul dat de functia de fitness.
+Al doilea exemplu optimizează parametrii unei funcții. În această situație, genele nu mai sunt poziții într-o permutare, ci valori numerice. Algoritmul caută combinații de parametri care îmbunătățesc scorul dat de funcția de fitness.
 
 ### Optimizarea hiperparametrilor pentru clasificator ML / diabet
 
-Al treilea exemplu aplica algoritmul genetic asupra unui model de clasificare. Cromozomul codifica hiperparametrii unui `DecisionTreeClassifier`, iar fitness-ul reflecta performanta modelului pe date de validare. Comparatia cu un model baseline permite observarea efectului optimizarii asupra unor metrici precum acuratetea, AUC, matricea de confuzie si recall-ul pentru clasa pozitiva.
+Al treilea exemplu aplică algoritmul genetic asupra unui model de clasificare. Cromozomul codifică hiperparametrii unui `DecisionTreeClassifier`, iar fitness-ul reflectă performanța modelului pe date de validare. Comparația cu un model baseline permite observarea efectului optimizării asupra unor metrici precum acuratețea, AUC, matricea de confuzie și recall-ul pentru clasa pozitivă.
 
-Exemplul este relevant deoarece leaga algoritmii genetici de o problema aplicata: alegerea hiperparametrilor pentru un model de invatare automata. In locul unei cautari manuale, populatia de configuratii exploreaza spatiul posibil si selecteaza variantele cu rezultate mai bune.
+Exemplul este relevant deoarece leagă algoritmii genetici de o problemă aplicată: alegerea hiperparametrilor pentru un model de învățare automată. În locul unei cautări manuale, populația de configurații explorează spațiul posibil și selecteaza variantele cu rezultate mai bune.
 
 ### Camuflarea moliilor
 
-Al patrulea exemplu este o simulare vizuala. Populatia evolueaza intr-un mediu care isi schimba treptat culoarea tinta. Indivizii mai apropiati de culoarea mediului au sanse mai mari sa fie pastrati, iar generatiile urmatoare tind sa se apropie de tinta.
+Al patrulea exemplu este o simulare vizuală. Populația evoluează într-un mediu care își schimbă treptat culoarea țintă. Indivizii mai apropiați de culoarea mediului au șanse mai mari să fie păstrați, iar generațiile următoare tind să se apropie de țintă.
 
-Simularea evidentiaza legatura dintre presiunea selectiva, variatie si adaptare. Chiar daca populatia poate deveni temporar nepotrivita pentru mediu, mutatia si selectia o pot readuce spre o stare mai bine adaptata.
+Simularea evidențiază legătura dintre presiunea selectivă, variație și adaptare. Chiar dacă populația poate deveni temporar nepotrivită pentru mediu, mutația și selecția o pot readuce spre o stare mai bine adaptată.
 
-## Rezultate asteptate
+## Rezultate așteptate
 
-Exemplele arata ca aceeasi schema de algoritm genetic poate fi adaptata la tipuri diferite de probleme:
+Exemplele arată că aceeași schemă de algoritm genetic poate fi adaptată la tipuri diferite de probleme:
 
-- o problema combinatoriala, prin permutari;
-- o problema numerica, prin parametri continui;
-- o problema aplicata de invatare automata, prin hiperparametri;
-- o simulare de adaptare, prin selectie si mutatie intr-un mediu dinamic.
+- o problemă combinatorială, prin permutări;
+- o problemă numerică, prin parametri continui;
+- o problemă aplicată de învățare automată, prin hiperparametri;
+- o simulare de adaptare, prin selecție și mutație într-un mediu dinamic.
 
-Rezultatul important nu este doar gasirea unei solutii bune, ci intelegerea modului in care reprezentarea, fitness-ul si operatorii influenteaza comportamentul algoritmului.
+Rezultatul important nu este doar găsirea unei soluții bune, ci înțelegerea modului în care reprezentarea, fitness-ul și operatorii influenteaza comportamentul algoritmului.
 
-In exemplul ML, rezultatele urmarite sunt imbunatatirea performantei fata de modelul baseline si reducerea erorilor importante pentru clasa pozitiva. In exemplul cu molii, rezultatul asteptat este apropierea distributiei populatiei de culoarea tinta a mediului dupa fiecare schimbare.
+În exemplul ML, rezultatele urmărite sunt îmbunătățirea performanței față de modelul baseline și reducerea erorilor importante pentru clasa pozitivă. În exemplul cu molii, rezultatul așteptat este apropierea distribuției populației de culoarea țintă a mediului după fiecare schimbare.
 
-## Limitari
+## Limitări
 
-Exemplele sunt construite pentru claritate didactica, nu pentru performanta maxima. Sortarea prin algoritm genetic ramane inferioara algoritmilor clasici de sortare, iar optimizarea parametrilor continui foloseste un spatiu controlat pentru a face mecanismul usor de observat. In cazul clasificatorului ML, calitatea concluziilor depinde de impartirea datelor, de metrica aleasa si de evitarea supraoptimizarii pe setul de validare. Simularea moliilor simplifica biologia reala, reducand adaptarea la o singura trasatura vizuala.
+Exemplele sunt construite pentru claritate didactică, nu pentru performanța maximă. Sortarea prin algoritm genetic rămâne inferioară algoritmilor clasici de sortare, iar optimizarea parametrilor continui folosește un spațiu controlat pentru a face mecanismul ușor de observat. În cazul clasificatorului ML, calitatea concluziilor depinde de împărțirea datelor, de metrica aleasă și de evitarea supraoptimizării pe setul de validare. Simularea moliilor simplifica biologia reală, reducând adaptarea la o singură trăsătură vizuală.
 
 ## Concluzii
 
-Algoritmii genetici sunt o metoda flexibila pentru probleme in care cautarea exhaustiva este dificila sau nepractica. Ei sunt usor de explicat prin analogia cu evolutia naturala si pot fi adaptati la domenii diferite, de la permutari si optimizare numerica pana la invatare automata si simulari de adaptare.
+Algoritmii genetici sunt o metodă flexibilă pentru probleme în care căutarea exhaustivă este dificilă sau nepractică. Ei sunt ușor de explicat prin analogia cu evoluția naturală și pot fi adaptați la domenii diferite, de la permutări și optimizare numerică până la învățare automată și simulări de adaptare.
 
-Pentru aplicatii reale, calitatea rezultatului depinde de alegerea reprezentarii, de functia de fitness si de parametrii algoritmului. Exemplele prezentate arata ca metoda este utila atunci cand problema poate fi formulata clar, iar solutiile candidate pot fi evaluate repetat printr-un criteriu coerent.
+Pentru aplicații reale, calitatea rezultatului depinde de alegerea reprezentării, de funcția de fitness și de parametrii algoritmului. Exemplele prezentate arată că metoda este utilă atunci când problema poate fi formulată clar, iar soluțiile candidate pot fi evaluate repetat printr-un criteriu coerent.

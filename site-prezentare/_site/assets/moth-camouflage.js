@@ -383,7 +383,7 @@
     const canvas = document.createElement("canvas");
     canvas.width = WINDOW_WIDTH;
     canvas.height = WINDOW_HEIGHT;
-    canvas.setAttribute("aria-label", "Animatie interactiva pentru camuflarea moliilor");
+    canvas.setAttribute("aria-label", "Animație interactivă pentru camuflarea moliilor");
     container.append(canvas);
     return canvas;
   }

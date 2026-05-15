@@ -256,7 +256,7 @@
 
 .utm-cover .cover-research-card.primary::before {
   color: color-mix(in oklch, var(--accent-3) 88%, var(--deck-muted));
-  content: "Sesiune de comunicari  \00B7  ed. studentesti";
+  content: "Sesiune de comunicări  \00B7  ed. studențești";
   display: block;
   font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.44em;
@@ -269,7 +269,7 @@
 
 .utm-cover .cover-research-card.primary::after {
   color: oklch(25% 0.044 305);
-  content: "Sesiunea de Comunicari\A Stiintifice Studentesti";
+  content: "Sesiunea de Comunicări\A Științifice Studențești";
   display: block;
   font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
   font-size: 1.32em;
@@ -326,7 +326,7 @@
 
 .utm-cover .cover-date::before {
   color: color-mix(in oklch, var(--deck-muted) 78%, transparent);
-  content: "Universitatea Titu Maiorescu  \00B7  Bucuresti";
+  content: "Universitatea Titu Maiorescu  \00B7  București";
   display: block;
   font-family: Georgia, "Source Serif Pro", "Times New Roman", serif;
   font-size: 0.78rem;

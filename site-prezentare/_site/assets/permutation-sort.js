@@ -351,7 +351,7 @@
       drawText(ctx, String(value), bx + barWidth / 2, by - 16, 18, COLORS.text);
       drawText(ctx, String(index), bx + barWidth / 2, y + height + 24, 13, COLORS.muted, "500");
     });
-    drawText(ctx, "pozitia in cromozom", x + width / 2, layout.axisLabelY, 13, COLORS.muted, "500");
+    drawText(ctx, "poziția în cromozom", x + width / 2, layout.axisLabelY, 13, COLORS.muted, "500");
     ctx.restore();
   }
 
@@ -409,7 +409,7 @@
     drawText(ctx, `Generation ${simulation.generation}`, width / 2, layout.titleY, 30);
     drawText(
       ctx,
-      `${operationLabel(state)}  |  ${simulation.sortedPositions}/${simulation.values.length} pozitii corecte  |  ${state.autoplay ? "autoplay" : "manual"}`,
+      `${operationLabel(state)}  |  ${simulation.sortedPositions}/${simulation.values.length} poziții corecte  |  ${state.autoplay ? "autoplay" : "manual"}`,
       width / 2,
       layout.statusY,
       15,
@@ -426,7 +426,7 @@
     const canvas = document.createElement("canvas");
     canvas.width = WINDOW_WIDTH;
     canvas.height = WINDOW_HEIGHT;
-    canvas.setAttribute("aria-label", "Animatie interactiva pentru sortarea unei permutari cu algoritm genetic");
+    canvas.setAttribute("aria-label", "Animație interactivă pentru sortarea unei permutări cu algoritm genetic");
     container.append(canvas);
     return canvas;
   }

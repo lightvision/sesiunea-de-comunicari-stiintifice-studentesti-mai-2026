@@ -1,12 +1,12 @@
 ---
-title: "Sesiunea de comunicari stiintifice studentesti"
+title: "Sesiunea de comunicări științifice studențești"
 ---
 
-## Algoritmi genetici - utilizari si aplicatii
+## Algoritmi genetici - utilizări și aplicații
 
-Acest site contine materialele pentru lucrarea prezentata la Sesiunea de Comunicari Stiintifice Studentesti din 16 mai 2026, Universitatea Titu Maiorescu.
+Acest site conține materialele pentru lucrarea prezentată la Sesiunea de Comunicări Științifice Studențești din 16 mai 2026, Universitatea Titu Maiorescu.
 
-Materialul explica algoritmii genetici prin patru exemple practice: sortarea numerelor ca problema de permutari, optimizarea parametrilor continui, optimizarea hiperparametrilor pentru un clasificator ML aplicat pe date despre diabet si camuflarea moliilor intr-un mediu in schimbare.
+Materialul explică algoritmii genetici prin patru exemple practice: sortarea numerelor ca problemă de permutări, optimizarea parametrilor continui, optimizarea hiperparametrilor pentru un clasificator ML aplicat pe date despre diabet și camuflarea moliilor într-un mediu în schimbare.
 
 ## Materiale
 

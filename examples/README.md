@@ -1,55 +1,55 @@
 # Exemple
 
-Acest director contine exemplele folosite in prezentarea "Algoritmi genetici - utilizari si aplicatii". Exemplele sunt ordonate de la reprezentari simple la aplicatii mai apropiate de practica: permutari, parametri continui, hiperparametri ML si adaptare vizuala intr-un mediu dinamic.
+Acest director conține exemplele folosite în prezentarea "Algoritmi genetici - utilizări și aplicații". Exemplele sunt ordonate de la reprezentări simple la aplicații mai apropiate de practică: permutări, parametri continui, hiperparametri ML și adaptare vizuală într-un mediu dinamic.
 
 ## 1. Sortarea numerelor
 
-Fisier principal: `ga_permutation.py`  
+Fișier principal: `ga_permutation.py`
 Notebook: `ga_permutation.ipynb`
 
-Sortarea este folosita ca exemplu didactic de problema combinatoriala. Desi exista algoritmi de sortare mult mai eficienti, reprezentarea listei ca permutare face vizibile deciziile specifice unui algoritm genetic: cum este codificat cromozomul, cum este masurat fitness-ul si cum sunt aplicati operatorii fara a produce solutii invalide.
+Sortarea este folosită ca exemplu didactic de problemă combinatorială. Deși există algoritmi de sortare mult mai eficienți, reprezentarea listei ca permutare face vizibile deciziile specifice unui algoritm genetic: cum este codificat cromozomul, cum este măsurat fitness-ul și cum sunt aplicați operatorii fără a produce soluții invalide.
 
-- gena: un numar din lista;
-- cromozom: o permutare completa;
-- fitness: scor care favorizeaza ordinea dorita;
-- selectie: turneu;
-- crossover: Order Crossover (OX1), pentru pastrarea unei permutari valide;
-- mutatie: interschimbarea a doua pozitii;
-- elitism: pastrarea celui mai bun individ.
+- gena: un număr din listă;
+- cromozom: o permutare completă;
+- fitness: scor care favorizează ordinea dorită;
+- selecție: turneu;
+- crossover: Order Crossover (OX1), pentru păstrarea unei permutări valide;
+- mutație: interschimbarea a două poziții;
+- elitism: păstrarea celui mai bun individ.
 
 <details>
-<summary>Configuratia algoritmului</summary>
+<summary>Configurația algoritmului</summary>
 
-- Dimensiune populatie: 50
-- Numar generatii: 200
+- Dimensiune populație: 50
+- Număr generații: 200
 - Rata de crossover: 0.9
-- Rata de mutatie: 0.1
+- Rata de mutație: 0.1
 - Elitism: 1 individ
 - Dimensiune turneu: 3
 
 </details>
 
-Graficul evolutiei fitness-ului poate indica pierderea diversitatii atunci cand cel mai bun si cel mai slab individ ajung la scoruri apropiate. In acele momente, populatia poate ramane blocata intr-un maxim local.
+Graficul evoluției fitness-ului poate indica pierderea diversității atunci când cel mai bun și cel mai slab individ ajung la scoruri apropiate. În acele momente, populația poate rămâne blocată într-un maxim local.
 
 ## 2. Optimizarea parametrilor continui
 
 Notebook: `continuous_parameters_mapping.ipynb`
 
-Acest exemplu arata cum un algoritm genetic poate optimiza parametrii continui `a`, `b` si `c` ai unei functii patratice. Cromozomul este un vector de valori reale, iar fitness-ul masoara cat de bine respecta functia comportamentul tinta.
+Acest exemplu arată cum un algoritm genetic poate optimiza parametrii continui `a`, `b` și `c` ai unei funcții pătratice. Cromozomul este un vector de valori reale, iar fitness-ul măsoară cât de bine respectă funcția comportamentul țintă.
 
-- gena: o valoare numerica;
+- gena: o valoare numerică;
 - cromozom: vectorul parametrilor;
-- fitness: abaterea fata de comportamentul dorit;
-- selectie: turneu;
-- crossover: recombinare aritmetica;
-- mutatie: perturbarea valorilor numerice.
+- fitness: abaterea față de comportamentul dorit;
+- selecție: turneu;
+- crossover: recombinare aritmetică;
+- mutație: perturbarea valorilor numerice.
 
 <details>
-<summary>Configuratia algoritmului</summary>
+<summary>Configurația algoritmului</summary>
 
-- Dimensiune populatie: 100
-- Numar generatii: 20
-- Rata de mutatie: 1.0
+- Dimensiune populație: 100
+- Număr generații: 20
+- Rata de mutație: 1.0
 - Elitism: 1 individ
 - Dimensiune turneu: 3
 
@@ -59,41 +59,41 @@ Acest exemplu arata cum un algoritm genetic poate optimiza parametrii continui `
 
 Notebook: `ga_and_ml_classifier.ipynb`
 
-Exemplul foloseste un algoritm genetic pentru optimizarea hiperparametrilor unui `DecisionTreeClassifier` aplicat pe setul de date Pima Indians Diabetes. Modelul de baza este folosit ca referinta, iar algoritmul genetic exploreaza configuratii alternative pentru a imbunatati performanta clasificarii.
+Exemplul folosește un algoritm genetic pentru optimizarea hiperparametrilor unui `DecisionTreeClassifier` aplicat pe setul de date Pima Indians Diabetes. Modelul de bază este folosit ca referință, iar algoritmul genetic explorează configurații alternative pentru a îmbunătăți performanța clasificării.
 
 - gena: valoarea unui hiperparametru;
-- cromozom: configuratia completa a clasificatorului;
-- fitness: performanta modelului pe date de validare;
-- obiectiv: cresterea calitatii predictive fata de modelul baseline;
-- evaluare: acuratete, AUC, matrice de confuzie si raport de clasificare.
+- cromozom: configurația completă a clasificatorului;
+- fitness: performanța modelului pe date de validare;
+- obiectiv: creșterea calității predictive față de modelul baseline;
+- evaluare: acuratețe, AUC, matrice de confuzie și raport de clasificare.
 
-Rezultatele urmarite sunt imbunatatirea performantei generale si reducerea erorilor relevante pentru clasa pozitiva. In contextul clasificarii diabetului, recall-ul pentru cazurile pozitive este o metrica importanta, deoarece fals negativele au impact practic mai mare decat fals pozitivele.
+Rezultatele urmărite sunt îmbunătățirea performanței generale și reducerea erorilor relevante pentru clasa pozitivă. În contextul clasificării diabetului, recall-ul pentru cazurile pozitive este o metrică importantă, deoarece fals negativele au impact practic mai mare decât fals pozitivele.
 
 ## 4. Camuflarea moliilor
 
-Fisier principal: `moth_camouflage.py`
+Fișier principal: `moth_camouflage.py`
 
-Acest exemplu demonstreaza adaptarea unei populatii intr-un mediu care se modifica in timp. Fiecare individ are o culoare, iar mediul are o culoare tinta. Selectia favorizeaza indivizii mai apropiati de tinta, iar mutatia introduce variatie pentru generatiile urmatoare.
+Acest exemplu demonstrează adaptarea unei populații într-un mediu care se modifică în timp. Fiecare individ are o culoare, iar mediul are o culoare țintă. Selecția favorizează indivizii mai apropiați de țintă, iar mutația introduce variație pentru generațiile următoare.
 
-Simularea nu foloseste crossover. Cei mai adaptati indivizi sunt pastrati si clonati, iar restul populatiei este inlocuit prin copii mutate. Presiunea selectiva ridicata permite adaptarea rapida, dar poate reduce diversitatea populatiei.
+Simularea nu folosește crossover. Cei mai adaptați indivizi sunt păstrați și clonați, iar restul populației este înlocuit prin copii mutate. Presiunea selectivă ridicată permite adaptarea rapidă, dar poate reduce diversitatea populației.
 
 <details>
-<summary>Configuratia algoritmului</summary>
+<summary>Configurația algoritmului</summary>
 
-- Dimensiune populatie: 1024 indivizi, organizati intr-o grila 32x32
-- Numar generatii: nedefinit, simularea ruleaza continuu
-- Rata de mutatie: 0.01 per bit
-- Presiune de selectie: 50% din populatie supravietuieste si se reproduce
+- Dimensiune populație: 1024 indivizi, organizați într-o grilă 32x32
+- Număr generații: nedefinit, simularea rulează continuu
+- Rata de mutație: 0.01 per bit
+- Presiune de selecție: 50% din populație supraviețuiește și se reproduce
 - Crossover: absent
 
 </details>
 
 Controale utile:
 
-- `a`: porneste sau opreste autoplay;
-- `space` sau click: trece manual la faza urmatoare;
-- `x`: activeaza sau dezactiveaza modul rapid;
-- `r`: reseteaza simularea;
-- `s`: salveaza un screenshot;
-- `c`: activeaza sau dezactiveaza captura cadrelor;
+- `a`: pornește sau oprește autoplay;
+- `space` sau click: trece manual la faza următoare;
+- `x`: activează sau dezactivează modul rapid;
+- `r`: resetează simularea;
+- `s`: salvează un screenshot;
+- `c`: activează sau dezactivează captura cadrelor;
 - `f`: comuta fullscreen.

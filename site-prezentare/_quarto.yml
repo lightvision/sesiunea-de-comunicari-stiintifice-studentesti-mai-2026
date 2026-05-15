@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Sesiunea de comunicari stiintifice studentesti"
+  title: "Sesiunea de comunicări științifice studențești"
   navbar:
     left:
       - href: index.qmd
