@@ -105,3 +105,5 @@ Cercetările viitoare pot explora utilizarea algoritmilor hibrizi (memetici) sau
 {{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
 
 {{< embed examples/ga_permutation.ipynb#fig-permutation-mutation-analysis >}}
+
+![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_001144.png){#fig-moth-camouflage-screenshot fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}
