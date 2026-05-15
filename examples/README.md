@@ -35,6 +35,10 @@ Acest exemplu arata cum un algoritm genetic poate optimiza parametrii continui `
 
 </details>
 
+## Optimizarea hiper-parametrilor unui algoritm de ML pentru clasificarea diabetului
+
+Acest exemplu ne arată cum putem sa folosim un algortim genetic pentru optimizarea hiperparametrilor pentru clasificator de tip arbore de decizie îmbunatățind astfel calitatea modelului si curba ROC.
+
 ## Camuflarea moliilor
 
 Acest exemplu demonstrează cum o populație poate sa evolueze în continuu în timp ce mediul continuă să evolueze si el. Acest proces de co-evoluție este simulat printr-un algoritm ce nu utilizează încrucișarea, bazându-se exclusiv pe o presiune de selecție puternică și mutație. Cei mai adaptați indivizi sunt clonați direct, iar restul populației este înlocuit de copii ce suferă mutații la nivel de bit, permițând o adaptare rapidă la un mediu dinamic.
