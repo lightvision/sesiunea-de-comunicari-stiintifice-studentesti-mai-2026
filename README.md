@@ -14,8 +14,8 @@ Tema lucrarii este prezentarea algoritmilor genetici prin exemple practice, usor
 
 - sortarea numerelor ca problema de permutari;
 - optimizarea parametrilor continui ai unei functii;
-- simularea camuflarii moliilor intr-un mediu in schimbare;
-- placeholder intentionat pentru exemplul XGBoost/Iris, pana la clarificarea cerintelor.
+- optimizarea hiperparametrilor pentru un clasificator ML aplicat pe date despre diabet;
+- simularea camuflarii moliilor intr-un mediu in schimbare.
 
 ## Rulare
 
@@ -28,11 +28,10 @@ uv sync
 Rularea prezentarii Quarto:
 
 ```bash
-cd site-prezentare
-uv run quarto render
+uv run quarto render site-prezentare
 ```
 
-Rularea prezentarii impreuna cu animatia `py5` pentru camuflarea moliilor:
+Rularea prezentarii impreuna cu animatia `py5` pentru camuflarea moliilor, pe Windows PowerShell:
 
 ```powershell
 .\scripts\present-with-moth.ps1
@@ -44,6 +43,12 @@ Rularea exemplului de permutari:
 
 ```bash
 uv run python examples/ga_permutation.py
+```
+
+Deschiderea notebook-urilor pentru exemplele cu parametri continui si clasificator ML:
+
+```bash
+uv run jupyter lab examples
 ```
 
 Rularea simularii vizuale:

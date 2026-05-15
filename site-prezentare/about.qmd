@@ -16,4 +16,4 @@ Aceasta pagina este rezervata pentru accesul participantilor.
 
 ## QR code
 
-Placeholder pentru codul QR si instructiunile finale de acces.
+Codul QR trimite participantii catre pagina principala a materialelor, unde sunt disponibile manuscriptul, prezentarea si detaliile lucrarii.
