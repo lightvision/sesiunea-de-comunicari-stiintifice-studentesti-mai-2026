@@ -2,11 +2,12 @@
   "use strict";
 
   const DEFAULT_VALUES = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
-  const DEFAULT_POP_SIZE = 14;
-  const DEFAULT_GENERATIONS = 220;
+  const DEFAULT_SEED = 42;
+  const DEFAULT_POP_SIZE = 10;
+  const DEFAULT_GENERATIONS = 500;
   const TOURNAMENT_K = 3;
   const CROSSOVER_RATE = 0.9;
-  const MUTATION_RATE = 0.22;
+  const MUTATION_RATE = 0.1;
   const WINDOW_WIDTH = 760;
   const WINDOW_HEIGHT = 560;
   const GENERATION_FRAMES = 24;
@@ -32,13 +33,16 @@
 
   function makeRng(seed) {
     let value = seed == null ? Date.now() >>> 0 : seed >>> 0;
-    return function next() {
+    function next() {
       value += 0x6d2b79f5;
+      next.state = value >>> 0;
       let mixed = value;
       mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
       mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
       return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
-    };
+    }
+    next.state = value >>> 0;
+    return next;
   }
 
   function randomIndex(length, rng) {
@@ -92,9 +96,17 @@
   }
 
   function selectParentByTournament(evaluatedPopulation, rng, tournamentK = TOURNAMENT_K) {
+    if (tournamentK < 1) {
+      throw new Error("tournamentK must be at least 1.");
+    }
+    if (tournamentK > evaluatedPopulation.length) {
+      throw new Error("tournamentK cannot be greater than population size.");
+    }
+    const candidates = [...evaluatedPopulation];
     let selected = null;
     for (let index = 0; index < tournamentK; index += 1) {
-      const candidate = evaluatedPopulation[randomIndex(evaluatedPopulation.length, rng)];
+      const candidateIndex = randomIndex(candidates.length, rng);
+      const [candidate] = candidates.splice(candidateIndex, 1);
       if (selected == null || candidate.fitness > selected.fitness) {
         selected = candidate;
       }
@@ -145,7 +157,7 @@
 
   function createInitialState(options = {}) {
     const values = normalizeValues(options.values);
-    const seed = options.seed ?? null;
+    const seed = options.seed ?? DEFAULT_SEED;
     const rng = makeRng(seed);
     const popSize = options.popSize ?? DEFAULT_POP_SIZE;
     const population = Array.from({ length: popSize }, () => shuffle(values, rng));
@@ -165,13 +177,13 @@
       complete: isTargetPermutation(best.individual, values),
       history: [best.fitness],
       seed,
-      rngState: seed == null ? null : seed,
+      rngState: rng.state,
       lastOperation: "Initial population",
     };
   }
 
   function evolveGeneration(state) {
-    const rng = makeRng((state.seed ?? 0) + state.generation + 1);
+    const rng = makeRng(state.rngState ?? state.seed ?? DEFAULT_SEED);
     const evaluated = evaluatePopulation(state.population);
     const nextPopulation = [[...evaluated[0].individual]];
 
@@ -199,6 +211,7 @@
       sortedPositions: countSortedPositions(best.individual, state.values),
       complete: isTargetPermutation(best.individual, state.values),
       history: [...state.history, best.fitness],
+      rngState: rng.state,
       lastOperation: "Selection + OX crossover + swap mutation",
     };
   }
@@ -227,9 +240,13 @@
       frameIndex: 0,
       phase: Phase.SHOW,
       options: {
-        seed: options.seed ?? null,
+        seed: simulation.seed,
         values: [...simulation.values],
         popSize: simulation.population.length,
+        maxGenerations: DEFAULT_GENERATIONS,
+        tournamentK: TOURNAMENT_K,
+        crossoverRate: CROSSOVER_RATE,
+        mutationRate: MUTATION_RATE,
       },
     };
   }
@@ -447,7 +464,7 @@
     const ctx = canvas.getContext("2d");
     const options = {
       autoplay: container.dataset.autoplay !== "false",
-      seed: Number.parseInt(container.dataset.seed || "2026", 10),
+      seed: Number.parseInt(container.dataset.seed || String(DEFAULT_SEED), 10),
       values: parseValues(container.dataset.values),
       popSize: Number.parseInt(container.dataset.popSize || String(DEFAULT_POP_SIZE), 10),
     };
@@ -517,6 +534,7 @@
     calculateFitness,
     orderedCrossover,
     mutateSwap,
+    selectParentByTournament,
     countSortedPositions,
     createInitialState,
     evolveGeneration,

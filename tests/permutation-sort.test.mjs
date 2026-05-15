@@ -46,6 +46,20 @@ test("permutation sort demo creates deterministic valid populations", () => {
   }
 });
 
+test("default demo parameters mirror the Python ga_permutation main example", () => {
+  const demo = loadModule();
+
+  const runtime = demo.makeRuntimeState();
+
+  assert.equal(runtime.options.seed, 42);
+  assert.equal(runtime.options.popSize, 10);
+  assert.deepEqual(Array.from(runtime.options.values), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
+  assert.equal(runtime.options.maxGenerations, 500);
+  assert.equal(runtime.options.tournamentK, 3);
+  assert.equal(runtime.options.crossoverRate, 0.9);
+  assert.equal(runtime.options.mutationRate, 0.1);
+});
+
 test("fitness favors ascending permutations with the same positional scoring idea as Python", () => {
   const demo = loadModule();
 
@@ -61,6 +75,21 @@ test("ordered crossover returns a valid child permutation", () => {
 
   assert.equal(child.length, 6);
   assert.deepEqual([...child].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
+});
+
+test("tournament selection samples candidates without replacement like Python random.sample", () => {
+  const demo = loadModule();
+  const evaluatedPopulation = [
+    { individual: [1], fitness: 1 },
+    { individual: [5], fitness: 5 },
+    { individual: [3], fitness: 3 },
+    { individual: [2], fitness: 2 },
+  ];
+  const alwaysFirstRemaining = () => 0;
+
+  const parent = demo.selectParentByTournament(evaluatedPopulation, alwaysFirstRemaining, 3);
+
+  assert.deepEqual(Array.from(parent), [5]);
 });
 
 test("autoplay advances the permutation demo through generations", () => {

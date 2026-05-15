@@ -4,6 +4,7 @@ include-in-header:
   text: |
     <script src="assets/cover-footer-state.js"></script>
     <script src="assets/permutation-sort.js" defer></script>
+    <script src="assets/continuous-parameters.js" defer></script>
     <script src="assets/moth-camouflage.js" defer></script>
 format:
   revealjs:
@@ -258,7 +259,7 @@ Ordered crossover pastreaza validitatea permutarii; mutatia schimba doua pozitii
 :::
 :::
 
-::: {.permutation-demo data-seed="2026" data-autoplay="true" data-values="10,9,8,7,6,5,4,3,2,1,0" data-pop-size="14"}
+::: {.permutation-demo data-seed="42" data-autoplay="true" data-values="10,9,8,7,6,5,4,3,2,1,0" data-pop-size="10"}
 :::
 :::
 
@@ -268,35 +269,39 @@ Animatia ruleaza direct in slide si reproduce fluxul din `examples/ga_permutatio
 
 ## Exemplul 2: parametri continui
 
-::: {.section-lead}
-Al doilea exemplu arata cum putem cauta valori numerice pentru parametrii unei functii.
-In loc sa cautam o ordine, cromozomul contine coeficienti.
-:::
-
-::: {.two-col}
+::: {.continuous-demo-layout}
+::: {.continuous-demo-copy}
 ::: {.col-block}
 **Gene**
 
-Valorile parametrilor, de exemplu `a`, `b`, `c`.
+Valorile parametrilor `a`, `b`, `c` ai functiei patratice.
 :::
 
 ::: {.col-block}
 **Fitness**
 
-Masura cat de bine se apropie functia de comportamentul dorit.
+Scorul este negativul curburii: parabolele mai plate, cu `a > 0`, sunt favorizate.
+:::
+
+::: {.col-block}
+**Operatori**
+
+Selectie prin turneu, crossover aritmetic si elitism pentru cel mai bun individ.
 :::
 
 ::: {.col-block}
 **Mutatie**
 
-Modificari mici ale valorilor numerice.
+In notebook, `mutation_rate = 1`, deci fiecare gena primeste o modificare mica in fiecare copil.
+:::
 :::
 
-::: {.col-block}
-**Rezultat**
-
-Generatiile imbunatatesc treptat candidatii.
+::: {.continuous-demo data-autoplay="true"}
 :::
+:::
+
+::: {.notes}
+Animatia ruleaza direct in slide si reproduce `examples/continuous_parameters_mapping.ipynb`: seed 42, 20 de generatii, 100 de indivizi, selectie prin turneu, crossover aritmetic, elitism 1 si `mutation_rate = 1`. Mentioneaza ca rata de mutatie este intentionat agresiva in notebook, pentru explorare vizibila. Foloseste `a` pentru autoplay, `x` pentru modul rapid si `r` pentru resetare.
 :::
 
 ## Exemplul 3: camuflarea moliilor

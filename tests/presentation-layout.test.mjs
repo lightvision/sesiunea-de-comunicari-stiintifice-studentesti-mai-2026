@@ -42,3 +42,24 @@ test("permutation demo layout has a two-column desktop layout", () => {
   assert.match(rule, /display:\s*grid;/);
   assert.match(rule, /grid-template-columns:/);
 });
+
+test("presentation loads the continuous parameters demo asset", () => {
+  const source = fs.readFileSync(presentationPath, "utf8");
+
+  assert.match(source, /assets\/continuous-parameters\.js/);
+});
+
+test("example 2 embeds a continuous parameters demo container", () => {
+  const source = fs.readFileSync(presentationPath, "utf8");
+
+  assert.match(source, /Exemplul 2: parametri continui/);
+  assert.match(source, /\.continuous-demo-layout/);
+  assert.match(source, /\.continuous-demo\b/);
+});
+
+test("continuous parameters demo layout has a two-column desktop layout", () => {
+  const rule = readRule(".continuous-demo-layout");
+
+  assert.match(rule, /display:\s*grid;/);
+  assert.match(rule, /grid-template-columns:/);
+});

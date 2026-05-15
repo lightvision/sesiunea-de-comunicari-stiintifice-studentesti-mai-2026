@@ -46,7 +46,7 @@
     "href": "presentation.html#exemplul-2-parametri-continui",
     "title": "Sesiunea de comunicari stiintifice studentesti",
     "section": "Exemplul 2: parametri continui",
-    "text": "Exemplul 2: parametri continui\n\nAl doilea exemplu arata cum putem cauta valori numerice pentru parametrii unei functii. In loc sa cautam o ordine, cromozomul contine coeficienti.\n\n\n\nGene\nValorile parametrilor, de exemplu a, b, c.\n\n\nFitness\nMasura cat de bine se apropie functia de comportamentul dorit.\n\n\nMutatie\nModificari mici ale valorilor numerice.\n\n\nRezultat\nGeneratiile imbunatatesc treptat candidatii."
+    "text": "Exemplul 2: parametri continui\n\n\n\nGene\nValorile parametrilor a, b, c ai functiei patratice.\n\n\nFitness\nScorul este negativul curburii: parabolele mai plate, cu a &gt; 0, sunt favorizate.\n\n\nOperatori\nSelectie prin turneu, crossover aritmetic si elitism pentru cel mai bun individ.\n\n\nMutatie\nIn notebook, mutation_rate = 1, deci fiecare gena primeste o modificare mica in fiecare copil.\n\n\n\n\n\n\n\nAnimatia ruleaza direct in slide si reproduce examples/continuous_parameters_mapping.ipynb: seed 42, 20 de generatii, 100 de indivizi, selectie prin turneu, crossover aritmetic, elitism 1 si mutation_rate = 1. Mentioneaza ca rata de mutatie este intentionat agresiva in notebook, pentru explorare vizibila. Foloseste a pentru autoplay, x pentru modul rapid si r pentru resetare."
   },
   {
     "objectID": "presentation.html#exemplul-3-camuflarea-moliilor",
