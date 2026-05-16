@@ -1,23 +1,47 @@
 ---
-title: "Algoritmi genetici - Utilizări și aplicații"
-subtitle: "Coordonator științific: Daniela Joița"
-author:
-  - Marius-Florinel Ionel
-  - Cristina-Mirela Done
-  - Brandon Aron
-institute: |
-  Universitatea Titu Maiorescu București
-  Facultatea de Informatică
-  Sesiunea de Comunicări Științifice Studențești, 16 mai 2026
+title: ""
+pagetitle: "Algoritmi genetici - Utilizări și aplicații"
 format:
   revealjs:
     theme: simple
+    title-slide: false
     slide-number: true
     controls: true
     progress: true
     transition: slide
     preview-links: auto
 ---
+
+## Algoritmi genetici - Utilizări și aplicații {.center .middle}
+
+Marius-Florinel Ionel  
+Cristina-Mirela Done  
+Brandon Aron
+
+Coordonator științific: Conf.univ.dr. Daniela Joița
+
+Universitatea Titu Maiorescu București  
+Facultatea de Informatică  
+Sesiunea de Comunicări Științifice Studențești, 16 mai 2026
+
+::: notes
+- Slide explicit de deschidere.
+- Aici avem control complet asupra tuturor informațiilor instituționale și de autorat.
+- După acest slide intrăm în obiectivul prezentării.
+:::
+
+## Cod QR {.center .middle}
+
+Scanați pentru repository-ul proiectului
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=https%3A%2F%2Fgithub.com%2Flightvision%2Fsesiunea-de-comunicari-stiintifice-studentesti-mai-2026" alt="Cod QR pentru repository-ul GitHub al proiectului." style="width:45%; display:block; margin:1rem auto;">
+
+[github.com/lightvision/sesiunea-de-comunicari-stiintifice-studentesti-mai-2026](https://github.com/lightvision/sesiunea-de-comunicari-stiintifice-studentesti-mai-2026)
+
+::: notes
+- Slide util pentru public dacă vrea să ajungă direct la repository.
+- QR-ul este randat dintr-un serviciu public, deci pentru utilizare offline va trebui înlocuit cu un PNG local.
+:::
 
 ## Obiectivul prezentării
 
