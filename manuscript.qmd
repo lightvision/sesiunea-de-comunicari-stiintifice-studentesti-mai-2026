@@ -45,12 +45,10 @@ Selecția este etapa în care algoritmul decide ce indivizi din populația curen
 
 În această metodă, probabilitatea de alegere a unui individ este direct proporțională cu valoarea fitness-ului său.
 
-Formula probabilității de selecție pentru individul \(i\) este:
-$$
-p_i = \frac{f_i}{\sum_{j=1}^{N} f_j}
-$$
+Formula probabilității de selecție pentru individul $i$ este:
+$$p_i = \frac{f_i}{\sum_{j=1}^{N} f_j}$$
 
-unde \(f_i\) este fitness-ul individului \(i\), iar \(N\) este dimensiunea populației.
+unde $f_i$ este fitness-ul individului $i$, iar $N$ este dimensiunea populației.
 
 **Exemplu.** Pentru patru indivizi cu fitness-urile `2, 3, 5, 10`, suma este `20`, iar probabilitățile de selecție devin `0.10, 0.15, 0.25, 0.50`.
 
@@ -58,7 +56,7 @@ Metoda este simplă, dar poate deveni instabilă dacă un individ are un fitness
 
 #### Selecția prin turneu
 
-Selecția prin turneu alege aleator un subgrup de indivizi și îl păstrează pe cel mai bun dintre ei. Procedura se repetă până la obținerea numărului dorit de părinți. Mărimea turneului, \(k\), controlează presiunea de selecție.
+Selecția prin turneu alege aleator un subgrup de indivizi și îl păstrează pe cel mai bun dintre ei. Procedura se repetă până la obținerea numărului dorit de părinți. Mărimea turneului, $k$, controlează presiunea de selecție.
 
 **Exemplu.** Presupunând indivizii `A, B, C, D` cu fitness `4, 7, 2, 9` și `k = 2`, dacă sunt extrași `B` și `C`, va fi selectat `B`. Dacă sunt extrași `A` și `D`, va fi selectat `D`.
 
@@ -68,10 +66,8 @@ Această metodă este eficace, ușor de implementat și frecvent utilizată. Ris
 
 Aici, indivizii sunt selectați pe baza poziției lor într-o ierarhie ordonată (rang), nu pe baza valorilor absolute ale fitness-ului. Cel mai bun individ primește cel mai mare rang.
 
-Dacă rangul individului \(i\) este \(r_i\), probabilitatea de selecție poate fi calculată ca:
-$$
-p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}
-$$
+Dacă rangul individului $i$ este $r_i$, probabilitatea de selecție poate fi calculată ca:
+$$p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}$$
 
 Această metodă reduce influența diferențelor extreme de fitness.
 
@@ -91,11 +87,9 @@ Elitismul este un mecanism complementar prin care unul sau mai mulți dintre cei
 
 Se alege o singură poziție de tăiere în cromozom, iar segmentele de după acest punct sunt schimbate între părinți pentru a forma doi descendenți.
 
-Dacă punctul de tăiere este \(c\), descendenții din părinții \(P_1\) și \(P_2\) sunt:
-$$
-C_1 = (P_1[1:c],\ P_2[c+1:n]), \qquad
-C_2 = (P_2[1:c],\ P_1[c+1:n])
-$$
+Dacă punctul de tăiere este $c$, descendenții din părinții $P_1$ și $P_2$ sunt:
+$$C_1 = (P_1[1:c],\ P_2[c+1:n]), \qquad
+C_2 = (P_2[1:c],\ P_1[c+1:n])$$
 
 Deși simplă, metoda poate rupe combinații de gene benefice dacă acestea sunt distribuite în regiuni diferite ale cromozomului.
 
@@ -103,13 +97,10 @@ Deși simplă, metoda poate rupe combinații de gene benefice dacă acestea sunt
 
 Se aleg două puncte de tăiere, iar segmentul dintre acestea este schimbat între părinți. Variantele cu mai multe puncte alternează segmentele preluate de la fiecare părinte.
 
-Dacă punctele de tăiere sunt \(c_1\) și \(c_2\), cu \(c_1 < c_2\), descendenții pot fi:
-$$
-C_1 = (P_1[1:c_1],\ P_2[c_1+1:c_2],\ P_1[c_2+1:n])
-$$
-$$
-C_2 = (P_2[1:c_1],\ P_1[c_1+1:c_2],\ P_2[c_2+1:n])
-$$
+Dacă punctele de tăiere sunt $c_1$ și $c_2$, cu $c_1 < c_2$, descendenții pot fi:
+$$C_1 = (P_1[1:c_1],\ P_2[c_1+1:c_2],\ P_1[c_2+1:n])$$
+
+$$C_2 = (P_2[1:c_1],\ P_1[c_1+1:c_2],\ P_2[c_2+1:n])$$
 
 Această metodă permite recombinări mai variate, dar poate fragmenta excesiv structura cromozomului.
 
@@ -117,14 +108,12 @@ Această metodă permite recombinări mai variate, dar poate fragmenta excesiv s
 
 Fiecare genă a copilului este aleasă independent, cu o anumită probabilitate (de obicei 0.5), de la unul dintre cei doi părinți.
 
-Pentru fiecare poziție \(i\):
-$$
-C[i] =
+Pentru fiecare poziție $i$:
+$$C[i] =
 \begin{cases}
 P_1[i], & \text{cu probabilitatea } 0.5 \\
 P_2[i], & \text{cu probabilitatea } 0.5
-\end{cases}
-$$
+\end{cases}$$
 
 Metoda oferă un nivel ridicat de amestecare genetică, dar poate distruge mai ușor blocurile de gene care funcționează bine împreună.
 
@@ -132,22 +121,16 @@ Metoda oferă un nivel ridicat de amestecare genetică, dar poate distruge mai u
 
 Utilizată pentru cromozomi cu valori reale, această metodă generează un descendent ca o combinație liniară a celor doi părinți.
 
-Dacă \(\alpha \in [0, 1]\), atunci:
-$$
-C_1 = \alpha P_1 + (1 - \alpha) P_2
-$$
-$$
-C_2 = (1 - \alpha) P_1 + \alpha P_2
-$$
+Dacă $\alpha \in [0, 1]$, atunci:
+$$C_1 = \alpha P_1 + (1 - \alpha) P_2$$
+
+$$C_2 = (1 - \alpha) P_1 + \alpha P_2$$
 
 Această formulă se aplică pe fiecare genă. Metoda produce soluții intermediare naturale în spații continue, dar nu este potrivită pentru permutări.
 
 #### Order Crossover (OX1) pentru permutări
 
-Pentru probleme de tip permutare (ex: ordonare, comis-voiajor), unde un cromozom valid trebuie să conțină fiecare element o singură dată, sunt necesari operatori specializați. OX1 funcționează astfel:
-1. Se aleg două puncte de tăiere.
-2. Copilul copiază segmentul dintre aceste puncte din primul părinte.
-3. Pozițiile rămase sunt completate cu elementele din al doilea părinte, păstrând ordinea lor și ignorând valorile deja folosite.
+Pentru probleme de tip permutare (ex: ordonare, comis-voiajor), unde un cromozom valid trebuie să conțină fiecare element o singură dată, sunt necesari operatori specializați. OX1 funcționează astfel: 1. Se aleg două puncte de tăiere. 2. Copilul copiază segmentul dintre aceste puncte din primul părinte. 3. Pozițiile rămase sunt completate cu elementele din al doilea părinte, păstrând ordinea lor și ignorând valorile deja folosite.
 
 **Exemplu.** Fie `P1 = [1, 2, 3, 4, 5, 6]` și `P2 = [4, 1, 5, 6, 2, 3]`. Dacă segmentul copiat din `P1` este `[3, 4, 5]`, copilul începe ca `[_, _, 3, 4, 5, _]`. Completând cu elementele din `P2` în ordine (`1, 6, 2`), copilul final devine `[1, 6, 3, 4, 5, 2]`.
 
@@ -159,27 +142,26 @@ Mutația introduce variații aleatorii în cromozomi, creând astfel informație
 
 #### Tipuri de mutație
 
--   **Pe cromozomi binari:** Inversarea unei gene (`0` devine `1` sau invers), aplicată cu o probabilitate mică \(p_m\).
--   **Pe cromozomi cu valori reale:** Adăugarea unei perturbații aleatoare mici (\(x_i' = x_i + \delta\)). Amplitudinea variației trebuie aleasă cu grijă.
--   **Pe permutări:** Interschimbarea valorilor de la două poziții alese aleatoriu (`swap mutation`), pentru a menține validitatea permutării.
+- **Pe cromozomi binari:** Inversarea unei gene (`0` devine `1` sau invers), aplicată cu o probabilitate mică $p_m$.
+- **Pe cromozomi cu valori reale:** Adăugarea unei perturbații aleatoare mici ($x_i' = x_i + \delta$). Amplitudinea variației trebuie aleasă cu grijă.
+- **Pe permutări:** Interschimbarea valorilor de la două poziții alese aleatoriu (`swap mutation`), pentru a menține validitatea permutării.
 
 #### Rolul diversității și al ratei de mutație
 
 Diversitatea genetică (gradul de varietate dintre indivizi) este importantă, deoarece selecția favorizează exploatarea soluțiilor bune, în timp ce mutația favorizează explorarea de soluții noi. Un algoritm eficient menține un echilibru între aceste două tendințe.
 
-Rata de mutație (\(p_m\)) controlează acest echilibru:
--   Dacă \(p_m\) este prea mică, populația își pierde diversitatea și algoritmul se poate bloca.
--   Dacă \(p_m\) este prea mare, căutarea devine aproape aleatorie, iar progresul se pierde.
+Rata de mutație ($p_m$) controlează acest echilibru: - Dacă $p_m$ este prea mică, populația își pierde diversitatea și algoritmul se poate bloca. - Dacă $p_m$ este prea mare, căutarea devine aproape aleatorie, iar progresul se pierde.
 
 Alegerea ratei de mutație este o decizie importantă de proiectare, dependentă de problemă.
 
 ### Alegerea operatorilor în funcție de reprezentare
 
 Eficiența unui AG depinde de compatibilitatea dintre operatorii genetici și reprezentarea soluției.
--   **Reprezentare binară/discretă:** Se pretează la încrucișare clasică (într-un punct, uniformă) și mutație prin inversare.
--   **Reprezentare cu valori reale:** Recomandă recombinare aritmetică și mutație prin perturbații mici.
--   **Reprezentare de tip permutare:** Necesită operatori specializați (ex: OX1, swap mutation) care păstrează validitatea.
--   **Medii dinamice:** În probleme unde funcția de fitness se schimbă, accentul poate cădea mai mult pe selecție și mutație, cu un rol redus sau absent al încrucișării.
+
+- **Reprezentare binară/discretă:** Se pretează la încrucișare clasică (într-un punct, uniformă) și mutație prin inversare.
+- **Reprezentare cu valori reale:** Recomandă recombinare aritmetică și mutație prin perturbații mici.
+- **Reprezentare de tip permutare:** Necesită operatori specializați (ex: OX1, swap mutation) care păstrează validitatea.
+- **Medii dinamice:** În probleme unde funcția de fitness se schimbă, accentul poate cădea mai mult pe selecție și mutație, cu un rol redus sau absent al încrucișării.
 
 O alegere corectă a acestei combinații este fundamentală pentru succesul algoritmului.
 
@@ -195,7 +177,7 @@ Pentru a demonstra flexibilitatea AG, lucrarea prezintă patru exemple care acop
 
 ### 1. Optimizarea parametrilor continui
 
-Acest experiment urmărește determinarea parametrilor \(a\), \(b\) și \(c\) ai unei funcții pătratice \(f(x) = ax^2 + bx + c\) astfel încât parabola să fie orientată în sus și cât mai plată. Fiecare individ este un cromozom cu valori reale \((a, b, c)\). Funcția de fitness favorizează valorile mici ale lui \(a\), cu condiția \(a > 0\). S-au folosit selecția prin turneu, recombinarea aritmetică și o rată de mutație agresivă (`1.0`) pentru a încuraja explorarea.
+Acest experiment urmărește determinarea parametrilor $a$, $b$ și $c$ ai unei funcții pătratice $f(x) = ax^2 + bx + c$ astfel încât parabola să fie orientată în sus și cât mai plată. Fiecare individ este un cromozom cu valori reale $(a, b, c)$. Funcția de fitness favorizează valorile mici ale lui $a$, cu condiția $a > 0$. S-au folosit selecția prin turneu, recombinarea aritmetică și o rată de mutație agresivă (`1.0`) pentru a încuraja explorarea.
 
 ### 2. Sortarea prin permutări
 
@@ -240,7 +222,7 @@ Compararea modelului de bază cu cel optimizat (@tbl-ml-comparison) arată o cre
 | **Scor AUC**      | 0.7641         | **0.8248**         | +6.07%       |
 | **Fals Negativi** | 40             | **15**             | -62.5%       |
 
-: Comparația performanței între modelul baseline și cel optimizat genetic. {#tbl-ml-comparison}
+: Comparația performanței între modelul baseline și cel optimizat genetic.
 :::
 
 Mai important, numărul de fals negativi a scăzut de la `40` la `15`, un aspect cu semnificație practică în contextul medical. Recall-ul pentru clasa pozitivă a crescut de la `0.26` la `0.72`, indicând o sensibilitate mult mai bună în detectarea cazurilor pozitive.
@@ -261,9 +243,7 @@ Capacitatea de readaptare este o consecință a selecției puternice și a muta�
 
 Analiza comparativă a experimentelor subliniază rolul contextual al operatorilor. Dacă în primele trei scenarii **încrucișarea** a fost importantă pentru a combina trăsături și a accelera convergența, în mediul dinamic ea a fost omisă fără a afecta negativ adaptarea.
 
-Rolul **mutației** s-a dovedit a fi dual:
--   În problema de sortare (mediu static), a fost importantă pentru a **evita convergența prematură**.
--   În simularea moliilor (mediu dinamic), a devenit **motorul principal al adaptării**.
+Rolul **mutației** s-a dovedit a fi dual: - În problema de sortare (mediu static), a fost importantă pentru a **evita convergența prematură**. - În simularea moliilor (mediu dinamic), a devenit **motorul principal al adaptării**.
 
 Această dualitate arată că nu există o "rețetă" universală pentru parametrizarea unui AG; alegerea și calibrarea operatorilor trebuie ghidate de natura problemei.
 
@@ -272,9 +252,12 @@ Această dualitate arată că nu există o "rețetă" universală pentru paramet
 Lucrarea a demonstrat flexibilitatea algoritmilor genetici prin aplicații în optimizarea de funcții, probleme combinatoriale, machine learning și simulări adaptive. Succesul unui AG depinde de alinierea reprezentării, funcției de fitness și operatorilor cu specificul problemei.
 
 **Principii de bază pentru implementare:**
-1.  **Reprezentarea este cheia:** Modul de a codifica o soluție este decizia fundamentală de proiectare.
-2.  **Operatorii sunt contextuali:** Operatorii de încrucișare și mutație trebuie să fie compatibili cu reprezentarea aleasă.
-3.  **Diversitatea este esențială:** Un AG trebuie să balanseze exploatarea soluțiilor bune (selecție) cu explorarea de noi posibilități (mutație) pentru a evita stagnarea.
+
+1\. **Reprezentarea este cheia:** Modul de a codifica o soluție este decizia fundamentală de proiectare.
+
+2\. **Operatorii sunt contextuali:** Operatorii de încrucișare și mutație trebuie să fie compatibili cu reprezentarea aleasă.
+
+3\. **Diversitatea este esențială:** Un AG trebuie să balanseze exploatarea soluțiilor bune (selecție) cu explorarea de noi posibilități (mutație) pentru a evita stagnarea.
 
 Lucrarea evidențiază și valoarea AG ca instrument de optimizare în probleme complexe, cum ar fi reglarea hiperparametrilor, unde pot aduce îmbunătățiri semnificative de performanță.
 
@@ -302,4 +285,4 @@ Este important, însă, să se recunoască și **limitările** acestora. AG nu s
 
 {{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
 
-![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_001144.png){#fig-moth-camouflage-screenshot fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}
+![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_042826.png){#fig-moth-camouflage-screenshot fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}

@@ -315,7 +315,7 @@ figures/
 output/
 results/
 
-*.png
+#*.png
 *.jpg
 *.svg
 # Temporary and cache files
