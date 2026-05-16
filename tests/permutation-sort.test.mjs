@@ -46,25 +46,26 @@ test("permutation sort demo creates deterministic valid populations", () => {
   }
 });
 
-test("default demo parameters mirror the Python ga_permutation main example", () => {
+test("default demo parameters mirror the origin/main ga_permutation notebook", () => {
   const demo = loadModule();
 
   const runtime = demo.makeRuntimeState();
 
-  assert.equal(runtime.options.seed, 42);
-  assert.equal(runtime.options.popSize, 10);
-  assert.deepEqual(Array.from(runtime.options.values), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
-  assert.equal(runtime.options.maxGenerations, 500);
+  assert.equal(runtime.options.seed, 46);
+  assert.equal(runtime.options.popSize, 50);
+  assert.deepEqual(Array.from(runtime.options.values), Array.from({ length: 21 }, (_, index) => index));
+  assert.equal(runtime.options.maxGenerations, 200);
   assert.equal(runtime.options.tournamentK, 3);
   assert.equal(runtime.options.crossoverRate, 0.9);
   assert.equal(runtime.options.mutationRate, 0.1);
 });
 
-test("fitness favors ascending permutations with the same positional scoring idea as Python", () => {
+test("fitness uses the origin/main notebook inversion-count scoring", () => {
   const demo = loadModule();
 
-  assert.equal(demo.calculateFitness([0, 1, 2, 3]), 228);
-  assert.ok(demo.calculateFitness([0, 1, 2, 3]) > demo.calculateFitness([3, 2, 1, 0]));
+  assert.equal(demo.calculateFitness([0, 1, 2, 3]), 6);
+  assert.equal(demo.calculateFitness([3, 2, 1, 0]), 0);
+  assert.equal(demo.calculateFitness([1, 0, 2, 3]), 5);
 });
 
 test("ordered crossover returns a valid child permutation", () => {
@@ -77,7 +78,7 @@ test("ordered crossover returns a valid child permutation", () => {
   assert.deepEqual([...child].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
 });
 
-test("tournament selection samples candidates without replacement like Python random.sample", () => {
+test("tournament selection follows Python random.sample pool behavior", () => {
   const demo = loadModule();
   const evaluatedPopulation = [
     { individual: [1], fitness: 1 },
@@ -85,11 +86,11 @@ test("tournament selection samples candidates without replacement like Python ra
     { individual: [3], fitness: 3 },
     { individual: [2], fitness: 2 },
   ];
-  const alwaysFirstRemaining = () => 0;
+  const alwaysFirstPoolSlot = () => 0;
 
-  const parent = demo.selectParentByTournament(evaluatedPopulation, alwaysFirstRemaining, 3);
+  const parent = demo.selectParentByTournament(evaluatedPopulation, alwaysFirstPoolSlot, 3);
 
-  assert.deepEqual(Array.from(parent), [5]);
+  assert.deepEqual(Array.from(parent), [3]);
 });
 
 test("autoplay advances the permutation demo through generations", () => {
@@ -108,6 +109,26 @@ test("autoplay advances the permutation demo through generations", () => {
   assert.equal(runtime.simulation.generation > 0, true);
   assert.equal(runtime.simulation.population.length, 8);
   assert.deepEqual([...runtime.simulation.bestIndividual].sort((a, b) => a - b), [0, 1, 2, 3, 4, 5]);
+});
+
+test("reference notebook seed reaches the sorted target at generation 194", () => {
+  const demo = loadModule();
+  let runtime = demo.makeRuntimeState();
+
+  while (!runtime.completed && runtime.simulation.generation < runtime.options.maxGenerations) {
+    runtime = {
+      ...runtime,
+      simulation: demo.evolveGeneration(runtime.simulation),
+    };
+    runtime = {
+      ...runtime,
+      completed: runtime.simulation.complete || runtime.simulation.generation >= runtime.options.maxGenerations,
+    };
+  }
+
+  assert.equal(runtime.simulation.generation, 194);
+  assert.equal(runtime.simulation.bestFitness, 210);
+  assert.deepEqual(Array.from(runtime.simulation.bestIndividual), Array.from({ length: 21 }, (_, index) => index));
 });
 
 test("fast autoplay stops when the sorted target is reached", () => {

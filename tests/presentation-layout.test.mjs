@@ -63,3 +63,24 @@ test("continuous parameters demo layout has a two-column desktop layout", () => 
   assert.match(rule, /display:\s*grid;/);
   assert.match(rule, /grid-template-columns:/);
 });
+
+test("presentation loads the ml hyperparameters demo asset", () => {
+  const source = fs.readFileSync(presentationPath, "utf8");
+
+  assert.match(source, /assets\/ml-hyperparameters\.js/);
+});
+
+test("example 3 embeds an ml hyperparameters demo container", () => {
+  const source = fs.readFileSync(presentationPath, "utf8");
+
+  assert.match(source, /Exemplul 3: optimizarea hiperparametrilor ML/);
+  assert.match(source, /\.ml-demo-layout/);
+  assert.match(source, /\.ml-demo\b/);
+});
+
+test("ml hyperparameters demo layout has a two-column desktop layout", () => {
+  const rule = readRule(".ml-demo-layout");
+
+  assert.match(rule, /display:\s*grid;/);
+  assert.match(rule, /grid-template-columns:/);
+});

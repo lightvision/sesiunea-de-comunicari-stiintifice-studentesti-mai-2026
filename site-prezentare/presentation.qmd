@@ -5,6 +5,7 @@ include-in-header:
     <script src="assets/cover-footer-state.js"></script>
     <script src="assets/permutation-sort.js" defer></script>
     <script src="assets/continuous-parameters.js" defer></script>
+    <script src="assets/ml-hyperparameters.js" defer></script>
     <script src="assets/moth-camouflage.js" defer></script>
 format:
   revealjs:
@@ -100,8 +101,7 @@ Deschide cu ideea generală a lucrării: algoritmii genetici nu rezolva probleme
 ## De ce algoritmi genetici?
 
 ::: {.section-lead}
-Algoritmii genetici sunt o metoda de căutare și optimizare inspirată de selecție naturală.
-În loc să încercăm toate variantele posibile, lucram cu o populație de soluții candidate și o îmbunătățim generație după generație.
+Algoritmii genetici sunt o metodă de căutare și optimizare inspirată de selecția naturală. Sunt utili când spațiul de căutare este combinatorial sau prea mare pentru o parcurgere exhaustivă, când nu avem o formulă derivabilă pentru gradient, sau când o soluție se poate evalua doar empiric. În loc să încercăm toate variantele, lucrăm cu o populație de soluții candidate și o îmbunătățim generație după generație.
 :::
 
 ::: {.three-points}
@@ -125,64 +125,38 @@ Selecția, recombinarea și mutația produc generații noi.
 :::
 
 ::: {.notes}
-Păstrează explicația practică: un algoritm genetic nu garantează mereu soluția perfectă, dar este util când spațiul de căutare este mare, combinatorial sau greu de parcurs exhaustiv.
-:::
-
-## Fitness: funcția de scor
-
-::: {.section-lead}
-Fitness-ul transforma o soluție într-un număr comparabil. Algoritmul nu "înțelege" problema în sine; el urmărește doar scorul pe care îl definim.
-:::
-
-::: {.three-points}
-::: {.point}
-**Măsoară obiectivul**
-
-Scorul trebuie să exprime ce înseamnă o soluție bună: ordine corectă, eroare mică, acuratețe mare sau adaptare la mediu.
-:::
-
-::: {.point}
-**Ghidează căutarea**
-
-Indivizii cu scor mai bun au șanse mai mari să contribuie la generația următoare.
-:::
-
-::: {.point}
-**Poate induce erori**
-
-Dacă scorul este incomplet, algoritmul optimizează ceea ce măsurăm, nu neapărat ceea ce ne dorim.
-:::
+Cele trei elemente — reprezentare, fitness, evoluție — vor fi desfășurate în slide-urile următoare. Un algoritm genetic nu garantează mereu soluția perfectă, dar este util când spațiul de căutare este mare, combinatorial sau greu de parcurs exhaustiv.
 :::
 
 ## Ideea de bază
 
 ::: {.flow}
 ::: {.flow-step}
-**1. Inițializare**
+**Inițializare**
 
 Generăm o populație de soluții candidate.
 :::
 
 ::: {.flow-step}
-**2. Evaluare**
+**Evaluare**
 
 Calculăm fitness-ul fiecărei soluții.
 :::
 
 ::: {.flow-step}
-**3. Selecție**
+**Selecție**
 
-Păstrăm sau favorizam indivizii mai buni.
+Păstrăm sau favorizăm indivizii mai buni.
 :::
 
 ::: {.flow-step}
-**4. Reproducere**
+**Reproducere**
 
 Aplicăm crossover și mutație.
 :::
 
 ::: {.flow-step}
-**5. Repetare**
+**Repetare**
 
 Continuăm până la o limită sau până atingem un scor suficient.
 :::
@@ -192,11 +166,40 @@ Continuăm până la o limită sau până atingem un scor suficient.
 
 | Termen | În prezentare | Exemplu |
 |---|---|---|
-| Gena | O componentă a soluției | o valoare, o poziție, un parametru |
+| Genă | O componentă a soluției | o valoare, o poziție, un parametru |
 | Cromozom | Soluția completă | o permutare sau un vector numeric |
 | Populație | Mai multe soluții candidate | 100 de cromozomi |
 | Fitness | Funcția de evaluare | cât de ordonată este o listă |
 | Generație | Un pas de evoluție | selecție + crossover + mutație |
+| Selecție | Alegerea părinților | turneu, ruletă |
+| Crossover | Combinarea a două soluții | ordered crossover, crossover aritmetic |
+| Mutație | Variație controlată | swap, perturbare cu pas mic |
+
+## Fitness: funcția de scor
+
+::: {.section-lead}
+Fitness-ul transformă o soluție într-un număr comparabil. Algoritmul nu "înțelege" problema în sine; el urmărește doar scorul pe care îl definim.
+:::
+
+::: {.three-points}
+::: {.point}
+**Definește obiectivul**
+
+Scorul exprimă ce înseamnă o soluție bună: ordine corectă, eroare mică, acuratețe mare sau adaptare la mediu.
+:::
+
+::: {.point}
+**Ghidează căutarea**
+
+Indivizii cu scor mai bun au șanse mai mari să contribuie la generația următoare, deci scorul determină direcția evoluției.
+:::
+
+::: {.point .warning}
+**Poate induce erori**
+
+Dacă scorul este incomplet, algoritmul optimizează ce măsurăm, nu neapărat ce ne dorim. Acuratețea singură, de exemplu, poate ascunde dezechilibre de clase.
+:::
+:::
 
 ## Tipuri de reprezentări
 
@@ -204,33 +207,33 @@ Continuăm până la o limită sau până atingem un scor suficient.
 ::: {.col-block}
 **Permutări**
 
-Folosite când ordinea elementelor contează.
+Ordinea elementelor contează.
 
-Exemplu: sortarea numerelor.
+Exemplu: sortarea numerelor sau traseul unui voiajor: `[3, 1, 4, 2]`.
 :::
 
 ::: {.col-block}
 **Valori continue**
 
-Folosite când optimizăm parametri numerici.
+Optimizăm parametri numerici reali.
 
-Exemplu: coeficienții unei funcții.
+Exemplu: coeficienții unei funcții pătratice: `[2.1, -0.7, 0.3]`.
 :::
 
 ::: {.col-block}
 **Valori discrete**
 
-Folosite pentru alegeri finite sau clase.
+Alegeri finite sau clase.
 
-Exemplu: reguli, setări, configurații.
+Exemplu: hiperparametri categoriali: `{gini, entropy}`.
 :::
 
 ::: {.col-block}
 **Codificări binare**
 
-Folosite pentru operații simple de mutație.
+Operații simple bit-cu-bit.
 
-Exemplu: schimbarea biților unei valori.
+Exemplu: flipuri pe o valoare întreagă: `1011001`.
 :::
 :::
 
@@ -240,13 +243,13 @@ Exemplu: schimbarea biților unei valori.
 ::: {.point}
 **Selecție**
 
-Alegem indivizii care au șanse mai mari să contribuie la generația următoare. Cu cât diferența dintre scoruri contează mai mult, cu atât presiunea selectivă este mai mare.
+Alegem părinții pentru generația următoare. Schemele uzuale sunt turneul (luăm câțiva indivizi la întâmplare și păstrăm cel mai bun scor) și ruleta (probabilitate proporțională cu fitness-ul).
 :::
 
 ::: {.point}
 **Crossover**
 
-Combinăm două soluții părinte pentru a obține o soluție copil.
+Combinăm două soluții părinte pentru a obține una sau două soluții copil. Forma depinde de reprezentare: crossover cu un punct pentru vectori, ordered crossover pentru permutări, crossover aritmetic pentru parametri continui.
 :::
 
 ::: {.point}
@@ -262,7 +265,7 @@ Introducem variații controlate. Mutația nu este zgomot fără scop, ci mecanis
 ::: {.point}
 **Presiune selectivă**
 
-O presiune mare accelerează îmbunătățirea, dar poate elimina prea repede variante utile.
+O presiune mare accelerează îmbunătățirea, dar poate elimina prea repede variante utile. O presiune mică păstrează diversitatea, însă încetinește convergența.
 :::
 
 ::: {.point}
@@ -272,24 +275,24 @@ Păstrăm automat unul sau mai mulți dintre cei mai buni indivizi, ca soluțiil
 :::
 
 ::: {.point}
-**Convergență prematură**
+**Diversitate**
 
-Dacă populația devine prea asemănătoare, algoritmul poate rămâne blocat într-o soluție locala, înainte să exploreze alternative mai bune.
+Dacă populația devine prea asemănătoare, algoritmul rămâne blocat într-o soluție locală — convergență prematură. Mutația și o presiune moderată ajută populația să mai exploreze.
 :::
 :::
 
 ## Cum citim exemplele
 
 ::: {.section-lead}
-În fiecare aplicație căutăm aceleași patru elemente: gena, cromozomul, fitness-ul și operatorii genetici. După aceea verificam ce lecție practica rămâne.
+În fiecare aplicație urmărim aceleași patru elemente: gena și cromozomul (împreună, reprezentarea), fitness-ul și operatorii (evoluția). După aceea verificăm ce lecție practică rămâne.
 :::
 
-| Element | Întrebare |
-|---|---|
-| Gena | Care este cea mai mică decizie pe care o poate schimba algoritmul? |
-| Cromozom | Cum arată o soluție completă? |
-| Fitness | Cum transformăm calitatea soluției într-un scor? |
-| Operatori | Cum selectăm, combinăm și modificăm soluțiile? |
+| # | Element | Întrebare |
+|---|---|---|
+| 1 | Genă | Care este cea mai mică decizie pe care o poate schimba algoritmul? |
+| 2 | Cromozom | Cum arată o soluție completă? |
+| 3 | Fitness | Cum transformăm calitatea soluției într-un scor? |
+| 4 | Operatori | Cum selectăm, combinăm și modificăm soluțiile? |
 
 ## Exemplul 1: sortarea numerelor
 
@@ -310,7 +313,7 @@ O genă este valoarea aflată pe o poziție; cromozomul este permutarea complet�
 ::: {.col-block}
 **Fitness**
 
-Scorul favorizează valorile așezate cât mai aproape de pozițiile corecte.
+Scorul pornește de la numărul maxim de perechi ordonate și scade câte un punct pentru fiecare inversiune.
 :::
 
 ::: {.col-block}
@@ -325,7 +328,7 @@ Ordered crossover păstrează validitatea permutării; mutația schimbă două p
 :::
 
 ::: {.notes}
-Animația rulează direct în slide și reproduce fluxul din `examples/ga_permutation.py`: populație inițială, fitness pozițional, selecție prin turneu, ordered crossover și mutație prin swap. Menționează explicit ca sortarea are algoritmi clasici mult mai buni. Exemplul este didactic: arată cum transformăm o problemă într-o reprezentare genetică. Folosește `a` pentru autoplay, `x` pentru modul rapid și `r` pentru resetare.
+Animația rulează direct în slide și reproduce fluxul din notebook-ul `origin/main:examples/ga_permutation.ipynb`: cromozomul `0..20`, seed `46`, populație `50`, `200` generații, fitness pe inversiuni, selecție prin turneu, ordered crossover și mutație prin swap. Menționează explicit că sortarea are algoritmi clasici mult mai buni. Exemplul este didactic: arată cum transformăm o problemă într-o reprezentare genetică. Folosește `a` pentru autoplay, `x` pentru modul rapid și `r` pentru resetare.
 :::
 
 ## Reținut din exemplul 1
@@ -379,38 +382,39 @@ Pentru parametri continui, crossover-ul poate combina numeric părinții, iar mu
 
 ## Exemplul 3: optimizarea hiperparametrilor ML
 
-::: {.section-lead}
-Exemplul din `examples/ga_and_ml_classifier.ipynb` optimizează un `DecisionTreeClassifier` pentru clasificarea diabetului în setul Pima Indians Diabetes.
-:::
-
-::: {.two-col}
+::: {.ml-demo-layout}
+::: {.ml-demo-copy}
 ::: {.col-block}
 **Gene**
 
-`max_depth`, `min_samples_leaf` și `criterion` sunt hiperparametrii pe care algoritmul îi poate modifică.
-:::
-
-::: {.col-block}
-**Cromozom**
-
-Un cromozom este o configurație completă, de forma `[max_depth, min_samples_leaf, criterion]`.
+`max_depth`, `min_samples_leaf` și `criterion` formează cromozomul `[max_depth, min_samples_leaf, criterion]`.
 :::
 
 ::: {.col-block}
 **Fitness**
 
-Notebook-ul folosește acuratețea pe setul de testare; biblioteca minimizează, deci funcția returnează `-accuracy`.
+Acuratețea pe setul de testare; biblioteca minimizează, deci funcția returnează `-accuracy`.
 :::
 
 ::: {.col-block}
 **Operatori**
 
-Populație de 50 de indivizi, 50 de generații, crossover 0.8, mutație 0.1, elitism 0.01 și `parents_portion` 0.3.
+50 de indivizi, 50 de generații, crossover 0.8, mutație 0.1, elitism 0.01, `parents_portion` 0.3.
+:::
+
+::: {.col-block}
+**Reper**
+
+Baseline `max_depth=3` → 0.6883; ținta GA: `max_depth=4`, `min_samples_leaf=5`, `gini` → 0.7987.
+:::
+:::
+
+::: {.ml-demo data-autoplay="true"}
 :::
 :::
 
 ::: {.notes}
-Explică de ce acesta este un exemplu mai apropiat de aplicații reale: nu optimizăm direct predicțiile, ci hiperparametrii care controlează modelul. Rezultatul raportat în notebook: baseline `max_depth=3`, acuratețe 0.6883; configurație optimizată `max_depth=4`, `min_samples_leaf=5`, `criterion='gini'`, acuratețe 0.7987. Recall-ul pentru clasa pozitivă crește de la 0.26 la 0.72, iar fals negativele scad de la 40 la 15.
+Animația rulează direct în slide cu o suprafață de fitness sintetică ancorată în valorile din `examples/ga_and_ml_classifier.ipynb`: optimul este (`max_depth=4`, `min_samples_leaf=5`, `gini`) cu acuratețea 0.7987, iar baseline-ul (`max_depth=3`, `min_samples_leaf=1`, `gini`) este 0.6883. Operatorii reproduc parametrii bibliotecii `geneticalgorithm`: populație 50, 50 de generații, crossover uniform 0.8, mutație 0.1, elitism 1 și `parents_portion` 0.3. Recall-ul și fals negativele afișate în panoul de comparație sunt interpolate liniar între cele două ancore reale ale notebook-ului. Folosește `a` pentru autoplay, `x` pentru modul rapid și `r` pentru resetare.
 :::
 
 ## Rezultatul exemplului 3
@@ -468,7 +472,7 @@ Selecția, înlocuirea și mutația mută media populației spre culoarea mediul
 :::
 :::
 
-::: {.moth-demo data-seed="2026" data-autoplay="true"}
+::: {.moth-demo data-seed="2026" data-autoplay="false"}
 :::
 :::
 

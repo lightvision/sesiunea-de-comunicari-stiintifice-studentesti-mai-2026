@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const DEFAULT_VALUES = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
-  const DEFAULT_SEED = 42;
-  const DEFAULT_POP_SIZE = 10;
-  const DEFAULT_GENERATIONS = 500;
+  const DEFAULT_VALUES = Array.from({ length: 21 }, (_, index) => index);
+  const DEFAULT_SEED = 46;
+  const DEFAULT_POP_SIZE = 50;
+  const DEFAULT_GENERATIONS = 200;
   const TOURNAMENT_K = 3;
   const CROSSOVER_RATE = 0.9;
   const MUTATION_RATE = 0.1;
@@ -32,30 +32,162 @@
   };
 
   function makeRng(seed) {
-    let value = seed == null ? Date.now() >>> 0 : seed >>> 0;
-    function next() {
-      value += 0x6d2b79f5;
-      next.state = value >>> 0;
-      let mixed = value;
-      mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
-      mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
-      return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
+    const mt = new Array(624).fill(0);
+    let index = 624;
+    const seedValue = seed == null ? Date.now() >>> 0 : Math.abs(Number(seed)) >>> 0;
+
+    function initGenrand(value) {
+      mt[0] = value >>> 0;
+      for (let i = 1; i < 624; i += 1) {
+        const previous = mt[i - 1] ^ (mt[i - 1] >>> 30);
+        mt[i] = (Math.imul(1812433253, previous) + i) >>> 0;
+      }
+      index = 624;
     }
-    next.state = value >>> 0;
+
+    function initByArray(keys) {
+      initGenrand(19650218);
+      let i = 1;
+      let j = 0;
+      for (let k = Math.max(624, keys.length); k > 0; k -= 1) {
+        const previous = mt[i - 1] ^ (mt[i - 1] >>> 30);
+        mt[i] = ((mt[i] ^ Math.imul(previous, 1664525)) + keys[j] + j) >>> 0;
+        i += 1;
+        j += 1;
+        if (i >= 624) {
+          mt[0] = mt[623];
+          i = 1;
+        }
+        if (j >= keys.length) {
+          j = 0;
+        }
+      }
+      for (let k = 623; k > 0; k -= 1) {
+        const previous = mt[i - 1] ^ (mt[i - 1] >>> 30);
+        mt[i] = ((mt[i] ^ Math.imul(previous, 1566083941)) - i) >>> 0;
+        i += 1;
+        if (i >= 624) {
+          mt[0] = mt[623];
+          i = 1;
+        }
+      }
+      mt[0] = 0x80000000;
+    }
+
+    function nextUint32() {
+      if (index >= 624) {
+        for (let kk = 0; kk < 624; kk += 1) {
+          const nextIndex = kk + 1 >= 624 ? 0 : kk + 1;
+          const mix = (mt[kk] & 0x80000000) | (mt[nextIndex] & 0x7fffffff);
+          let value = mt[(kk + 397) % 624] ^ (mix >>> 1);
+          if (mix % 2 !== 0) {
+            value ^= 0x9908b0df;
+          }
+          mt[kk] = value >>> 0;
+        }
+        index = 0;
+      }
+      let value = mt[index];
+      index += 1;
+      value ^= value >>> 11;
+      value ^= (value << 7) & 0x9d2c5680;
+      value ^= (value << 15) & 0xefc60000;
+      value ^= value >>> 18;
+      return value >>> 0;
+    }
+
+    function next() {
+      const high = nextUint32() >>> 5;
+      const low = nextUint32() >>> 6;
+      next.state = { mt: [...mt], index };
+      return (high * 67108864 + low) / 9007199254740992;
+    }
+
+    next.getrandbits = function getrandbits(bits) {
+      if (bits <= 0) {
+        return 0;
+      }
+      if (bits <= 32) {
+        const value = nextUint32() >>> (32 - bits);
+        next.state = { mt: [...mt], index };
+        return value;
+      }
+      let value = 0;
+      let remaining = bits;
+      let shift = 0;
+      while (remaining > 0) {
+        const take = Math.min(remaining, 32);
+        value += (nextUint32() >>> (32 - take)) * 2 ** shift;
+        shift += take;
+        remaining -= take;
+      }
+      next.state = { mt: [...mt], index };
+      return value;
+    };
+
+    next.randbelow = function randbelow(limit) {
+      if (limit <= 0) {
+        throw new Error("limit must be positive.");
+      }
+      const bits = Math.ceil(Math.log2(limit));
+      let value = next.getrandbits(bits);
+      while (value >= limit) {
+        value = next.getrandbits(bits);
+      }
+      return value;
+    };
+
+    if (seed && typeof seed === "object" && Array.isArray(seed.mt)) {
+      seed.mt.forEach((value, mtIndex) => {
+        mt[mtIndex] = value >>> 0;
+      });
+      index = seed.index;
+    } else {
+      initByArray([seedValue]);
+    }
+    next.state = { mt: [...mt], index };
     return next;
   }
 
   function randomIndex(length, rng) {
+    if (typeof rng.randbelow === "function") {
+      return rng.randbelow(length);
+    }
     return Math.floor(rng() * length);
   }
 
-  function shuffle(values, rng) {
-    const result = [...values];
-    for (let index = result.length - 1; index > 0; index -= 1) {
-      const swapIndex = randomIndex(index + 1, rng);
-      [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+  function sample(values, count, rng) {
+    if (count > values.length) {
+      throw new Error("sample count cannot be greater than population size.");
+    }
+    let setSize = 21;
+    if (count > 5) {
+      setSize += 4 ** Math.ceil(Math.log(count * 3) / Math.log(4));
+    }
+    const result = new Array(count);
+    if (values.length <= setSize) {
+      const pool = [...values];
+      for (let index = 0; index < count; index += 1) {
+        const selected = randomIndex(values.length - index, rng);
+        result[index] = pool[selected];
+        pool[selected] = pool[values.length - index - 1];
+      }
+    } else {
+      const selected = new Set();
+      for (let index = 0; index < count; index += 1) {
+        let selectedIndex = randomIndex(values.length, rng);
+        while (selected.has(selectedIndex)) {
+          selectedIndex = randomIndex(values.length, rng);
+        }
+        selected.add(selectedIndex);
+        result[index] = values[selectedIndex];
+      }
     }
     return result;
+  }
+
+  function choice(values, rng) {
+    return values[randomIndex(values.length, rng)];
   }
 
   function normalizeValues(values) {
@@ -64,8 +196,15 @@
   }
 
   function calculateFitness(individual) {
-    const base = Math.max(...individual) + 1;
-    return individual.reduce((total, value, index) => total + Number(value) * base ** index, 0);
+    let inversions = 0;
+    for (let left = 0; left < individual.length; left += 1) {
+      for (let right = left + 1; right < individual.length; right += 1) {
+        if (individual[left] > individual[right]) {
+          inversions += 1;
+        }
+      }
+    }
+    return maxFitnessForLength(individual.length) - inversions;
   }
 
   function evaluatePopulation(population) {
@@ -78,7 +217,11 @@
   }
 
   function targetFitnessForValues(values) {
-    return calculateFitness([...values].sort((left, right) => left - right));
+    return maxFitnessForLength(values.length);
+  }
+
+  function maxFitnessForLength(length) {
+    return (length * (length - 1)) / 2;
   }
 
   function targetPermutationForValues(values) {
@@ -102,11 +245,9 @@
     if (tournamentK > evaluatedPopulation.length) {
       throw new Error("tournamentK cannot be greater than population size.");
     }
-    const candidates = [...evaluatedPopulation];
+    const candidates = sample(evaluatedPopulation, tournamentK, rng);
     let selected = null;
-    for (let index = 0; index < tournamentK; index += 1) {
-      const candidateIndex = randomIndex(candidates.length, rng);
-      const [candidate] = candidates.splice(candidateIndex, 1);
+    for (const candidate of candidates) {
       if (selected == null || candidate.fitness > selected.fitness) {
         selected = candidate;
       }
@@ -115,30 +256,46 @@
   }
 
   function orderedCrossover(parentA, parentB, rng = Math.random) {
+    return orderedCrossoverPair(parentA, parentB, rng)[0];
+  }
+
+  function orderedCrossoverPair(parentA, parentB, rng = Math.random) {
     const size = parentA.length;
-    const first = randomIndex(size, rng);
-    let second = randomIndex(size, rng);
-    while (second === first && size > 1) {
-      second = randomIndex(size, rng);
-    }
-    const start = Math.min(first, second);
-    const end = Math.max(first, second);
-    const child = new Array(size).fill(null);
+    const [start, end] = sample(Array.from({ length: size }, (_, index) => index), 2, rng).sort((left, right) => left - right);
+    const childA = new Array(size).fill(null);
+    const childB = new Array(size).fill(null);
 
-    for (let index = start; index <= end; index += 1) {
-      child[index] = parentA[index];
+    for (let index = start; index < end; index += 1) {
+      childA[index] = parentA[index];
+      childB[index] = parentB[index];
     }
 
-    const used = new Set(child.filter((value) => value != null));
-    const remaining = parentB.filter((value) => !used.has(value));
-    let remainingIndex = 0;
-    for (let index = 0; index < size; index += 1) {
-      if (child[index] == null) {
-        child[index] = remaining[remainingIndex];
-        remainingIndex += 1;
+    function fillChild(child, donor) {
+      const used = new Set(child.filter((value) => value != null));
+      let parentIndex = end;
+      let childIndex = end;
+      while (parentIndex < size) {
+        if (!used.has(donor[parentIndex])) {
+          child[childIndex % size] = donor[parentIndex];
+          used.add(donor[parentIndex]);
+          childIndex += 1;
+        }
+        parentIndex += 1;
+      }
+      parentIndex = 0;
+      while (parentIndex < end) {
+        if (!used.has(donor[parentIndex])) {
+          child[childIndex % size] = donor[parentIndex];
+          used.add(donor[parentIndex]);
+          childIndex += 1;
+        }
+        parentIndex += 1;
       }
     }
-    return child;
+
+    fillChild(childA, parentB);
+    fillChild(childB, parentA);
+    return [childA, childB];
   }
 
   function mutateSwap(individual, rng = Math.random) {
@@ -160,7 +317,7 @@
     const seed = options.seed ?? DEFAULT_SEED;
     const rng = makeRng(seed);
     const popSize = options.popSize ?? DEFAULT_POP_SIZE;
-    const population = Array.from({ length: popSize }, () => shuffle(values, rng));
+    const population = Array.from({ length: popSize }, () => sample(values, values.length, rng));
     const evaluated = evaluatePopulation(population);
     const best = evaluated[0];
     const worst = evaluated[evaluated.length - 1];
@@ -188,13 +345,29 @@
     const nextPopulation = [[...evaluated[0].individual]];
 
     while (nextPopulation.length < state.population.length) {
-      const parentA = selectParentByTournament(evaluated, rng);
-      const parentB = selectParentByTournament(evaluated, rng);
-      let child = rng() < CROSSOVER_RATE ? orderedCrossover(parentA, parentB, rng) : [...parentA];
-      if (rng() < MUTATION_RATE) {
-        child = mutateSwap(child, rng);
+      const selectedParents = Array.from({ length: state.population.length }, () =>
+        selectParentByTournament(evaluated, rng),
+      );
+      const parentA = choice(selectedParents, rng);
+      const parentB = choice(selectedParents, rng);
+      let childA;
+      let childB;
+      if (rng() < CROSSOVER_RATE) {
+        [childA, childB] = orderedCrossoverPair(parentA, parentB, rng);
+      } else {
+        childA = [...parentA];
+        childB = [...parentB];
       }
-      nextPopulation.push(child);
+      if (rng() < MUTATION_RATE) {
+        childA = mutateSwap(childA, rng);
+      }
+      if (rng() < MUTATION_RATE) {
+        childB = mutateSwap(childB, rng);
+      }
+      nextPopulation.push(childA);
+      if (nextPopulation.length < state.population.length) {
+        nextPopulation.push(childB);
+      }
     }
 
     const nextEvaluated = evaluatePopulation(nextPopulation);
