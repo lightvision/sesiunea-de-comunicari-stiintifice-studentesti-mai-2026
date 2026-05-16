@@ -1,4 +1,9 @@
 author:
+  - name: 'Prof. coordonator: Daniela Joița'
+    corresponding: true
+    affiliation:
+      - ref: utm_facultatea_informatica
+  
   - name: Marius-Florinel Ionel
     email: marius.ionel@s.utm.ro
     orcid: 0009-0009-4934-9688

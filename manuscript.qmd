@@ -21,7 +21,7 @@ keywords:
 
 ## Introducere
 
-Algoritmii genetici (AG) reprezintă o componentă a computației evolutive, fiind utilizați pe scară largă pentru rezolvarea problemelor de optimizare și căutare. Propusi inițial de John Holland în anii '70, aceștia se bazează pe principiile selecției naturale și geneticii, rezumate prin conceptul de "supraviețuire a celui mai adaptat".
+Algoritmii genetici (AG) reprezintă o componentă a calculului evolutive, fiind utilizați pe scară largă pentru rezolvarea problemelor de optimizare și căutare. Propusi inițial de John Holland în anii '70, aceștia se bazează pe principiile selecției naturale și geneticii, rezumate prin conceptul de "supraviețuire a celui mai adaptat".
 
 Spre deosebire de metodele tradiționale de optimizare (precum cele bazate pe gradient), algoritmii genetici nu necesită ca funcția obiectiv să fie continuă sau derivabilă. Această caracteristică îi face potriviți pentru probleme care prezintă discontinuități sau zgomot în date. Ei operează asupra unei populații de soluții candidate, explorând simultan multiple regiuni ale spațiului de căutare, ceea ce reduce riscul de blocare în optimi locali.
 
@@ -30,6 +30,12 @@ Spre deosebire de metodele tradiționale de optimizare (precum cele bazate pe gr
 ### Ce este un algoritm genetic
 
 Un algoritm genetic manipulează o populație de "indivizi", fiecare reprezentând o soluție potențială pentru problema dată. Acești indivizi sunt codificați sub formă de șiruri de simboluri (cromozomi), unde fiecare simbol reprezintă o "genă".
+
+::: {#fig-ga-flow}
+![](images/genetic_algorithm_flow-Schema_Logic_a_Algoritmului_Genetic.png){fig-alt="Schema logică a unui algoritm genetic."}
+
+Schema logică a unui algoritm genetic.
+:::
 
 ### Componentele algoritmului genetic
 
@@ -45,8 +51,7 @@ Selecția este etapa în care algoritmul decide ce indivizi din populația curen
 
 În această metodă, probabilitatea de alegere a unui individ este direct proporțională cu valoarea fitness-ului său.
 
-Formula probabilității de selecție pentru individul $i$ este:
-$$p_i = \frac{f_i}{\sum_{j=1}^{N} f_j}$$
+Formula probabilității de selecție pentru individul $i$ este: $$p_i = \frac{f_i}{\sum_{j=1}^{N} f_j}$$
 
 unde $f_i$ este fitness-ul individului $i$, iar $N$ este dimensiunea populației.
 
@@ -66,8 +71,7 @@ Această metodă este eficace, ușor de implementat și frecvent utilizată. Ris
 
 Aici, indivizii sunt selectați pe baza poziției lor într-o ierarhie ordonată (rang), nu pe baza valorilor absolute ale fitness-ului. Cel mai bun individ primește cel mai mare rang.
 
-Dacă rangul individului $i$ este $r_i$, probabilitatea de selecție poate fi calculată ca:
-$$p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}$$
+Dacă rangul individului $i$ este $r_i$, probabilitatea de selecție poate fi calculată ca: $$p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}$$
 
 Această metodă reduce influența diferențelor extreme de fitness.
 
@@ -87,8 +91,7 @@ Elitismul este un mecanism complementar prin care unul sau mai mulți dintre cei
 
 Se alege o singură poziție de tăiere în cromozom, iar segmentele de după acest punct sunt schimbate între părinți pentru a forma doi descendenți.
 
-Dacă punctul de tăiere este $c$, descendenții din părinții $P_1$ și $P_2$ sunt:
-$$C_1 = (P_1[1:c],\ P_2[c+1:n]), \qquad
+Dacă punctul de tăiere este $c$, descendenții din părinții $P_1$ și $P_2$ sunt: $$C_1 = (P_1[1:c],\ P_2[c+1:n]), \qquad
 C_2 = (P_2[1:c],\ P_1[c+1:n])$$
 
 Deși simplă, metoda poate rupe combinații de gene benefice dacă acestea sunt distribuite în regiuni diferite ale cromozomului.
@@ -97,8 +100,7 @@ Deși simplă, metoda poate rupe combinații de gene benefice dacă acestea sunt
 
 Se aleg două puncte de tăiere, iar segmentul dintre acestea este schimbat între părinți. Variantele cu mai multe puncte alternează segmentele preluate de la fiecare părinte.
 
-Dacă punctele de tăiere sunt $c_1$ și $c_2$, cu $c_1 < c_2$, descendenții pot fi:
-$$C_1 = (P_1[1:c_1],\ P_2[c_1+1:c_2],\ P_1[c_2+1:n])$$
+Dacă punctele de tăiere sunt $c_1$ și $c_2$, cu $c_1 < c_2$, descendenții pot fi: $$C_1 = (P_1[1:c_1],\ P_2[c_1+1:c_2],\ P_1[c_2+1:n])$$
 
 $$C_2 = (P_2[1:c_1],\ P_1[c_1+1:c_2],\ P_2[c_2+1:n])$$
 
@@ -108,8 +110,7 @@ Această metodă permite recombinări mai variate, dar poate fragmenta excesiv s
 
 Fiecare genă a copilului este aleasă independent, cu o anumită probabilitate (de obicei 0.5), de la unul dintre cei doi părinți.
 
-Pentru fiecare poziție $i$:
-$$C[i] =
+Pentru fiecare poziție $i$: $$C[i] =
 \begin{cases}
 P_1[i], & \text{cu probabilitatea } 0.5 \\
 P_2[i], & \text{cu probabilitatea } 0.5
@@ -121,8 +122,7 @@ Metoda oferă un nivel ridicat de amestecare genetică, dar poate distruge mai u
 
 Utilizată pentru cromozomi cu valori reale, această metodă generează un descendent ca o combinație liniară a celor doi părinți.
 
-Dacă $\alpha \in [0, 1]$, atunci:
-$$C_1 = \alpha P_1 + (1 - \alpha) P_2$$
+Dacă $\alpha \in [0, 1]$, atunci: $$C_1 = \alpha P_1 + (1 - \alpha) P_2$$
 
 $$C_2 = (1 - \alpha) P_1 + \alpha P_2$$
 
@@ -165,12 +165,6 @@ Eficiența unui AG depinde de compatibilitatea dintre operatorii genetici și re
 
 O alegere corectă a acestei combinații este fundamentală pentru succesul algoritmului.
 
-::: {#fig-ga-flow}
-![](images/genetic_algorithm_flow-Schema_Logic_a_Algoritmului_Genetic.png){fig-alt="Schema logică a unui algoritm genetic."}
-
-Schema logică a unui algoritm genetic.
-:::
-
 ## Metodologie
 
 Pentru a demonstra flexibilitatea AG, lucrarea prezintă patru exemple care acoperă tipuri diferite de reprezentare și comportamente evolutive: optimizare în spații continue, probleme de permutare, optimizarea hiperparametrilor și adaptare într-un mediu dinamic. În fiecare caz, componentele AG au fost alese în funcție de natura problemei.
@@ -199,9 +193,19 @@ Rezultatele confirmă că AG pot fi adaptați eficient la probleme cu reprezent�
 
 În optimizarea funcției pătratice, AG a identificat rapid configurații valide, conducând la parabole din ce în ce mai plate. Convergența rapidă, obținută în primele generații, indică o exploatare eficientă a informației. Rata de mutație ridicată a favorizat ajustările fine și a accelerat căutarea. Acest experiment arată că AG sunt eficienți și în spații de parametri continui.
 
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-fitness-evolution >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-parameter-evolution >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-quadratic-functions >}}
+
+{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-final-population >}}
+
 ### 2. Sortarea prin permutări și sensibilitatea la mutație
 
 Experimentul de sortare a evidențiat dependența performanței de echilibrul dintre explorare și exploatare. Cu o rată de mutație scăzută, populația a devenit rapid omogenă, blocându-se în optimi locali. Un semnal al acestei stagnări este momentul în care scorul maxim de fitness devine egal cu cel minim. În schimb, valorile moderate ale ratei de mutație au menținut un nivel suficient de diversitate pentru a continua căutarea.
+
+{{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
 
 Analiza comparativă a ratelor de mutație (@fig-permutation-mutation-analysis) arată că valorile scăzute (0.01-0.08) sunt insuficiente pentru a ieși din optimi locali, în timp ce valorile din intervalul 0.09-0.19 au permis identificarea soluției globale.
 
@@ -225,7 +229,15 @@ Compararea modelului de bază cu cel optimizat (@tbl-ml-comparison) arată o cre
 : Comparația performanței între modelul baseline și cel optimizat genetic.
 :::
 
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-confusion-matrix >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-confusion-matrix >}}
+
 Mai important, numărul de fals negativi a scăzut de la `40` la `15`, un aspect cu semnificație practică în contextul medical. Recall-ul pentru clasa pozitivă a crescut de la `0.26` la `0.72`, indicând o sensibilitate mult mai bună în detectarea cazurilor pozitive.
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-roc >}}
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-roc >}}
 
 Curba ROC a modelului optimizat (@fig-ml-roc-comparison) domină curba modelului de bază, confirmând o capacitate de discriminare superioară.
 
@@ -238,6 +250,8 @@ Rezultatul confirmă utilitatea AG pentru explorarea spațiilor de configurare c
 Acest experiment ilustrează comportamentul unui AG într-un mediu variabil, unde obiectivul se schimbă continuu. Performanța este evaluată prin capacitatea de readaptare. Rezultatele arată că, deși populația suferă scăderi temporare de adaptare la schimbarea mediului, ea se reorganizează rapid.
 
 Capacitatea de readaptare este o consecință a selecției puternice și a mutației continue. Absența încrucișării nu a împiedicat adaptarea, strategia bazată pe clonare și mutație dovedindu-se suficientă.
+
+![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_042826.png){#fig-moth-camouflage-screenshot-inline fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}
 
 ### Sinteza Rolului Operatorilor Genetici
 
@@ -264,25 +278,3 @@ Lucrarea evidențiază și valoarea AG ca instrument de optimizare în probleme 
 Este important, însă, să se recunoască și **limitările** acestora. AG nu sunt întotdeauna cea mai bună alegere, în special pentru probleme unde există deja algoritmi exacți și eficienți (ex: sortarea clasică). De asemenea, dacă funcția de fitness este foarte costisitoare computațional, evaluarea unei întregi populații poate deveni nepractică. În astfel de cazuri, alte metode (precum optimizarea Bayesiană) pot fi mai potrivite.
 
 În concluzie, algoritmii genetici rămân un instrument puternic și versatil. **Cercetările viitoare** pot explora algoritmi hibrizi (memetici), care combină AG cu tehnici de optimizare locală, sau metode de co-evoluție pentru a aborda probleme cu spații de căutare mai vaste și complexe.
-
-## Figuri
-
-{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-final-population >}}
-
-{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-parameter-evolution >}}
-
-{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-fitness-evolution >}}
-
-{{< embed examples/continuous_parameters_mapping.ipynb#fig-continuous-quadratic-functions >}}
-
-{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-confusion-matrix >}}
-
-{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-baseline-roc >}}
-
-{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-confusion-matrix >}}
-
-{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-roc >}}
-
-{{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
-
-![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_042826.png){#fig-moth-camouflage-screenshot fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}
