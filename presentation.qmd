@@ -5,6 +5,10 @@ author:
   - Marius-Florinel Ionel
   - Cristina-Mirela Done
   - Brandon Aron
+institute: |
+  Universitatea Titu Maiorescu București
+  Facultatea de Informatică
+  Sesiunea de Comunicări Științifice Studențești, 16 mai 2026
 format:
   revealjs:
     theme: simple
@@ -18,9 +22,9 @@ format:
 ## Obiectivul prezentării
 
 - Ce sunt algoritmii genetici
-- Cum funcționează
-- Unde pot fi aplicați
-- Ce arată exemplele noastre
+- Cum funcționează componentele lor cheie
+- Unde și cum pot fi aplicați
+- Ce demonstrează exemplele noastre practice
 
 ::: notes
 - Scopul nu este doar să arătăm niște rezultate, ci să explicăm mecanismul din spatele lor.
@@ -30,10 +34,10 @@ format:
 
 ## De ce algoritmi genetici
 
-- Inspirați din selecția naturală
-- Buni pentru spații de căutare complexe
-- Nu cer derivabilitate
-- Explorează mai multe soluții simultan
+- **Inspirație:** imită mecanismele selecției naturale.
+- **Flexibilitate:** nu necesită ca funcția obiectiv să fie continuă sau derivabilă.
+- **Explorare:** operează pe o populație de soluții, explorând simultan multiple regiuni ale spațiului de căutare.
+- **Aplicabilitate:** eficienți pentru spații de căutare complexe, combinatorii sau cu zgomot în date.
 
 ::: notes
 - Algoritmii genetici fac parte din calculul evolutiv.
@@ -44,10 +48,12 @@ format:
 
 ## Ce este un algoritm genetic
 
-- Populație de soluții candidate
-- Cromozomi și gene
-- Evaluare prin fitness
-- Evoluție pe generații
+Un AG manipulează o **populație** de soluții potențiale, numite **indivizi**.
+
+- Fiecare individ este o **reprezentare** codificată a unei soluții (**cromozom**).
+- Un cromozom este format din **gene**.
+- Calitatea fiecărui individ este evaluată de o **funcție de fitness**.
+- Populația evoluează de-a lungul mai multor **generații**.
 
 ::: notes
 - Fiecare individ din populație reprezintă o soluție posibilă.
@@ -69,12 +75,12 @@ format:
 
 ## Componentele algoritmului genetic
 
-- Populația: setul de soluții candidate
-- Fitness-ul: măsura calității soluției
-- Reprezentarea: biți, valori reale, permutări
-- Selecția: alege părinții
-- Încrucișarea: combină informația
-- Mutația: introduce variație nouă
+- **Populația:** Setul de soluții candidate care explorează spațiul.
+- **Funcția de Fitness:** Măsura calității unei soluții; leagă algoritmul de problemă.
+- **Reprezentarea:** Modul de codificare a soluției (biți, valori reale, permutări).
+- **Selecția:** Alege indivizii care se vor reproduce.
+- **Încrucișarea:** Combină informația genetică a părinților.
+- **Mutația:** Introduce variație nouă în populație.
 
 ::: notes
 - Populația oferă diversitate și capacitate de explorare.
@@ -85,10 +91,11 @@ format:
 
 ## Selecția: idee generală
 
-- Favorizează indivizii mai bine adaptați
-- Controlează presiunea evolutivă
-- Nu trebuie să elimine complet diversitatea
-- Metode uzuale: roulette, turneu, rang, elitism
+- **Scop:** Favorizează indivizii mai bine adaptați pentru a contribui la generația următoare.
+- **Presiunea de selecție:** Controlează intensitatea cu care sunt favorizați cei mai buni.
+  - Prea slabă -> evoluție lentă.
+  - Prea puternică -> convergență prematură, pierderea diversității.
+- **Metode:** Proporțională (roulette), turneu, rang.
 
 ::: notes
 - Toate metodele de selecție favorizează indivizii mai buni, dar o fac în moduri diferite.
@@ -98,17 +105,14 @@ format:
 
 ## Selecția proporțională cu fitness-ul
 
-Probabilitatea de selecție:
+Probabilitatea de selecție este direct proporțională cu fitness-ul.
 
 $$
 p_i = \frac{f_i}{\sum_{j=1}^{N} f_j}
 $$
 
-Exemplu:
-
-- Fitness: `2, 3, 5, 10`
-- Suma: `20`
-- Probabilități: `0.10, 0.15, 0.25, 0.50`
+- **Avantaj:** Simplă și intuitivă.
+- **Dezavantaj:** Instabilă dacă un individ are un fitness mult mai mare decât restul.
 
 ::: notes
 - Aici șansa de alegere este direct proporțională cu fitness-ul.
@@ -118,15 +122,12 @@ Exemplu:
 
 ## Selecția prin turneu
 
-- Alegem aleator `k` indivizi
-- Păstrăm individul cu fitness maxim
-- Presiunea de selecție crește odată cu `k`
+- Se alege aleator un subgrup de `k` indivizi.
+- Individul cu fitness maxim din subgrup este selectat.
+- Presiunea de selecție crește odată cu `k`.
 
-Exemplu:
-
-- `A=4, B=7, C=2, D=9`
-- Turneu `k=2`: `(B, C) -> B`
-- Turneu `k=2`: `(A, D) -> D`
+- **Avantaj:** Eficientă și stabilă, nu depinde de valorile absolute ale fitness-ului.
+- **Dezavantaj:** Risc de pierdere a diversității dacă `k` este prea mare.
 
 ::: notes
 - Turneul este foarte popular pentru că e simplu și robust.
@@ -134,15 +135,10 @@ Exemplu:
 - În exemplele noastre, această metodă apare pentru că oferă control bun fără să depindă de scala exactă a fitness-ului.
 :::
 
-## Selecția bazată pe rang și elitism
+## Selecția bazată pe rang și Elitismul
 
-- Rang:
-  $$
-  p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}
-  $$
-- Exemplu ranguri: `4, 3, 2, 1`
-- Elitism `e=1`: cel mai bun individ trece direct
-- Stabilizează selecția și conservă progresul
+- **Selecția bazată pe rang:** Indivizii sunt selectați pe baza poziției (rangului) lor, nu a valorii fitness-ului. Reduce influența indivizilor cu fitness extrem.
+- **Elitismul:** Un mecanism care copiază direct cei mai buni `e` indivizi în generația următoare. Garantează conservarea progresului.
 
 ::: notes
 - Selecția pe rang reduce influența diferențelor extreme de fitness.
@@ -152,10 +148,9 @@ Exemplu:
 
 ## Încrucișarea: idee generală
 
-- Combină informația a doi părinți
-- Produce unul sau mai mulți descendenți
-- Accelerează exploatarea soluțiilor bune
-- Operatorul depinde de reprezentarea cromozomului
+- **Scop:** Combină informația genetică a doi părinți pentru a produce descendenți.
+- **Mecanism:** Accelerează exploatarea zonelor promițătoare din spațiul de căutare.
+- **Dependență:** Tipul de operator utilizat depinde fundamental de reprezentarea cromozomului.
 
 ::: notes
 - Încrucișarea este mecanismul prin care AG încearcă să combine trăsături utile.
@@ -167,18 +162,17 @@ Exemplu:
 
 :::: {.columns}
 ::: {.column width="50%"}
-- Single-point:
-  `111|000`
-  `000|111`
-- Copil: `111111`
-- Multi-point: schimb pe segment central
+- **Single-point:**
+  `111|000` + `000|111` -> `111111`
+- **Multi-point:** Schimbă segmentul central.
+- *Potrivite pentru păstrarea blocurilor de gene.*
 :::
 ::: {.column width="50%"}
-- Uniform:
-  mască `1 0 1 1 0 0`
-- `P1 = 111111`
-- `P2 = 000000`
-- `C = 101100`
+- **Uniform:**
+  - `P1 = 111111`, `P2 = 000000`
+  - Mască aleatoare: `101100`
+  - Copil: `101100`
+- *Amestecare genetică ridicată.*
 :::
 ::::
 
@@ -190,18 +184,14 @@ Exemplu:
 
 ## Recombinarea aritmetică
 
-Pentru cromozomi cu valori reale:
+Utilizată pentru cromozomi cu **valori reale**. Copilul este o combinație liniară a părinților.
 
 $$
 C_1 = \alpha P_1 + (1-\alpha) P_2
 $$
 
-Exemplu:
-
-- `P1 = [2, 5, 1]`
-- `P2 = [4, 1, 3]`
-- `α = 0.25`
-- `C1 = [3.5, 2, 2.5]`
+- **Context:** Probleme de optimizare în spații continue.
+- **Efect:** Produce soluții intermediare naturale între părinți.
 
 ::: notes
 - Acest operator are sens doar când genele sunt valori numerice cu semnificație continuă.
@@ -211,15 +201,12 @@ Exemplu:
 
 ## OX1 pentru permutări
 
-- Copiem un segment din părintele 1
-- Completăm din părintele 2 în ordine
-- Ignorăm duplicatele
+Operator specializat pentru cromozomi de tip **permutare**.
 
-Exemplu:
+1. Se copiază un segment din părintele 1.
+2. Se completează restul cu elemente din părintele 2, în ordinea lor, ignorând duplicatele.
 
-- `P1 = [1, 2, 3, 4, 5, 6]`
-- segment: `[3, 4, 5]`
-- copil: `[_, _, 3, 4, 5, _] -> [1, 6, 3, 4, 5, 2]`
+- **Scop:** Păstrează validitatea permutării (fiecare element apare o singură dată).
 
 ::: notes
 - OX1 este important pentru că păstrează validitatea unei permutări.
@@ -229,16 +216,11 @@ Exemplu:
 
 ## Mutația și diversitatea
 
-- Mutația creează variație nouă
-- Selecția exploatează, mutația explorează
-- `p_m` prea mică -> stagnare
-- `p_m` prea mare -> căutare instabilă
-
-Exemple:
-
-- bit flip: `10110 -> 11110`
-- real: `x'_i = x_i + \delta`
-- swap: `[1, 2, 3, 4, 5] -> [1, 5, 3, 4, 2]`
+- **Rol:** Introduce variație nouă în populație, prevenind stagnarea.
+- **Echilibru:** Selecția **exploatează** soluțiile bune, mutația **explorează** zone noi.
+- **Rata de mutație ($p_m$):**
+  - $p_m$ prea mică -> convergență prematură.
+  - $p_m$ prea mare -> căutare aproape aleatorie.
 
 ::: notes
 - Mutația are rolul de a menține deschis spațiul de căutare.
@@ -250,16 +232,20 @@ Exemple:
 
 :::: {.columns}
 ::: {.column width="52%"}
-- Binar / discret:
-  crossover clasic + bit flip
-- Valori reale:
-  recombinare aritmetică + perturbare
+- **Binar / discret:**
+  - Încrucișare: single/multi-point, uniform
+  - Mutație: bit flip
+- **Valori reale:**
+  - Încrucișare: recombinare aritmetică
+  - Mutație: perturbare numerică
 :::
 ::: {.column width="48%"}
-- Permutări:
-  OX1 + swap
-- Medii dinamice:
-  accent pe selecție + mutație
+- **Permutări:**
+  - Încrucișare: OX1
+  - Mutație: swap
+- **Medii dinamice:**
+  - Accent pe selecție + mutație
+  - Încrucișarea poate fi omisă
 :::
 ::::
 
@@ -269,73 +255,14 @@ Exemple:
 - Fiecare problemă schimbă reprezentarea, iar reprezentarea schimbă operatorii care au sens.
 :::
 
-## Exemplul 1: optimizarea parametrilor continui
-
-:::: {.columns}
-::: {.column width="52%"}
-- Problemă: determinarea coeficienților `a`, `b`, `c`
-- Obiectiv: parabolă deschisă în sus și cât mai plată
-- Reprezentare: cromozom cu valori reale
-- Operatori: turneu + recombinare aritmetică + mutație
-:::
-::: {.column width="48%"}
-![](images/article-figures/continuous-quadratic-functions.png){fig-alt="Funcțiile pătratice rezultate în urma optimizării genetice." width=100%}
-:::
-::::
-
-::: notes
-- Aici soluția este natural numerică, deci folosim un cromozom cu valori reale.
-- Fitness-ul favorizează soluțiile care păstrează parabola deschisă în sus, dar reduc curbura ei.
-- Acest exemplu este util pentru a arăta că algoritmii genetici nu sunt limitați la probleme discrete sau combinatorii.
-- În demo, publicul trebuie să urmărească evoluția parametrilor și a fitness-ului.
-:::
-
-## Demo 1
-
-:::: {.columns}
-::: {.column width="48%"}
-**Demo: optimizarea parametrilor continui**
-
-Ce urmărim:
-
-- evoluția fitness-ului
-- evoluția coeficienților
-- forma finală a parabolelor
-:::
-::: {.column width="52%"}
-![](images/article-figures/continuous-parameter-evolution.png){fig-alt="Evoluția parametrilor a, b și c pe generații." width=100%}
-:::
-::::
-
-::: notes
-- Oprim prezentarea și rulăm `examples/continuous_parameters_mapping.ipynb`.
-- Arătăm cum se schimbă valorile lui a, b și c de-a lungul generațiilor.
-- Observăm dacă fitness-ul se stabilizează rapid și dacă populația converge spre soluții utile.
-- Subliniem că mutația ridicată nu destabilizează aici căutarea, pentru că spațiul este mic și continuu.
-:::
-
-## Observații 1
-
-- Convergență rapidă
-- Reprezentarea reală este potrivită
-- Recombinarea aritmetică păstrează sensul numeric al genelor
-- AG funcționează bine și în spații continue
-
-::: notes
-- Concluzia principală este că alegerea unei reprezentări compatibile simplifică mult evoluția.
-- Operatorii folosiți aici au sens direct în spațiul numeric al problemei.
-- Acesta este un exemplu bun de optimizare continuă în care AG oferă o soluție clară și ușor de interpretat.
-- Trecerea spre exemplul următor: la permutări, operatorii se schimbă semnificativ.
-:::
-
-## Exemplul 2: sortarea prin permutări
+## Exemplul 1: sortarea prin permutări
 
 :::: {.columns}
 ::: {.column width="50%"}
-- Problemă: sortarea unei liste prin evoluție
-- Reprezentare: cromozom de tip permutare
-- Operatori: turneu + OX1 + swap mutation
-- Miza: păstrarea validității soluției
+- **Problemă:** Sortarea unei liste, tratată ca problemă de ordonare.
+- **Reprezentare:** Cromozom de tip permutare.
+- **Operatori:** Selecție prin turneu, încrucișare OX1, mutație prin interschimbare (swap).
+- **Miza:** Păstrarea validității soluției (fiecare element apare o singură dată).
 :::
 ::: {.column width="50%"}
 ![](images/article-figures/permutation-fitness-history.png){fig-alt="Evoluția fitness-ului maxim și minim pentru problema de sortare prin permutări." width=100%}
@@ -349,7 +276,7 @@ Ce urmărim:
 - În acest exemplu apare clar importanța diversității genetice și a ratei de mutație.
 :::
 
-## Demo 2
+## Demo 1
 
 :::: {.columns}
 ::: {.column width="46%"}
@@ -373,12 +300,12 @@ Ce urmărim:
 - Marcăm explicit diferența dintre stagnare și găsirea optimului global.
 :::
 
-## Observații 2
+## Observații exemplu 1
 
-- Operatorii trebuie adaptați reprezentării
-- Diversitatea genetică este critică
-- Mutație prea mică -> convergență prematură
-- Interval moderat -> rezultate mai bune
+- Operatorii trebuie adaptați reprezentării pentru a menține soluții valide.
+- Diversitatea genetică este critică pentru a evita stagnarea.
+- O rată de mutație prea mică duce la convergență prematură în optimi locali.
+- Un interval optim pentru rata de mutație (ex: 0.09-0.19) a permis găsirea soluției globale.
 
 ::: notes
 - Aici se vede foarte clar că operatorii corecți sunt necesari, dar nu suficienți.
@@ -387,14 +314,73 @@ Ce urmărim:
 - Trecem apoi la un exemplu cu valoare practică directă în machine learning.
 :::
 
+## Exemplul 2: optimizarea parametrilor continui
+
+:::: {.columns}
+::: {.column width="52%"}
+- **Problemă:** Găsirea coeficienților `a`, `b`, `c` pentru $f(x) = ax^2+bx+c$.
+- **Obiectiv:** Parabolă deschisă în sus și cât mai plată.
+- **Reprezentare:** Cromozom cu valori reale `(a, b, c)`.
+- **Operatori:** Selecție prin turneu, recombinare aritmetică, mutație prin perturbare.
+:::
+::: {.column width="48%"}
+![](images/article-figures/continuous-quadratic-functions.png){fig-alt="Funcțiile pătratice rezultate în urma optimizării genetice." width=100%}
+:::
+::::
+
+::: notes
+- Aici soluția este natural numerică, deci folosim un cromozom cu valori reale.
+- Fitness-ul favorizează soluțiile care păstrează parabola deschisă în sus, dar reduc curbura ei.
+- Acest exemplu este util pentru a arăta că algoritmii genetici nu sunt limitați la probleme discrete sau combinatorii.
+- În demo, publicul trebuie să urmărească evoluția parametrilor și a fitness-ului.
+:::
+
+## Demo 2
+
+:::: {.columns}
+::: {.column width="48%"}
+**Demo: optimizarea parametrilor continui**
+
+Ce urmărim:
+
+- evoluția fitness-ului
+- evoluția coeficienților
+- forma finală a parabolelor
+:::
+::: {.column width="52%"}
+![](images/article-figures/continuous-parameter-evolution.png){fig-alt="Evoluția parametrilor a, b și c pe generații." width=100%}
+:::
+::::
+
+::: notes
+- Oprim prezentarea și rulăm `examples/continuous_parameters_mapping.ipynb`.
+- Arătăm cum se schimbă valorile lui a, b și c de-a lungul generațiilor.
+- Observăm dacă fitness-ul se stabilizează rapid și dacă populația converge spre soluții utile.
+- Subliniem că mutația ridicată nu destabilizează aici căutarea, pentru că spațiul este mic și continuu.
+:::
+
+## Observații exemplu 2
+
+- Convergență rapidă în primele generații.
+- Reprezentarea cu valori reale și recombinarea aritmetică sunt potrivite pentru spații continue.
+- Rata de mutație ridicată a favorizat ajustările fine și a accelerat căutarea.
+- AG funcționează eficient și în probleme de optimizare cu parametri continui.
+
+::: notes
+- Concluzia principală este că alegerea unei reprezentări compatibile simplifică mult evoluția.
+- Operatorii folosiți aici au sens direct în spațiul numeric al problemei.
+- Acesta este un exemplu bun de optimizare continuă în care AG oferă o soluție clară și ușor de interpretat.
+- Trecerea spre exemplul următor: la permutări, operatorii se schimbă semnificativ.
+:::
+
 ## Exemplul 3: optimizarea hiperparametrilor
 
 :::: {.columns}
 ::: {.column width="50%"}
-- Problemă: reglarea unui `DecisionTreeClassifier`
-- Date: Pima Indians Diabetes
-- Obiectiv: îmbunătățirea performanței modelului
-- Evaluare: acuratețe, AUC, matrice de confuzie
+- **Problemă:** Reglarea hiperparametrilor unui `DecisionTreeClassifier`.
+- **Date:** Setul de date Pima Indians Diabetes.
+- **Obiectiv:** Îmbunătățirea performanței predictive a modelului.
+- **Evaluare:** Acuratețe, scor AUC, matrice de confuzie.
 :::
 ::: {.column width="50%"}
 ![](images/article-figures/ml-roc-comparison.png){fig-alt="Comparația curbelor ROC pentru modelul baseline și cel optimizat genetic." width=100%}
@@ -433,12 +419,12 @@ Ce urmărim:
 - Publicul trebuie să observe că optimizarea evolutivă schimbă nu doar scorurile agregate, ci și profilul erorilor.
 :::
 
-## Observații 3
+## Observații exemplu 3
 
-- Acuratețe: `68.8% -> 79.8%`
-- AUC: `0.7641 -> 0.8248`
-- Fals negativi: `40 -> 15`
-- AG pot optimiza probleme practice reale
+- **Acuratețe:** a crescut de la `68.8%` la `79.8%`.
+- **Scor AUC:** a crescut de la `0.7641` la `0.8248`.
+- **Fals Negativi:** au scăzut de la `40` la `15`.
+- AG pot fi un instrument eficient pentru optimizarea hiperparametrilor în probleme practice.
 
 ::: notes
 - Cea mai importantă interpretare este reducerea fals negativilor într-un context medical.
@@ -451,11 +437,10 @@ Ce urmărim:
 
 :::: {.columns}
 ::: {.column width="48%"}
-- Problemă: adaptare într-un mediu care se schimbă
-- Reprezentare: cromozom binar pentru culoare
-- Operatori: selecție puternică + mutație
-- Fără încrucișare
-- Obiectiv: readaptare rapidă
+- **Problemă:** Adaptarea unei populații la un mediu care se schimbă continuu.
+- **Reprezentare:** Cromozom binar care codifică o culoare.
+- **Operatori:** Selecție puternică și mutație. **Fără încrucișare.**
+- **Obiectiv:** Capacitatea de readaptare rapidă, nu convergența finală.
 :::
 ::: {.column width="52%"}
 ![](examples/output/frames/screenshot_20260516_042826.png){fig-alt="Captură a simulării de camuflare a moliilor." width=100%}
@@ -496,11 +481,12 @@ Ce urmărim:
 
 ## Concluzii și întrebări
 
-- AG sunt flexibili
-- Reprezentarea dictează operatorii
-- Diversitatea este esențială
-- AG pot fi și didactici, și practici
-- Întrebări?
+- **Flexibilitate:** AG pot fi adaptați la probleme cu reprezentări și obiective foarte diferite.
+- **Proiectare:** Reprezentarea soluției dictează alegerea operatorilor genetici.
+- **Diversitate:** Echilibrul dintre explorare (mutație) și exploatare (selecție) este esențial.
+- **Aplicabilitate:** AG sunt utili atât ca instrument didactic, cât și pentru rezolvarea unor probleme practice.
+
+Întrebări?
 
 ::: notes
 - Închidem prin trei idei mari.
@@ -509,3 +495,5 @@ Ce urmărim:
 - A treia: mutația și diversitatea genetică sunt centrale pentru evitarea stagnării și pentru adaptare.
 - Invităm întrebări și, dacă este cazul, revenim la oricare dintre exemple sau la partea teoretică.
 :::
+
+## Vă mulțumim!
