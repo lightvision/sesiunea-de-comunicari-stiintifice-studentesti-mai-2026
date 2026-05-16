@@ -27,5 +27,4 @@ dependencies = [
 [dependency-groups]
 dev = [
     "install-jdk>=1.1.0",
-    "quarto-cli>=1.9.37",
 ]

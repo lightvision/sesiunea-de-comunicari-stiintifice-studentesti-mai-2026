@@ -4,36 +4,46 @@ metadata-files:
 
 title: Algoritmi genetici - Utilizări și aplicații
 abstract: |
-  Prezenta lucrare explorează fundamentarea teoretică și aplicațiile practice ale algoritmilor genetici (AG), o clasă de algoritmi de optimizare euristică inspirați de mecanismele selecției naturale. Sunt analizate diverse scenarii de utilizare, de la optimizarea parametrilor funcțiilor continue și sortarea bazată pe permutări, până la reglarea hiperparametrilor în modelele de învățare automată (Decision Tree Classifier) și simularea adaptării moliilor într-un mediu dinamic. Rezultatele demonstrează flexibilitatea AG în abordarea unor spații de căutare complexe, evidențiind capacitatea acestora de a evita maximele locale și de a converge către soluții cvasi-optime într-un timp computațional rezonabil.
+  Această lucrare analizează aplicabilitatea algoritmilor genetici (AG) în optimizarea problemelor complexe, prin intermediul a patru studii de caz distincte. Am testat performanța AG în optimizarea funcțiilor continue, sortarea prin permutări, calibrarea hiperparametrilor unui clasificator și adaptarea într-un mediu dinamic. Rezultatele arată o creștere a acurateței clasificatorului de la 68.8% la 79.8%. De asemenea, analiza evidențiază importanța mutației în prevenirea convergenței premature și în stimularea adaptării rapide. Studiul demonstrează că eficiența unui AG depinde direct de corelarea modului de reprezentare a soluțiilor cu operatorii genetici aleși.
 lang: ro
 language: _language-ro.yml
+keywords:
+  - algoritmi genetici
+  - optimizare euristică
+  - computație evolutivă
+  - selecție
+  - încrucișare
+  - mutație
+  - optimizare hiperparametri
+  - machine learning
+  - mediu dinamic
 ---
 
 ## Introducere
 
-Algoritmii genetici (AG) reprezintă o componentă esențială a computației evolutive, fiind utilizați pe scară largă pentru rezolvarea problemelor de optimizare și căutare în spații complexe. Aceștia au fost propuși inițial de John Holland în anii '70 și se bazează pe principiile selecției naturale și geneticii, așa cum au fost descrise de Charles Darwin: "supraviețuirea celui mai adaptat".
+Algoritmii genetici (AG) reprezintă o componentă a computației evolutive, fiind utilizați pe scară largă pentru rezolvarea problemelor de optimizare și căutare. Propusi inițial de John Holland în anii '70, aceștia se bazează pe principiile selecției naturale și geneticii, rezumate prin conceptul de "supraviețuire a celui mai adaptat".
 
-Spre deosebire de metodele tradiționale de optimizare (precum cele bazate pe gradient), algoritmii genetici nu necesită ca funcția obiectiv să fie continuă sau derivabilă. Această caracteristică îi face extrem de robuști în fața problemelor care prezintă discontinuități sau zgomot în date. Ei operează asupra unei populații de soluții candidate, explorând simultan multiple regiuni ale spațiului de căutare, ceea ce reduce riscul de blocare în optimi locali.
+Spre deosebire de metodele tradiționale de optimizare (precum cele bazate pe gradient), algoritmii genetici nu necesită ca funcția obiectiv să fie continuă sau derivabilă. Această caracteristică îi face potriviți pentru probleme care prezintă discontinuități sau zgomot în date. Ei operează asupra unei populații de soluții candidate, explorând simultan multiple regiuni ale spațiului de căutare, ceea ce reduce riscul de blocare în optimi locali.
 
 ## Concepte fundamentale
 
 ### Ce este un algoritm genetic
 
-Un algoritm genetic manipulează o populație de "indivizi", fiecare reprezentând o soluție potențială pentru problema dată. Acești indivizi sunt adesea codificați sub formă de șiruri de simboluri (cromozomi), unde fiecare simbol reprezintă o "genă".
+Un algoritm genetic manipulează o populație de "indivizi", fiecare reprezentând o soluție potențială pentru problema dată. Acești indivizi sunt codificați sub formă de șiruri de simboluri (cromozomi), unde fiecare simbol reprezintă o "genă".
 
 ### Componentele algoritmului genetic
 
-1.  **Populația:** Reprezintă setul de soluții candidate la un moment dat. Dimensiunea populației influențează direct capacitatea de explorare a spațiului de căutare.
-2.  **Funcția de Fitness (Adaptare):** Este instrumentul care evaluează cât de "bună" este o soluție în raport cu obiectivul urmărit. Este singura legătură directă între algoritm și problema specifică ce trebuie rezolvată.
-3.  **Cromozomul și Genele:** Reprezentarea codificată a unei soluții. În funcție de problemă, genele pot fi biți (0 sau 1), numere întregi, valori reale sau chiar permutări.
+1.  **Populația:** Setul de soluții candidate la un moment dat. Dimensiunea sa influențează direct capacitatea de explorare a spațiului de căutare.
+2.  **Funcția de Fitness (Adaptare):** Instrumentul care evaluează calitatea unei soluții în raport cu obiectivul urmărit. Reprezintă singura legătură directă între algoritm și problema specifică.
+3.  **Cromozomul și Genele:** Reprezentarea codificată a unei soluții. Genele pot fi biți, numere întregi, valori reale sau permutări, în funcție de problemă.
 
 ### Metode de selecție
 
-Selecția este etapa prin care algoritmul genetic decide ce indivizi din populația curentă vor contribui la formarea generației următoare. Scopul acestei etape este de a favoriza indivizii mai bine adaptați, fără a elimina complet diversitatea genetică. Dacă presiunea de selecție este prea slabă, evoluția avansează lent; dacă este prea puternică, populația poate converge prematur către soluții suboptime.
+Selecția este etapa în care algoritmul decide ce indivizi din populația curentă vor contribui la formarea generației următoare. Scopul este de a favoriza indivizii mai bine adaptați, fără a elimina complet diversitatea genetică. O presiune de selecție slabă încetinește evoluția, în timp ce una prea puternică poate duce la convergență prematură.
 
 #### Selecția proporțională cu fitness-ul
 
-În selecția proporțională cu fitness-ul, probabilitatea de alegere a unui individ este proporțională cu valoarea fitness-ului său. Cu cât un individ are un fitness mai bun, cu atât are șanse mai mari să fie selectat.
+În această metodă, probabilitatea de alegere a unui individ este direct proporțională cu valoarea fitness-ului său.
 
 Formula probabilității de selecție pentru individul \(i\) este:
 $$
@@ -42,119 +52,58 @@ $$
 
 unde \(f_i\) este fitness-ul individului \(i\), iar \(N\) este dimensiunea populației.
 
-Pseudocod simplificat:
+**Exemplu.** Pentru patru indivizi cu fitness-urile `2, 3, 5, 10`, suma este `20`, iar probabilitățile de selecție devin `0.10, 0.15, 0.25, 0.50`.
 
-```text
-calculează suma tuturor fitness-urilor
-pentru fiecare individ:
-    calculează probabilitatea de selecție
-generează un număr aleator în intervalul [0, 1]
-selectează individul corespunzător intervalului acumulat
-```
-
-**Exemplu.** Dacă avem patru indivizi cu fitness-urile `2, 3, 5, 10`, atunci suma este `20`, iar probabilitățile devin `0.10, 0.15, 0.25, 0.50`. Astfel, ultimul individ are 50% șanse de a fi ales la fiecare selecție.
-
-Avantajul principal al acestei metode este simplitatea. Limitarea sa este că poate deveni instabilă atunci când un individ are un fitness mult mai mare decât restul populației, caz în care domină rapid procesul evolutiv.
+Metoda este simplă, dar poate deveni instabilă dacă un individ are un fitness mult mai mare decât restul populației, caz în care domină procesul evolutiv.
 
 #### Selecția prin turneu
 
-Selecția prin turneu alege aleator un grup mic de indivizi și îl păstrează pe cel mai bun dintre ei. Procedura se repetă până când este obținut numărul dorit de părinți.
+Selecția prin turneu alege aleator un subgrup de indivizi și îl păstrează pe cel mai bun dintre ei. Procedura se repetă până la obținerea numărului dorit de părinți. Mărimea turneului, \(k\), controlează presiunea de selecție.
 
-Dacă dimensiunea turneului este \(k\), atunci presiunea de selecție crește odată cu valoarea lui \(k\). Un turneu mai mare favorizează mai puternic indivizii buni.
+**Exemplu.** Presupunând indivizii `A, B, C, D` cu fitness `4, 7, 2, 9` și `k = 2`, dacă sunt extrași `B` și `C`, va fi selectat `B`. Dacă sunt extrași `A` și `D`, va fi selectat `D`.
 
-Pseudocod simplificat:
-
-```text
-alege aleator k indivizi din populație
-compară fitness-ul lor
-selectează individul cu fitness maxim
-repetă până obții toți părinții necesari
-```
-
-**Exemplu.** Presupunem indivizii `A, B, C, D` cu fitness `4, 7, 2, 9` și un turneu de dimensiune `k = 2`. Dacă sunt extrași `B` și `C`, va fi selectat `B`. Dacă sunt extrași `A` și `D`, va fi selectat `D`.
-
-Această metodă este robustă, ușor de implementat și foarte utilizată în practică. În plus, permite controlul presiunii de selecție printr-un singur parametru: dimensiunea turneului. Principalul risc este pierderea diversității atunci când turneul este prea mare.
+Această metodă este eficace, ușor de implementat și frecvent utilizată. Riscul principal este pierderea diversității dacă turneul este prea mare.
 
 #### Selecția bazată pe rang
 
-În selecția bazată pe rang, indivizii nu mai sunt selectați direct după valorile absolute ale fitness-ului, ci după poziția lor într-o ierarhie ordonată. Astfel, cel mai bun individ primește cel mai mare rang, iar cel mai slab primește cel mai mic rang.
+Aici, indivizii sunt selectați pe baza poziției lor într-o ierarhie ordonată (rang), nu pe baza valorilor absolute ale fitness-ului. Cel mai bun individ primește cel mai mare rang.
 
-Dacă rangul individului \(i\) este \(r_i\), atunci, într-o variantă simplificată în care probabilitatea este proporțională cu rangul, selecția poate fi calculată prin:
+Dacă rangul individului \(i\) este \(r_i\), probabilitatea de selecție poate fi calculată ca:
 $$
 p_i = \frac{r_i}{\sum_{j=1}^{N} r_j}
 $$
 
-Această metodă reduce influența diferențelor extreme de fitness și stabilizează selecția.
+Această metodă reduce influența diferențelor extreme de fitness.
 
-Pseudocod simplificat:
+**Exemplu.** Patru indivizi cu fitness `100, 40, 39, 38` ar fi dominați de primul în selecția proporțională. Cu ranguri `4, 3, 2, 1`, probabilitățile devin `0.40, 0.30, 0.20, 0.10`, menținând o competiție mai echilibrată.
 
-```text
-ordonează populația după fitness
-atribuie fiecărui individ un rang
-calculează probabilitățile pe baza rangurilor
-selectează indivizii ca în selecția proporțională
-```
-
-**Exemplu.** Dacă patru indivizi au fitness `100, 40, 39, 38`, în selecția proporțională primul individ ar domina clar. În selecția pe bază de rang, ei pot primi rangurile `4, 3, 2, 1`, iar probabilitățile devin `0.40, 0.30, 0.20, 0.10`, ceea ce păstrează o competiție mai echilibrată.
-
-Avantajul major este controlul mai bun al presiunii de selecție. Limitarea constă în costul suplimentar de ordonare a populației la fiecare generație.
+Dezavantajul constă în costul computațional suplimentar al ordonării populației la fiecare generație.
 
 #### Elitismul
 
-Elitismul nu este o metodă de selecție independentă, ci un mecanism complementar. Ideea este ca unul sau mai mulți dintre cei mai buni indivizi ai generației curente să fie copiați direct în generația următoare, fără a fi modificați.
-
-Pseudocod simplificat:
-
-```text
-ordonează populația după fitness
-copiează primii e indivizi în noua populație
-completează restul populației prin selecție, încrucișare și mutație
-```
-
-**Exemplu.** Dacă folosim elitism cu `e = 1`, cel mai bun individ din generația curentă este păstrat automat în generația următoare, chiar dacă operatorii genetici produc descendenți mai slabi.
-
-Elitismul ajută la conservarea progresului evolutiv și reduce riscul pierderii celor mai bune soluții. Totuși, dacă este folosit agresiv, poate accelera convergența prematură și poate reduce diversitatea populației.
-
-În practică, nu există o metodă universal optimă de selecție. Alegerea depinde de natura problemei, de reprezentarea cromozomilor și de echilibrul dorit între explorarea spațiului soluțiilor și exploatarea celor mai bune soluții deja descoperite. Dintre metodele prezentate, selecția prin turneu este adesea preferată datorită simplității și stabilității sale.
+Elitismul este un mecanism complementar prin care unul sau mai mulți dintre cei mai buni indivizi sunt copiați direct în generația următoare, fără modificări. Acest mecanism garantează că progresul evolutiv nu se pierde. Folosit în mod agresiv, poate însă accelera convergența prematură.
 
 ### Operatori de încrucișare
 
-Încrucișarea este operatorul genetic prin care doi părinți combină informația lor genetică pentru a produce unul sau mai mulți descendenți. Ideea centrală este că o soluție nouă poate moșteni trăsături utile de la ambii părinți, crescând astfel șansa de a obține indivizi mai bine adaptați.
-
-În practică, nu există un singur operator de încrucișare potrivit pentru toate problemele. Alegerea lui depinde în mod direct de reprezentarea cromozomului: șir binar, vector de valori reale sau permutare.
+Încrucișarea este operatorul prin care doi părinți combină informația genetică pentru a produce descendenți. Scopul este de a moșteni trăsături utile de la ambii părinți. Alegerea operatorului depinde direct de reprezentarea cromozomului.
 
 #### Încrucișarea într-un punct
 
-Încrucișarea într-un punct alege o poziție de tăiere în cromozom și construiește descendenții prin schimbarea segmentelor aflate după acel punct. Este una dintre cele mai simple forme de recombinare și funcționează bine pentru cromozomi liniari, în special pentru reprezentări binare sau discrete.
+Se alege o singură poziție de tăiere în cromozom, iar segmentele de după acest punct sunt schimbate între părinți pentru a forma doi descendenți.
 
-Dacă punctul de tăiere este \(c\), atunci descendenții rezultați din părinții \(P_1\) și \(P_2\) sunt:
+Dacă punctul de tăiere este \(c\), descendenții din părinții \(P_1\) și \(P_2\) sunt:
 $$
 C_1 = (P_1[1:c],\ P_2[c+1:n]), \qquad
 C_2 = (P_2[1:c],\ P_1[c+1:n])
 $$
 
-Pseudocod simplificat:
-
-```text
-alege doi părinți
-alege aleator un punct de tăiere c
-copilul 1 primește prima parte din părintele 1
-copilul 1 primește a doua parte din părintele 2
-copilul 2 primește prima parte din părintele 2
-copilul 2 primește a doua parte din părintele 1
-```
-
-**Exemplu.** Pentru părinții `P1 = [1, 1, 1, 0, 0, 0]` și `P2 = [0, 0, 0, 1, 1, 1]`, dacă alegem punctul de tăiere după gena 3, obținem:
-- `C1 = [1, 1, 1, 1, 1, 1]`
-- `C2 = [0, 0, 0, 0, 0, 0]`
-
-Avantajul principal este simplitatea. Limitarea sa este că poate rupe combinații bune de gene dacă acestea sunt distribuite în mai multe regiuni ale cromozomului.
+Deși simplă, metoda poate rupe combinații de gene benefice dacă acestea sunt distribuite în regiuni diferite ale cromozomului.
 
 #### Încrucișarea în două sau mai multe puncte
 
-Încrucișarea în două puncte extinde ideea anterioară prin alegerea a două poziții de tăiere. Segmentul dintre aceste puncte este schimbat între părinți. Variantele cu mai multe puncte urmează aceeași idee, alternând segmentele preluate de la fiecare părinte.
+Se aleg două puncte de tăiere, iar segmentul dintre acestea este schimbat între părinți. Variantele cu mai multe puncte alternează segmentele preluate de la fiecare părinte.
 
-Dacă punctele de tăiere sunt \(c_1\) și \(c_2\), cu \(c_1 < c_2\), atunci descendenții pot fi scriși astfel:
+Dacă punctele de tăiere sunt \(c_1\) și \(c_2\), cu \(c_1 < c_2\), descendenții pot fi:
 $$
 C_1 = (P_1[1:c_1],\ P_2[c_1+1:c_2],\ P_1[c_2+1:n])
 $$
@@ -162,29 +111,11 @@ $$
 C_2 = (P_2[1:c_1],\ P_1[c_1+1:c_2],\ P_2[c_2+1:n])
 $$
 
-Pseudocod simplificat:
-
-```text
-alege doi părinți
-alege două puncte de tăiere c1 și c2
-copilul păstrează capetele de la părintele 1
-copilul primește segmentul central de la părintele 2
-construiește al doilea copil prin regulă simetrică
-```
-
-**Exemplu.** Pentru:
-- `P1 = [1, 2, 3, 4, 5, 6]`
-- `P2 = [6, 5, 4, 3, 2, 1]`
-
-dacă alegem `c1 = 2` și `c2 = 4`, atunci:
-- `C1 = [1, 2, 4, 3, 5, 6]`
-- `C2 = [6, 5, 3, 4, 2, 1]`
-
-Față de încrucișarea într-un punct, această metodă permite recombinări mai variate. Totuși, odată cu creșterea numărului de puncte de tăiere, structura cromozomului poate deveni mai fragmentată.
+Această metodă permite recombinări mai variate, dar poate fragmenta excesiv structura cromozomului.
 
 #### Încrucișarea uniformă
 
-În încrucișarea uniformă, fiecare genă a copilului este aleasă independent de la unul dintre cei doi părinți, de regulă cu probabilitate egală. Astfel, nu mai există segmente continue moștenite, ci o recombinare punctuală, genă cu genă.
+Fiecare genă a copilului este aleasă independent, cu o anumită probabilitate (de obicei 0.5), de la unul dintre cei doi părinți.
 
 Pentru fiecare poziție \(i\):
 $$
@@ -195,30 +126,11 @@ P_2[i], & \text{cu probabilitatea } 0.5
 \end{cases}
 $$
 
-Pseudocod simplificat:
-
-```text
-alege doi părinți
-pentru fiecare genă i:
-    generează o alegere aleatoare
-    dacă alegerea este 0:
-        copilul primește gena din părintele 1
-    altfel:
-        copilul primește gena din părintele 2
-```
-
-**Exemplu.** Pentru:
-- `P1 = [1, 1, 1, 1, 1, 1]`
-- `P2 = [0, 0, 0, 0, 0, 0]`
-
-și o mască aleatoare `[1, 0, 1, 1, 0, 0]`, copilul devine:
-- `C = [1, 0, 1, 1, 0, 0]`
-
-Avantajul acestei metode este nivelul ridicat de amestecare genetică. Limitarea ei este că poate distruge mai ușor blocurile de gene care funcționează bine împreună.
+Metoda oferă un nivel ridicat de amestecare genetică, dar poate distruge mai ușor blocurile de gene care funcționează bine împreună.
 
 #### Recombinarea aritmetică
 
-Pentru cromozomi cu valori reale, încrucișările clasice pe segmente sunt adesea mai puțin potrivite. În acest caz, se folosește frecvent recombinarea aritmetică, unde copilul este obținut ca o combinație liniară a celor doi părinți.
+Utilizată pentru cromozomi cu valori reale, această metodă generează un descendent ca o combinație liniară a celor doi părinți.
 
 Dacă \(\alpha \in [0, 1]\), atunci:
 $$
@@ -228,380 +140,147 @@ $$
 C_2 = (1 - \alpha) P_1 + \alpha P_2
 $$
 
-Această formulă se aplică pe fiecare genă a cromozomului.
-
-Pseudocod simplificat:
-
-```text
-alege doi părinți cu gene reale
-alege un coeficient alpha între 0 și 1
-pentru fiecare genă:
-    calculează copilul ca medie ponderată a celor doi părinți
-```
-
-**Exemplu.** Dacă:
-- `P1 = [2.0, 5.0, 1.0]`
-- `P2 = [4.0, 1.0, 3.0]`
-- `alpha = 0.25`
-
-atunci:
-- `C1 = [3.5, 2.0, 2.5]`
-- `C2 = [2.5, 4.0, 1.5]`
-
-Avantajul major este că produce soluții intermediare naturale în spații continue. Limitarea este că nu este potrivită pentru permutări sau pentru codificări unde ordinea exactă a genelor este esențială.
+Această formulă se aplică pe fiecare genă. Metoda produce soluții intermediare naturale în spații continue, dar nu este potrivită pentru permutări.
 
 #### Order Crossover (OX1) pentru permutări
 
-În problemele de tip permutare, cum este ordonarea unor elemente sau problema comis-voiajorului, un cromozom valid trebuie să conțină fiecare element o singură dată. Operatorii clasici de încrucișare pot produce duplicate sau pot omite valori, ceea ce duce la soluții invalide. Din acest motiv, sunt necesari operatori specializați, iar unul dintre cei mai cunoscuți este Order Crossover (OX1).
+Pentru probleme de tip permutare (ex: ordonare, comis-voiajor), unde un cromozom valid trebuie să conțină fiecare element o singură dată, sunt necesari operatori specializați. OX1 funcționează astfel:
+1. Se aleg două puncte de tăiere.
+2. Copilul copiază segmentul dintre aceste puncte din primul părinte.
+3. Pozițiile rămase sunt completate cu elementele din al doilea părinte, păstrând ordinea lor și ignorând valorile deja folosite.
 
-OX1 funcționează astfel:
-1. se aleg două puncte de tăiere;
-2. copilul copiază segmentul dintre aceste puncte din primul părinte;
-3. pozițiile rămase sunt completate cu elementele din al doilea părinte, păstrând ordinea lor și ignorând valorile deja folosite, printr-o parcurgere circulară care începe imediat după al doilea punct de tăiere.
+**Exemplu.** Fie `P1 = [1, 2, 3, 4, 5, 6]` și `P2 = [4, 1, 5, 6, 2, 3]`. Dacă segmentul copiat din `P1` este `[3, 4, 5]`, copilul începe ca `[_, _, 3, 4, 5, _]`. Completând cu elementele din `P2` în ordine (`1, 6, 2`), copilul final devine `[1, 6, 3, 4, 5, 2]`.
 
-Pseudocod simplificat:
-
-```text
-alege doi părinți de tip permutare
-alege două puncte de tăiere
-copiază segmentul dintre ele din părintele 1 în copil
-parcurge părintele 2 circular, începând după al doilea punct de tăiere
-pentru fiecare element:
-    dacă nu există deja în copil:
-        completează următoarea poziție liberă
-```
-
-**Exemplu.** Fie:
-- `P1 = [1, 2, 3, 4, 5, 6]`
-- `P2 = [4, 1, 5, 6, 2, 3]`
-
-Dacă segmentul copiat din `P1` este `[3, 4, 5]`, copilul începe astfel:
-- `C = [_, _, 3, 4, 5, _]`
-
-Parcurgând circular `P2`, începând după segmentul selectat, și ignorând valorile deja prezente (`3, 4, 5`), rămân `1, 6, 2`, iar copilul devine:
-- `C = [1, 6, 3, 4, 5, 2]`
-
-OX1 păstrează ordinea relativă a elementelor și generează permutări valide, ceea ce îl face foarte potrivit pentru probleme de ordonare. Din acest motiv, el este mai adecvat decât încrucișările clasice atunci când cromozomii reprezintă aranjamente sau trasee.
-
-În concluzie, încrucișarea este mecanismul principal prin care algoritmul genetic combină informația utilă descoperită până la un moment dat. Totuși, eficiența sa depinde decisiv de compatibilitatea dintre operator și tipul de reprezentare folosit. Un operator potrivit pentru valori reale poate fi nepotrivit pentru permutări, iar un operator eficient pentru șiruri binare poate produce soluții invalide într-o problemă de ordonare.
+OX1 păstrează ordinea relativă a elementelor și generează permutări valide.
 
 ### Mutația și rolul diversității
 
-Mutația este operatorul genetic care introduce variații aleatorii în cromozomii indivizilor. Spre deosebire de încrucișare, care combină informație deja existentă în populație, mutația creează informație nouă. Din acest motiv, ea joacă un rol esențial în explorarea spațiului soluțiilor și în prevenirea blocării algoritmului într-un optim local.
+Mutația introduce variații aleatorii în cromozomi, creând astfel informație genetică nouă. Rolul său este important în explorarea spațiului soluțiilor și în prevenirea blocării în optimi locali. Fără mutație, populația tinde să devină uniformă, iar evoluția poate stagna.
 
-În absența mutației, populația tinde să devină tot mai uniformă de la o generație la alta. Dacă toți indivizii ajung să semene foarte mult între ei, algoritmul își pierde capacitatea de a explora alternative și evoluția poate stagna. Mutația contrabalansează acest efect, menținând diversitatea genetică.
+#### Tipuri de mutație
 
-#### Mutația pe cromozomi binari
+-   **Pe cromozomi binari:** Inversarea unei gene (`0` devine `1` sau invers), aplicată cu o probabilitate mică \(p_m\).
+-   **Pe cromozomi cu valori reale:** Adăugarea unei perturbații aleatoare mici (\(x_i' = x_i + \delta\)). Amplitudinea variației trebuie aleasă cu grijă.
+-   **Pe permutări:** Interschimbarea valorilor de la două poziții alese aleatoriu (`swap mutation`), pentru a menține validitatea permutării.
 
-Pentru reprezentările binare, mutația se realizează de obicei prin inversarea unei gene: `0` devine `1`, iar `1` devine `0`. Fiecare genă are o probabilitate mică \(p_m\) de a fi modificată.
+#### Rolul diversității și al ratei de mutație
 
-Dacă gena este notată cu \(x_i \in \{0,1\}\), atunci mutația poate fi exprimată simplu prin:
-$$
-x_i' = 1 - x_i
-$$
+Diversitatea genetică (gradul de varietate dintre indivizi) este importantă, deoarece selecția favorizează exploatarea soluțiilor bune, în timp ce mutația favorizează explorarea de soluții noi. Un algoritm eficient menține un echilibru între aceste două tendințe.
 
-Pseudocod simplificat:
+Rata de mutație (\(p_m\)) controlează acest echilibru:
+-   Dacă \(p_m\) este prea mică, populația își pierde diversitatea și algoritmul se poate bloca.
+-   Dacă \(p_m\) este prea mare, căutarea devine aproape aleatorie, iar progresul se pierde.
 
-```text
-pentru fiecare genă din cromozom:
-    generează un număr aleator
-    dacă numărul este mai mic decât pm:
-        inversează valoarea genei
-```
-
-**Exemplu.** Pentru cromozomul `[1, 0, 1, 1, 0]`, dacă mutația afectează genele 2 și 5, rezultatul devine `[1, 1, 1, 1, 1]`.
-
-Această mutație este simplă și eficientă pentru codificări binare. Totuși, dacă probabilitatea de mutație este prea mare, cromozomii buni sunt distruși aproape la fel de repede cum sunt generați.
-
-#### Mutația pe cromozomi cu valori reale
-
-Pentru cromozomi reali, mutația nu mai înseamnă inversarea unei gene, ci perturbarea ei cu o valoare aleatoare mică. O formă frecventă este:
-$$
-x_i' = x_i + \delta
-$$
-unde \(\delta\) este o variație aleatoare, de exemplu extrasă dintr-un interval mic sau dintr-o distribuție normală.
-
-Pseudocod simplificat:
-
-```text
-pentru fiecare genă reală:
-    generează un număr aleator
-    dacă numărul este mai mic decât pm:
-        adaugă o variație mică delta
-```
-
-**Exemplu.** Dacă un cromozom este `[2.0, 5.0, 1.0]` și se aplică variațiile `+0.2`, `-0.5`, `+0.1`, noul cromozom devine `[2.2, 4.5, 1.1]`.
-
-Avantajul este că această mutație permite ajustări fine ale soluțiilor. Limitarea este că amplitudinea variației trebuie aleasă cu grijă: dacă este prea mică, explorarea devine lentă; dacă este prea mare, căutarea devine instabilă.
-
-#### Mutația pe permutări
-
-În problemele de tip permutare, mutația trebuie să păstreze validitatea cromozomului. Din acest motiv, nu putem modifica direct valorile genelor în mod arbitrar. O metodă uzuală este mutația prin interschimbare (swap mutation), unde două poziții sunt alese și valorile lor sunt schimbate între ele.
-
-Pseudocod simplificat:
-
-```text
-alege două poziții i și j
-interschimbă valorile din pozițiile i și j
-```
-
-**Exemplu.** Pentru permutarea `[1, 2, 3, 4, 5]`, dacă sunt alese pozițiile 2 și 5, rezultatul este `[1, 5, 3, 4, 2]`.
-
-Această metodă păstrează toate elementele exact o singură dată, deci cromozomul rămâne valid. Ea este foarte potrivită pentru probleme de ordonare, unde contează poziția relativă a elementelor.
-
-#### Rolul diversității genetice
-
-Diversitatea genetică reprezintă gradul de varietate dintre indivizii din populație. O populație diversă conține soluții diferite, explorează mai multe regiuni ale spațiului de căutare și are șanse mai mari să descopere soluții mai bune. O populație omogenă, în schimb, exploatează intens o regiune restrânsă, dar riscă să se blocheze rapid într-un optim local.
-
-În mod informal, putem spune că:
-- **selecția** favorizează exploatarea soluțiilor bune;
-- **mutația** favorizează explorarea de soluții noi.
-
-Un algoritm genetic eficient trebuie să mențină un echilibru între aceste două tendințe.
-
-**Exemplu.** Dacă într-o populație toate soluțiile devin aproape identice după câteva generații, încrucișarea dintre ele nu mai produce variante semnificativ diferite. În acest caz, mutația devine principalul mecanism prin care pot apărea direcții noi de căutare.
-
-#### Efectul ratei de mutație
-
-Rata de mutație \(p_m\) controlează cât de des sunt modificate genele. Ea influențează direct echilibrul dintre stabilitate și explorare:
-- dacă \(p_m\) este prea mică, populația își poate pierde diversitatea și algoritmul se poate bloca;
-- dacă \(p_m\) este prea mare, procesul evolutiv devine aproape aleator și progresul acumulat se pierde.
-
-În practică, nu există o valoare universal optimă pentru rata de mutație. Aceasta depinde de tipul problemei, de reprezentarea cromozomului și de intensitatea presiunii de selecție. Din acest motiv, alegerea ratei de mutație este una dintre cele mai importante decizii de proiectare într-un algoritm genetic.
-
-În concluzie, mutația nu este doar un mecanism auxiliar, ci un operator fundamental pentru menținerea capacității de adaptare a populației. Ea completează încrucișarea și selecția, introducând variațiile necesare pentru ca evoluția să nu devină rigidă sau prematur convergentă.
+Alegerea ratei de mutație este o decizie importantă de proiectare, dependentă de problemă.
 
 ### Alegerea operatorilor în funcție de reprezentare
 
-Un principiu esențial în proiectarea unui algoritm genetic este că operatorii genetici nu se aleg izolat, ci în funcție de modul în care este reprezentată soluția. Cu alte cuvinte, tipul cromozomului determină ce metode de selecție, încrucișare și mutație pot fi utilizate corect și eficient.
+Eficiența unui AG depinde de compatibilitatea dintre operatorii genetici și reprezentarea soluției.
+-   **Reprezentare binară/discretă:** Se pretează la încrucișare clasică (într-un punct, uniformă) și mutație prin inversare.
+-   **Reprezentare cu valori reale:** Recomandă recombinare aritmetică și mutație prin perturbații mici.
+-   **Reprezentare de tip permutare:** Necesită operatori specializați (ex: OX1, swap mutation) care păstrează validitatea.
+-   **Medii dinamice:** În probleme unde funcția de fitness se schimbă, accentul poate cădea mai mult pe selecție și mutație, cu un rol redus sau absent al încrucișării.
 
-Dacă alegem operatori incompatibili cu reprezentarea, algoritmul poate produce soluții invalide sau poate explora foarte slab spațiul de căutare. Din acest motiv, reprezentarea cromozomului este una dintre cele mai importante decizii de proiectare.
-
-#### Reprezentarea binară sau discretă
-
-În reprezentările binare, cromozomul este format din biți (`0` și `1`) sau, mai general, din valori discrete. Acest tip de codificare este frecvent întâlnit în exemple didactice și în probleme unde soluția poate fi exprimată prin alegeri de tip da/nu sau printr-un număr finit de opțiuni.
-
-Pentru astfel de cromozomi, operatorii recomandați sunt:
-- selecția prin turneu sau selecția proporțională cu fitness-ul;
-- încrucișarea într-un punct, în două puncte sau uniformă;
-- mutația prin inversarea valorii unei gene.
-
-**Exemplu.** Dacă un cromozom binar este `[1, 0, 1, 1, 0]`, atunci:
-- o încrucișare într-un punct poate combina prefixul unui părinte cu sufixul altuia;
-- o mutație poate transforma gena din poziția 2 din `0` în `1`.
-
-Aceste reprezentări sunt simple și ușor de manipulat, însă pot deveni mai puțin naturale atunci când problema conține valori continue sau constrângeri de ordine.
-
-#### Reprezentarea cu valori reale
-
-În multe probleme de optimizare, soluția este descrisă mai natural prin numere reale. De exemplu, un individ poate reprezenta direct parametrii unei funcții, coeficienți ai unui model sau hiperparametri numerici.
-
-Pentru acest tip de cromozomi, operatorii recomandați sunt:
-- selecția prin turneu sau selecția bazată pe rang;
-- recombinarea aritmetică sau blend;
-- mutația prin adăugarea unei perturbații mici la una sau mai multe gene.
-
-**Exemplu.** Dacă un cromozom este `[2.0, 5.0, 1.0]`, interpretat ca un set de parametri, atunci:
-- recombinarea aritmetică poate genera un copil intermediar între doi părinți;
-- mutația poate modifica o genă, de exemplu `5.0` devine `4.7`.
-
-Avantajul major este că reprezentarea este apropiată de problema reală și permite ajustări fine ale soluțiilor. În schimb, operatorii clasici de tip segment nu exploatează întotdeauna optim natura continuă a acestor date.
-
-#### Reprezentarea de tip permutare
-
-În unele probleme, ordinea elementelor este esențială. Exemple tipice sunt ordonarea unei liste, planificarea unor sarcini sau determinarea unui traseu. În aceste situații, cromozomul trebuie să fie o permutare validă: fiecare element apare exact o singură dată.
-
-Pentru astfel de cromozomi, operatorii standard de încrucișare nu sunt potriviți, deoarece pot introduce duplicate sau pot elimina anumite valori. Din acest motiv, sunt necesari operatori specializați.
-
-Operatorii recomandați sunt:
-- selecția prin turneu;
-- încrucișarea de tip Order Crossover (OX1) sau alți operatori dedicați permutărilor;
-- mutația prin interschimbare (swap mutation).
-
-**Exemplu.** Pentru cromozomul `[1, 2, 3, 4, 5]`, o mutație validă poate produce `[1, 5, 3, 4, 2]` prin schimbarea a două poziții. În schimb, o modificare arbitrară precum `[1, 2, 2, 4, 5]` ar fi invalidă, deoarece valoarea `2` apare de două ori, iar valoarea `3` dispare.
-
-Acesta este motivul pentru care alegerea operatorilor trebuie să respecte structura soluției, nu doar ideea generală de recombinare.
-
-#### Cazul particular al mediilor dinamice
-
-Există și probleme în care încrucișarea nu este operatorul dominant sau poate chiar lipsi complet. În medii foarte dinamice, unde condițiile se schimbă rapid, poate fi mai eficient un mecanism bazat pe selecție puternică și mutație frecventă decât unul bazat pe recombinare.
-
-Într-un astfel de scenariu:
-- selecția elimină rapid indivizii slab adaptați;
-- mutația introduce variații suficiente pentru a permite readaptarea;
-- încrucișarea poate avea un rol redus sau poate fi omisă.
-
-**Exemplu.** Dacă mediul se modifică brusc de la o generație la alta, combinațiile genetice bune într-un moment pot deveni inutile foarte repede. În acest caz, o populație care se bazează pe mutații rapide poate răspunde mai flexibil decât una care conservă puternic structuri genetice mai vechi.
-
-Acest tip de abordare este relevant mai ales în simulări adaptive și în probleme unde obiectivul nu rămâne constant în timp.
-
-#### Sinteză
-
-În mod practic, alegerea operatorilor poate fi rezumată astfel:
-- pentru cromozomi binari sau discreți: încrucișare clasică și mutație punctuală;
-- pentru cromozomi cu valori reale: recombinare aritmetică și perturbații mici;
-- pentru permutări: operatori specializați care păstrează validitatea;
-- pentru medii dinamice: accent mai mare pe selecție și mutație decât pe încrucișare.
-
-În concluzie, eficiența unui algoritm genetic nu depinde doar de calitatea fiecărui operator în parte, ci mai ales de compatibilitatea dintre operatori și reprezentarea soluției. O alegere corectă a acestei combinații face diferența dintre o evoluție coerentă și un proces care produce soluții invalide sau progrese nesemnificative.
+O alegere corectă a acestei combinații este fundamentală pentru succesul algoritmului.
 
 ::: {#fig-ga-flow}
 ![](images/genetic_algorithm_flow-Schema_Logic_a_Algoritmului_Genetic.png){fig-alt="Schema logică a unui algoritm genetic."}
 
-Schema logică a unui algoritm genetic: procesul pornește de la inițializarea populației, continuă cu evaluarea funcției de fitness, selecția indivizilor, aplicarea operatorilor de încrucișare și mutație, apoi verificarea criteriului de oprire; dacă acesta nu este îndeplinit, ciclul evolutiv se reia până la obținerea unei soluții satisfăcătoare.
+Schema logică a unui algoritm genetic.
 :::
 
 ## Metodologie
 
-Pentru a evidenția flexibilitatea algoritmilor genetici, am ales patru exemple care acoperă tipuri diferite de reprezentare a soluțiilor și comportamente evolutive distincte: optimizare în spații continue, probleme de tip permutare, optimizarea hiperparametrilor unui model de învățare automată și adaptarea într-un mediu dinamic. În fiecare caz, structura cromozomului, funcția de fitness și operatorii genetici au fost alese în funcție de natura problemei, astfel încât experimentul să fie nu doar funcțional, ci și relevant din punct de vedere didactic.
-
-Metodologia urmărește două obiective. Primul este de a demonstra că algoritmii genetici pot fi adaptați la reprezentări foarte diferite ale soluțiilor, folosind operatori specifici fiecărui tip de cromozom. Al doilea este de a evidenția fenomene practice importante, precum sensibilitatea la rata de mutație, influența presiunii de selecție și riscul de pierdere a diversității genetice, care poate conduce la convergență prematură și blocarea căutării în optime locale.
+Pentru a demonstra flexibilitatea AG, lucrarea prezintă patru exemple care acoperă tipuri diferite de reprezentare și comportamente evolutive: optimizare în spații continue, probleme de permutare, optimizarea hiperparametrilor și adaptare într-un mediu dinamic. În fiecare caz, componentele AG au fost alese în funcție de natura problemei.
 
 ### 1. Optimizarea parametrilor continui
 
-Primul experiment are ca obiectiv determinarea parametrilor \(a\), \(b\) și \(c\) ai unei funcții pătratice de forma
-$$
-f(x) = ax^2 + bx + c
-$$
-astfel încât parabola obținută să fie orientată în sus și cât mai plată. Din punct de vedere al reprezentării, fiecare individ din populație este un cromozom cu valori reale, de forma \((a, b, c)\). Această alegere este naturală, deoarece soluția problemei este ea însăși exprimată prin parametri continui.
-
-Funcția de fitness a fost definită astfel încât să favorizeze indivizii care produc valori mici pentru coeficientul \(a\), păstrând în același timp condiția \(a > 0\), necesară pentru ca parabola să fie deschisă în sus. În acest fel, algoritmul nu caută doar orice soluție validă, ci soluții care reduc curbura funcției și apropie graficul de o formă cât mai puțin accentuată.
-
-Pentru selecție a fost utilizată metoda turneului, cu dimensiunea turneului egală cu `3`. Alegerea acestei metode se justifică prin robustețea sa și prin faptul că oferă un control simplu asupra presiunii de selecție. Într-un spațiu continuu de căutare, această abordare permite promovarea indivizilor mai bine adaptați fără a introduce dependențe directe de scara valorilor de fitness.
-
-Încrucișarea a fost realizată prin recombinare aritmetică. Acest operator este adecvat cromozomilor reali deoarece produce descendenți intermediari între cei doi părinți, ceea ce favorizează explorarea graduală a spațiului parametrilor. Spre deosebire de încrucișările clasice pe segmente, recombinarea aritmetică păstrează sensul numeric al genelor și se potrivește mai bine problemelor de optimizare continuă.
-
-Mutația a fost implementată prin perturbarea fiecărei gene cu o variație aleatoare. În acest exemplu s-a folosit o rată de mutație `1.0`, ceea ce înseamnă că fiecare genă poate fi modificată la fiecare generație. Această alegere este intenționat agresivă și are rolul de a menține explorarea activă într-un spațiu de căutare redus dimensional, unde ajustările fine ale parametrilor pot conduce rapid către soluții mai bune.
-
-Configurația principală a experimentului a fost:
-- dimensiunea populației: `100`;
-- numărul de generații: `20`;
-- rata de mutație: `1.0`;
-- elitism: `1` individ;
-- dimensiunea turneului: `3`.
+Acest experiment urmărește determinarea parametrilor \(a\), \(b\) și \(c\) ai unei funcții pătratice \(f(x) = ax^2 + bx + c\) astfel încât parabola să fie orientată în sus și cât mai plată. Fiecare individ este un cromozom cu valori reale \((a, b, c)\). Funcția de fitness favorizează valorile mici ale lui \(a\), cu condiția \(a > 0\). S-au folosit selecția prin turneu, recombinarea aritmetică și o rată de mutație agresivă (`1.0`) pentru a încuraja explorarea.
 
 ### 2. Sortarea prin permutări
 
-Al doilea experiment tratează sortarea unei liste de numere ca pe o problemă de permutare. Deși există algoritmi clasici de sortare mult mai eficienți, acest exemplu este util din punct de vedere metodologic deoarece evidențiază situațiile în care ordinea elementelor este esențială, iar cromozomul trebuie să rămână o permutare validă pe tot parcursul evoluției.
-
-Fiecare individ este reprezentat printr-o permutare a elementelor din listă. Astfel, cromozomul nu descrie valori numerice independente, ci o ordine posibilă a acelorași elemente. Din acest motiv, operatorii genetici standard pentru șiruri binare sau pentru valori reale nu sunt potriviți, deoarece ar putea produce cromozomi invalizi, cu elemente duplicate sau lipsă.
-
-Funcția de fitness măsoară cât de apropiată este o permutare de ordinea corect sortată. În acest fel, indivizii care se apropie mai mult de soluția ordonată sunt favorizați în procesul de selecție și reproducere. Alegerea unei funcții de fitness adecvate este esențială, deoarece ea trebuie să reflecte progresul către ordonarea completă, chiar și atunci când soluția optimă nu este încă atinsă.
-
-Pentru selecție a fost utilizată metoda turneului, cu dimensiunea turneului egală cu `3`. Această alegere este potrivită pentru probleme de permutare deoarece este simplă, robustă și nu depinde de o distribuție particulară a valorilor de fitness. În plus, permite controlul presiunii de selecție fără a modifica structura reprezentării.
-
-Încrucișarea a fost realizată prin operatorul Order Crossover (`OX1`). Acesta a fost ales deoarece păstrează validitatea permutărilor și conservă parțial ordinea relativă a elementelor, aspect esențial în probleme de ordonare. Spre deosebire de o încrucișare clasică într-un punct, `OX1` nu produce cromozomi invalizi și este special conceput pentru acest tip de reprezentare.
-
-Mutația a fost implementată prin interschimbarea a două poziții din cromozom (`swap mutation`). Acest operator este adecvat deoarece modifică ordinea elementelor fără a altera mulțimea lor. Astfel, fiecare individ rămâne o permutare validă după aplicarea mutației.
-
-Configurația principală a experimentului a fost:
-- dimensiunea populației: `50`;
-- numărul de generații: `200`;
-- rata de încrucișare: `0.9`;
-- rata de mutație: `0.1`;
-- elitism: `1` individ;
-- dimensiunea turneului: `3`.
-
-Experimentul este construit pentru a analiza sensibilitatea performanței la rata de mutație și efectul acesteia asupra diversității genetice.
+Acest exemplu tratează sortarea unei liste ca pe o problemă de permutare, pentru a ilustra constrângerile de validitate. Fiecare individ este o permutare a elementelor listei. Funcția de fitness măsoară cât de aproape este o permutare de starea sortată a listei. S-au utilizat operatori specifici: selecție prin turneu, încrucișare `OX1` și `swap mutation`. Experimentul analizează sensibilitatea performanței la rata de mutație.
 
 ### 3. Optimizarea hiperparametrilor în Machine Learning
 
-Al treilea experiment urmărește optimizarea hiperparametrilor unui clasificator de tip `DecisionTreeClassifier` pentru setul de date Pima Indians Diabetes. Spre deosebire de exemplele anterioare, unde cromozomii reprezentau direct o soluție matematică sau o permutare, aici fiecare individ codifică o configurație posibilă a modelului de învățare automată.
-
-Cromozomul este format dintr-un set de hiperparametri relevanți pentru arborele de decizie, precum adâncimea maximă a arborelui, numărul minim de exemple necesare pentru divizare sau alte valori de configurare care influențează comportamentul modelului. Din punct de vedere metodologic, problema este una de optimizare într-un spațiu discret sau mixt, în care fiecare individ reprezintă o alegere concretă de parametri ai clasificatorului.
-
-Funcția de fitness a fost definită pe baza performanței modelului obținut după antrenare și evaluare. În acest context, fitness-ul reflectă calitatea clasificării și urmărește identificarea acelor configurații care îmbunătățesc capacitatea modelului de a separa corect clasele. Alegerea unei asemenea funcții de fitness este adecvată deoarece creează o legătură directă între procesul evolutiv și obiectivul practic al experimentului: obținerea unui clasificator mai bun decât configurația de bază.
-
-Pentru selecție a fost utilizată metoda turneului. Această alegere este potrivită și în acest context, deoarece este stabilă și nu depinde de o scară absolută a valorilor de fitness. În plus, ea permite menținerea unei presiuni de selecție controlate într-un spațiu de căutare unde mici modificări ale hiperparametrilor pot avea efecte semnificative asupra performanței modelului.
-
-Încrucișarea este utilizată pentru a combina configurații bune provenite din părinți diferiți. În această problemă, rolul ei este de a produce noi combinații de hiperparametri care nu au fost evaluate anterior, dar care pot moșteni caracteristici utile de la ambii părinți. Astfel, algoritmul genetic explorează sistematic spațiul de configurare al clasificatorului, fără a fi limitat la o căutare exhaustivă.
-
-Mutația intervine prin modificarea aleatoare a unor hiperparametri din cromozom. Aceasta este necesară pentru a introduce configurații noi și pentru a evita stagnarea populației în jurul unor soluții doar local bune. Într-o problemă de reglare a hiperparametrilor, mutația este deosebit de importantă deoarece spațiul de căutare poate conține multe combinații aparent apropiate, dar cu comportament foarte diferit din punctul de vedere al performanței predictive.
-
-Experimentul compară un model *baseline* cu unul optimizat prin algoritm genetic și evaluează performanța prin metrici de clasificare, inclusiv acuratețea, matricea de confuzie și curba ROC.
+Al treilea experiment optimizează hiperparametrii unui `DecisionTreeClassifier` pentru setul de date Pima Indians Diabetes. Fiecare individ codifică o configurație a modelului (ex: `max_depth`, `min_samples_leaf`). Fitness-ul este dat de performanța modelului (acuratețea). Experimentul compară un model de bază cu cel optimizat de AG, evaluând performanța prin acuratețe, matricea de confuzie și curba ROC.
 
 ### 4. Camuflarea moliilor într-un mediu dinamic
 
-Al patrulea experiment urmărește comportamentul unei populații aflate într-un mediu care se modifică în timp. Spre deosebire de celelalte exemple, unde funcția de fitness rămâne fixă pe durata întregului proces evolutiv, aici criteriul de adaptare depinde de culoarea mediului, care se schimbă continuu. Din acest motiv, problema nu mai este doar una de optimizare statică, ci una de adaptare continuă.
-
-Fiecare individ este reprezentat printr-un cromozom binar care codifică o culoare. Astfel, populația este formată din multiple variante cromatice, iar fitness-ul fiecărui individ depinde de cât de apropiată este culoarea sa de culoarea de fundal a mediului. Cu cât diferența este mai mică, cu atât individul este mai bine adaptat și are șanse mai mari să supraviețuiască și să contribuie la generația următoare.
-
-Selecția este implementată printr-o presiune evolutivă puternică: jumătatea inferioară a populației este eliminată, iar indivizii mai bine adaptați sunt reținuți pentru reproducere. Această abordare favorizează o reacție rapidă la schimbările de mediu, deoarece soluțiile slabe sunt înlăturate imediat, iar cele mai bune trăsături disponibile sunt propagate agresiv în generațiile următoare.
-
-În acest experiment nu se utilizează operatorul de încrucișare. Alegerea este intenționată și reflectă natura problemei: într-un mediu foarte dinamic, accentul cade mai mult pe viteza de adaptare decât pe recombinarea unor structuri genetice stabile. Din acest motiv, populația evoluează prin clonarea indivizilor bine adaptați și prin introducerea de variații noi exclusiv prin mutație.
-
-Mutația este aplicată la nivel de bit, cu o rată de mutație per bit egală cu `0.01`. Această alegere permite apariția continuă a unor variații mici în culoarea indivizilor, fără a distruge complet structurile deja avantajoase. Practic, mutația joacă aici rolul principal în explorarea continuă a spațiului soluțiilor și în susținerea readaptării rapide după schimbarea mediului.
-
-Configurația principală a experimentului a fost:
-- dimensiunea populației: `1024` indivizi, organizați într-o grilă `32 x 32`;
-- numărul de generații: nedefinit, simularea rulând continuu;
-- rata de mutație per bit: `0.01`;
-- presiunea de selecție: `50%`, prin păstrarea jumătății superioare a populației;
-- încrucișare: inexistentă.
+Ultimul experiment simulează adaptarea unei populații la un mediu care se modifică în timp. Criteriul de adaptare (culoarea de fundal) este dinamic. Fiecare individ este un cromozom binar care codifică o culoare. Fitness-ul depinde de cât de apropiată este culoarea individului de cea a mediului. În acest scenariu, se aplică o presiune de selecție puternică (jumătatea slabă a populației este eliminată), nu se folosește încrucișarea, iar adaptarea se bazează exclusiv pe clonarea celor mai buni indivizi și pe mutație.
 
 ## Rezultate și discuții
 
-Rezultatele obținute confirmă faptul că algoritmii genetici pot fi adaptați eficient la probleme cu reprezentări și obiective foarte diferite. În același timp, experimentele evidențiază că performanța unui astfel de algoritm nu depinde doar de existența operatorilor genetici, ci și de compatibilitatea dintre reprezentare, funcția de fitness și parametrizarea procesului evolutiv. În toate cele patru exemple analizate, comportamentul populației a reflectat în mod clar echilibrul dintre explorare și exploatare, precum și efectele practice ale selecției, mutației și încrucișării.
+Rezultatele confirmă că AG pot fi adaptați eficient la probleme cu reprezentări și obiective diferite. Performanța depinde de compatibilitatea dintre reprezentare, funcția de fitness și parametrizarea procesului evolutiv.
 
 ### 1. Optimizarea funcțiilor continue
 
-În experimentul de optimizare a parametrilor funcției pătratice, algoritmul genetic a identificat rapid configurații valide pentru coeficienții \(a\), \(b\) și \(c\), conducând la parabole deschise în sus și din ce în ce mai plate. Evoluția populației a arătat că reprezentarea cu valori reale, combinată cu recombinarea aritmetică și cu o mutație agresivă, este adecvată pentru spații de căutare continue de dimensiune redusă.
-
-Un rezultat important al acestui experiment este viteza mare de convergență. Cele mai bune soluții au fost obținute în primele generații, ceea ce indică faptul că algoritmul reușește să exploateze eficient informația acumulată în populație fără a pierde complet capacitatea de explorare. În acest caz, rata de mutație ridicată nu a destabilizat procesul evolutiv, ci a favorizat ajustările fine ale parametrilor și a accelerat identificarea unor soluții bune.
-
-Din punct de vedere interpretativ, acest comportament arată că algoritmii genetici nu sunt utili doar pentru probleme discrete sau combinatorii, ci pot funcționa foarte bine și în contexte în care soluțiile sunt exprimate direct prin parametri numerici reali. Evoluția coeficienților de la o generație la alta sugerează o reducere progresivă a curburii, iar forma finală a funcțiilor obținute confirmă că algoritmul a învățat să favorizeze soluții apropiate de obiectivul stabilit.
+În optimizarea funcției pătratice, AG a identificat rapid configurații valide, conducând la parabole din ce în ce mai plate. Convergența rapidă, obținută în primele generații, indică o exploatare eficientă a informației. Rata de mutație ridicată a favorizat ajustările fine și a accelerat căutarea. Acest experiment arată că AG sunt eficienți și în spații de parametri continui.
 
 ### 2. Sortarea prin permutări și sensibilitatea la mutație
 
-Experimentul de sortare formulat ca problemă de permutare a evidențiat mai clar decât celelalte exemple dependența performanței algoritmului genetic de echilibrul dintre explorare și exploatare. Deși operatorii utilizați au fost compatibili cu reprezentarea cromozomului, rezultatele au arătat că alegerea ratei de mutație influențează decisiv capacitatea algoritmului de a evita convergența prematură.
+Experimentul de sortare a evidențiat dependența performanței de echilibrul dintre explorare și exploatare. Cu o rată de mutație scăzută, populația a devenit rapid omogenă, blocându-se în optimi locali. Un semnal al acestei stagnări este momentul în care scorul maxim de fitness devine egal cu cel minim. În schimb, valorile moderate ale ratei de mutație au menținut un nivel suficient de diversitate pentru a continua căutarea.
 
-În configurațiile cu rată de mutație scăzută, populația a avut tendința de a deveni rapid omogenă. În astfel de situații, diferențele dintre indivizi s-au redus până la dispariție, iar algoritmul a rămas blocat în soluții locale care nu mai puteau fi îmbunătățite semnificativ prin încrucișare și selecție. Acest comportament confirmă observația clasică potrivit căreia o mutație prea redusă limitează explorarea și favorizează stagnarea procesului evolutiv.
+Analiza comparativă a ratelor de mutație (@fig-permutation-mutation-analysis) arată că valorile scăzute (0.01-0.08) sunt insuficiente pentru a ieși din optimi locali, în timp ce valorile din intervalul 0.09-0.19 au permis identificarea soluției globale.
 
-Un semnal clar al acestei pierderi de diversitate apare în generațiile în care cel mai bun scor de fitness devine egal cu cel mai slab scor de fitness. În acele momente, populația nu mai conține variante suficient de diferite pentru a genera descendenți semnificativ noi. Din punct de vedere practic, aceasta înseamnă că algoritmul nu mai evoluează real, chiar dacă procesul continuă formal pe mai multe generații.
+{{< embed examples/ga_permutation.ipynb#fig-permutation-mutation-analysis >}}
 
-În schimb, pentru valori moderate ale ratei de mutație, algoritmul a reușit să păstreze un nivel suficient de diversitate genetică pentru a continua căutarea și pentru a descoperi mai frecvent soluția corect sortată. Rezultatele arată că intervalul optim nu este nici foarte mic, nici excesiv de mare, ci unul intermediar, în care mutația produce variații utile fără a distruge permanent structurile deja avantajoase.
-
-Analiza comparativă a ratelor de mutație arată că valorile scăzute, aproximativ între `0.01` și `0.08`, tind să fie insuficiente pentru ieșirea din optime locale în limita celor `200` de generații analizate. În schimb, valorile din intervalul `0.09` - `0.19` au permis identificarea consistentă a soluției globale, iar cele mai bune viteze de convergență au fost observate în jurul valorilor `0.14` - `0.16`, unde permutarea sortată a fost găsită în mai puțin de `100` de generații.
-
-Acest rezultat arată că, în problemele de tip permutare, operatorii corecți trebuie susținuți de o parametrizare care să mențină diversitatea genetică.
+Acest rezultat demonstrează că, în problemele de permutare, operatorii corecți trebuie susținuți de o parametrizare care să mențină diversitatea genetică.
 
 ### 3. Optimizarea hiperparametrilor în Machine Learning
 
-Experimentul de optimizare a hiperparametrilor pentru clasificatorul `DecisionTreeClassifier` a produs cea mai clară îmbunătățire practică dintre toate exemplele analizate. Spre deosebire de celelalte experimente, unde succesul era exprimat în principal prin forma soluției sau prin viteza de convergență, aici rezultatele pot fi evaluate direct prin indicatori standard de performanță ai unui model de clasificare.
+Optimizarea hiperparametrilor pentru `DecisionTreeClassifier` a adus cea mai vizibilă îmbunătățire practică. Performanța a fost evaluată prin indicatori standard de clasificare.
 
-Compararea modelului *baseline* cu modelul optimizat prin algoritm genetic arată o creștere substanțială a calității predicției. Acuratețea a crescut de la `0.6883` la `0.7987`, iar scorul `AUC` a fost îmbunătățit de la `0.7641` la `0.8248`. Aceste valori indică faptul că modelul optimizat nu doar clasifică mai corect, ci și separă mai bine cele două clase pe ansamblul pragurilor de decizie.
+Compararea modelului de bază cu cel optimizat (@tbl-ml-comparison) arată o creștere a acurateței de la `0.6883` la `0.7987` și a scorului AUC de la `0.7641` la `0.8248`.
 
+::: {#tbl-ml-comparison}
 | Metrică           | Model Baseline | Model Optimizat GA | Îmbunătățire |
 |-------------------|----------------|--------------------|--------------|
 | **Acuratețe**     | 0.6883         | **0.7987**         | +11.04%      |
 | **Scor AUC**      | 0.7641         | **0.8248**         | +6.07%       |
 | **Fals Negativi** | 40             | **15**             | -62.5%       |
 
-O observație și mai importantă este scăderea numărului de fals negativi de la `40` la `15`. În contextul clasificării cazurilor de diabet, această diferență are o semnificație practică majoră, deoarece falsul negativ înseamnă un pacient bolnav etichetat în mod eronat ca sănătos. Din acest motiv, îmbunătățirea obținută prin algoritmul genetic nu este doar una statistică, ci una cu valoare aplicată clară.
+: Comparația performanței între modelul baseline și cel optimizat genetic. {#tbl-ml-comparison}
+:::
 
-Creșterea `recall`-ului pentru clasa pozitivă, de la `0.26` la `0.72`, confirmă aceeași concluzie. Modelul optimizat devine considerabil mai sensibil la detectarea cazurilor pozitive, ceea ce este esențial într-un context medical, unde costul ratării unui diagnostic este mai mare decât cel al unei alarme false suplimentare. Această schimbare arată că optimizarea evolutivă a hiperparametrilor poate influența nu doar performanța globală a modelului, ci și profilul său de eroare.
+Mai important, numărul de fals negativi a scăzut de la `40` la `15`, un aspect cu semnificație practică în contextul medical. Recall-ul pentru clasa pozitivă a crescut de la `0.26` la `0.72`, indicând o sensibilitate mult mai bună în detectarea cazurilor pozitive.
 
-Rezultatul confirmă utilitatea algoritmilor genetici pentru explorarea unor spații de configurare greu de parcurs manual și arată că evaluarea trebuie făcută simultan prin metrici agregate și prin distribuția erorilor.
+Curba ROC a modelului optimizat (@fig-ml-roc-comparison) domină curba modelului de bază, confirmând o capacitate de discriminare superioară.
+
+{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-roc-comparison >}}
+
+Rezultatul confirmă utilitatea AG pentru explorarea spațiilor de configurare complexe.
 
 ### 4. Camuflarea moliilor într-un mediu dinamic
 
-Experimentul privind camuflarea moliilor evidențiază cel mai bine comportamentul unui algoritm evolutiv într-un mediu neliniar și variabil, unde obiectivul nu este fix, ci se schimbă continuu în timp. Spre deosebire de celelalte exemple, unde succesul putea fi măsurat prin apropierea de o soluție stabilă, aici performanța populației trebuie evaluată prin capacitatea sa de readaptare rapidă la modificările mediului.
+Acest experiment ilustrează comportamentul unui AG într-un mediu variabil, unde obiectivul se schimbă continuu. Performanța este evaluată prin capacitatea de readaptare. Rezultatele arată că, deși populația suferă scăderi temporare de adaptare la schimbarea mediului, ea se reorganizează rapid.
 
-Rezultatele arată că populația nu rămâne permanent într-o stare optimă de camuflaj. Există momente în care schimbarea culorii de fundal produce o scădere temporară a adaptării, iar distribuția cromatică a indivizilor devine nepotrivită față de noul mediu. Totuși, după aceste perturbări, populația reușește să se reorganizeze în numai câteva generații și să se apropie din nou de culoarea dominantă a fundalului.
+Capacitatea de readaptare este o consecință a selecției puternice și a mutației continue. Absența încrucișării nu a împiedicat adaptarea, strategia bazată pe clonare și mutație dovedindu-se suficientă.
 
-Această capacitate de readaptare rapidă este consecința directă a combinației dintre selecția puternică și mutația continuă. Eliminarea constantă a jumătății inferioare a populației produce o presiune evolutivă ridicată, care favorizează imediat variantele cele mai bine camuflate în raport cu noua stare a mediului. În același timp, mutația pe biți introduce permanent variații noi, ceea ce împiedică rigidizarea completă a populației și permite apariția unor configurații cromatice mai potrivite.
+### Sinteza Rolului Operatorilor Genetici
 
-Un rezultat relevant al acestui experiment este faptul că lipsa încrucișării nu a împiedicat adaptarea eficientă. În contextul unui mediu dinamic, strategia bazată pe clonare a indivizilor buni și pe mutație frecventă s-a dovedit suficientă pentru a menține flexibilitatea populației.
+Analiza comparativă a experimentelor subliniază rolul contextual al operatorilor. Dacă în primele trei scenarii **încrucișarea** a fost importantă pentru a combina trăsături și a accelera convergența, în mediul dinamic ea a fost omisă fără a afecta negativ adaptarea.
 
-În ansamblu, simularea camuflajului moliilor arată că algoritmii inspirați din evoluție pot modela convingător procese de adaptare continuă, unde succesul nu înseamnă doar convergență, ci și capacitate de readaptare.
+Rolul **mutației** s-a dovedit a fi dual:
+-   În problema de sortare (mediu static), a fost importantă pentru a **evita convergența prematură**.
+-   În simularea moliilor (mediu dinamic), a devenit **motorul principal al adaptării**.
 
-## Concluzii
+Această dualitate arată că nu există o "rețetă" universală pentru parametrizarea unui AG; alegerea și calibrarea operatorilor trebuie ghidate de natura problemei.
 
-Prezenta lucrare arată că algoritmii genetici pot fi adaptați eficient la reprezentări foarte diferite ale soluțiilor, de la valori reale și permutări până la configurații de hiperparametri și procese de adaptare dinamică. Rezultatele obținute confirmă că succesul lor depinde în mod direct de compatibilitatea dintre reprezentare, funcția de fitness, operatorii genetici și parametrizarea procesului evolutiv.
+## Concluzii și Perspective
 
-În ansamblu, exemplele analizate susțin trei concluzii principale: algoritmii genetici sunt flexibili din punct de vedere aplicativ, menținerea diversității genetice este esențială pentru evitarea convergenței premature, iar în optimizarea hiperparametrilor pot produce îmbunătățiri practice semnificative, inclusiv în contexte cu relevanță clinică.
+Lucrarea a demonstrat flexibilitatea algoritmilor genetici prin aplicații în optimizarea de funcții, probleme combinatoriale, machine learning și simulări adaptive. Succesul unui AG depinde de alinierea reprezentării, funcției de fitness și operatorilor cu specificul problemei.
 
-Cercetările viitoare pot explora utilizarea algoritmilor hibrizi (memetici) sau a metodelor de co-evoluție pentru probleme cu dimensiuni mult mai mari ale spațiului de căutare.
+**Principii de bază pentru implementare:**
+1.  **Reprezentarea este cheia:** Modul de a codifica o soluție este decizia fundamentală de proiectare.
+2.  **Operatorii sunt contextuali:** Operatorii de încrucișare și mutație trebuie să fie compatibili cu reprezentarea aleasă.
+3.  **Diversitatea este esențială:** Un AG trebuie să balanseze exploatarea soluțiilor bune (selecție) cu explorarea de noi posibilități (mutație) pentru a evita stagnarea.
+
+Lucrarea evidențiază și valoarea AG ca instrument de optimizare în probleme complexe, cum ar fi reglarea hiperparametrilor, unde pot aduce îmbunătățiri semnificative de performanță.
+
+Este important, însă, să se recunoască și **limitările** acestora. AG nu sunt întotdeauna cea mai bună alegere, în special pentru probleme unde există deja algoritmi exacți și eficienți (ex: sortarea clasică). De asemenea, dacă funcția de fitness este foarte costisitoare computațional, evaluarea unei întregi populații poate deveni nepractică. În astfel de cazuri, alte metode (precum optimizarea Bayesiană) pot fi mai potrivite.
+
+În concluzie, algoritmii genetici rămân un instrument puternic și versatil. **Cercetările viitoare** pot explora algoritmi hibrizi (memetici), care combină AG cu tehnici de optimizare locală, sau metode de co-evoluție pentru a aborda probleme cu spații de căutare mai vaste și complexe.
 
 ## Figuri
 
@@ -621,10 +300,6 @@ Cercetările viitoare pot explora utilizarea algoritmilor hibrizi (memetici) sau
 
 {{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-optimized-roc >}}
 
-{{< embed examples/ga_and_ml_classifier.ipynb#fig-ml-roc-comparison >}}
-
 {{< embed examples/ga_permutation.ipynb#fig-permutation-fitness-history >}}
-
-{{< embed examples/ga_permutation.ipynb#fig-permutation-mutation-analysis >}}
 
 ![Captură a simulării de camuflare a moliilor](examples/output/frames/screenshot_20260516_001144.png){#fig-moth-camouflage-screenshot fig-alt="Captură a simulării de camuflare a moliilor, cu populația, graficul culorii medii și distribuția culorilor."}
